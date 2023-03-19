@@ -40,6 +40,7 @@ repositories {
 
 dependencies {
     implementation("org.algotn:api:1.0-SNAPSHOT")
+    implementation("org.springframework.boot:spring-boot-starter-actuator:3.0.4")
 
     testImplementation ("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.8.1")
@@ -49,6 +50,11 @@ dependencies {
     implementation ("org.springframework.boot:spring-boot-starter-freemarker:3.0.4")
     implementation ("com.google.code.gson:gson:2.10.1")
     testImplementation ("org.springframework.boot:spring-boot-starter-test:3.0.4")
+
+    implementation("org.springframework.boot:spring-boot-devtools:3.0.4")
+
+    implementation("org.springframework.boot:spring-boot-starter-security:3.0.4")
+    testImplementation("org.springframework.security:spring-security-test:6.0.2")
 }
 
 tasks.getByName<Test>("test") {

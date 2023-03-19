@@ -3,7 +3,7 @@ package org.algotn.website
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
-@SpringBootApplication(scanBasePackages = ["org.algotn.website.controllers"])
+@SpringBootApplication(scanBasePackages = ["org.algotn.website"])
 open class WebApplication {
 
     companion object {
