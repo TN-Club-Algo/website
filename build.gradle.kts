@@ -42,14 +42,14 @@ dependencies {
     implementation("org.algotn:api:1.0-SNAPSHOT")
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.0.4")
 
-    testImplementation ("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.8.1")
-    implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     implementation("org.springframework.boot:spring-boot-starter-web:3.0.4")
-    implementation ("org.springframework.boot:spring-boot-starter-freemarker:3.0.4")
-    implementation ("com.google.code.gson:gson:2.10.1")
-    testImplementation ("org.springframework.boot:spring-boot-starter-test:3.0.4")
+    implementation("org.springframework.boot:spring-boot-starter-freemarker:3.0.4")
+    implementation("com.google.code.gson:gson:2.10.1")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.0.4")
 
     implementation("org.springframework.boot:spring-boot-devtools:3.0.4")
 
