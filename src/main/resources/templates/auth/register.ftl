@@ -26,8 +26,8 @@
         <div class="column">
             <div>
                 <div class="vertical-center" style="background-color: rgba(182,182,182,0.27); padding: 2.5rem; border-radius: 0.8rem">
-                    <form action="/login" method="post">
-                        <h2 class="title has-text-centered">Se connecter</h2>
+                    <form action="/register" method="post">
+                        <h2 class="title has-text-centered">S'inscrire</h2>
                         <div class="field">
                             <p class="control has-icons-left">
                                 <input class="input" type="text" placeholder="Email">
@@ -48,14 +48,14 @@
                         <a href="" class="is-link has-text-black">Un problème pour se connecter ?</a>
 
                         <button class="mt-3 button is-fullwidth">
-                            Se connecter
+                            Créer votre compte
                         </button>
 
-                        <p class="m-5 has-text-centered">— Vous n'avez pas encore de compte ? —</p>
+                        <p class="m-5 has-text-centered">— Vous avez déjà un compte ? —</p>
 
-                        <a href="/register">
+                        <a href="/login">
                             <button class="button" style="width: 50%; margin-left: 50%; transform: translateX(-50%)">
-                                S'inscrire
+                                Se connecter
                             </button>
                         </a>
                     </form>

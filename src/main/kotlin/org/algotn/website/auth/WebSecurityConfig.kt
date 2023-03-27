@@ -19,17 +19,17 @@ open class WebSecurityConfig {
     @Throws(Exception::class)
     open fun securityFilterChain(http: HttpSecurity): SecurityFilterChain? {
         http
-            .authorizeHttpRequests { requests ->
-                requests
-                    .requestMatchers("/").permitAll()
-                    .anyRequest().authenticated()
-            }
-            .formLogin { form ->
-                form
-                    .loginPage("/login")
-                    .permitAll()
-            }
-            .logout { logout -> logout.permitAll() }
+            .csrf().disable()
+            .authorizeHttpRequests()
+            .requestMatchers("/register").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .loginPage("/login")
+            .permitAll()
+            .and()
+            .logout()
+            .permitAll()
         return http.build()
     }
 
