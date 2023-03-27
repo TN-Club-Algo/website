@@ -10,4 +10,14 @@ class AuthController {
     fun login(): String {
         return "auth/login"
     }
+
+    @RequestMapping("/register")
+    fun register(): String {
+        return "auth/register"
+    }
+
+    @RequestMapping("/passwordRecovery")
+    fun passwordRecovery(): String {
+        return "auth/passwordRecovery"
+    }
 }
