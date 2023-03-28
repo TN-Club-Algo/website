@@ -11,6 +11,7 @@
             width: 40%;
         }
     }
+
     @media screen and (max-width: 769px) {
         .vertical-center {
             width: 100%;
@@ -25,7 +26,11 @@
     <div class="columns" style="height: 100%; width: 100%; margin: 0">
         <div class="column">
             <div>
-                <div class="vertical-center" style="background-color: rgba(182,182,182,0.27); padding: 2.5rem; border-radius: 0.8rem">
+                <div class="vertical-center"
+                     style="background-color: rgba(182,182,182,0.27); padding: 2.5rem; border-radius: 0.8rem">
+                    <#if successMessage??>
+                        <div class="notification is-success">${successMessage}</div>
+                    </#if>
                     <form action="/login" method="post">
                         <h2 class="title has-text-centered">Se connecter</h2>
                         <div class="field">

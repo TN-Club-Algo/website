@@ -1,4 +1,5 @@
 <#import "../_layout.ftl" as layout />
+<script src="../../static/js/register.js"></script>
 <style>
     @media screen and (min-width: 769px) {
         .vertical-center {
@@ -30,7 +31,7 @@
                         <h2 class="title has-text-centered">S'inscrire</h2>
                         <div class="field">
                             <p class="control has-icons-left">
-                                <input class="input" type="text" placeholder="Email">
+                                <input id="username" class="input" type="text" placeholder="Email" name="userName">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-envelope"></i>
                                 </span>
@@ -38,7 +39,7 @@
                         </div>
                         <div class="field">
                             <p class="control has-icons-left">
-                                <input class="input" type="password" placeholder="Mot de passe">
+                                <input id="password" class="input" type="password" placeholder="Mot de passe" name="password">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>
@@ -52,13 +53,13 @@
                         </button>
 
                         <p class="m-5 has-text-centered">— Vous avez déjà un compte ? —</p>
-
-                        <a href="/login">
-                            <button class="button" style="width: 50%; margin-left: 50%; transform: translateX(-50%)">
-                                Se connecter
-                            </button>
-                        </a>
                     </form>
+
+                    <a href="/login">
+                        <button class="button" style="width: 50%; margin-left: 50%; transform: translateX(-50%)">
+                            Se connecter
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
