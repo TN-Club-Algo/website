@@ -31,11 +31,11 @@
                     <#if successMessage??>
                         <div class="notification is-success">${successMessage}</div>
                     </#if>
-                    <form action="/login" method="post">
+                    <form id="loginForm" action="/login" method="post">
                         <h2 class="title has-text-centered">Se connecter</h2>
                         <div class="field">
                             <p class="control has-icons-left">
-                                <input id="username" name="username" class="input" type="text" placeholder="Email">
+                                <input id="username" name="username" class="input" type="text" placeholder="Email" required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-envelope"></i>
                                 </span>
@@ -43,21 +43,22 @@
                         </div>
                         <div class="field">
                             <p class="control has-icons-left">
-                                <input id="password" name="password" class="input" type="password" placeholder="Mot de passe">
+                                <input id="password" name="password" class="input" type="password"
+                                       placeholder="Mot de passe" required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>
                             </p>
                         </div>
-
-                        <a href="" class="is-link has-text-black">Un problème pour se connecter ?</a>
-
-                        <button class="mt-3 button is-fullwidth">
-                            Se connecter
-                        </button>
-
-                        <p class="m-5 has-text-centered">— Vous n'avez pas encore de compte ? —</p>
                     </form>
+
+                    <a href="/password-reset" class="is-link has-text-black">Un problème pour se connecter ?</a>
+
+                    <button form="loginForm" class="mt-3 button is-fullwidth">
+                        Se connecter
+                    </button>
+
+                    <p class="m-5 has-text-centered">— Vous n'avez pas encore de compte ? —</p>
 
                     <a href="/register">
                         <button class="button" style="width: 50%; margin-left: 50%; transform: translateX(-50%)">

@@ -18,6 +18,10 @@ class UserRepositoryImpl : UserRepository {
         Chili.getRedisInterface().removeAllData("users:$email")
     }
 
+    override fun userExists(email: String): Boolean {
+        return Chili.getRedisInterface().exists("users:$email")
+    }
+
     override fun save(user: User) {
         Chili.getRedisInterface().saveData("users:${user.userName}", user)
     }

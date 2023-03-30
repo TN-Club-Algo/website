@@ -40,6 +40,7 @@ open class WebSecurityConfig {
                 requests
                     .requestMatchers("/").authenticated()
                     .requestMatchers("/register").anonymous()
+                    .requestMatchers("/password-reset").anonymous()
                     .anyRequest().authenticated()
             }
             .formLogin { login ->

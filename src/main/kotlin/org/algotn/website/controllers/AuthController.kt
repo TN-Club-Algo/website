@@ -20,6 +20,29 @@ class AuthController(private val userRepository: UserRepository) {
 
     private val passwordEncoder = BCryptPasswordEncoder()
 
+    @GetMapping("/password-reset")
+    fun passwordReset(): String {
+        return "auth/password-reset"
+    }
+
+    @PostMapping("/password-reset")
+    fun passwordReset(
+        @RequestParam allParams: Map<String, String>,
+        redirectAttributes: RedirectAttributes
+    ): String {
+        if (!userRepository.userExists(allParams["userName"]!!)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "L'adresse email renseignée n'est associé à aucun compte.")
+            return "redirect:/password-reset"
+        }
+
+        redirectAttributes.addFlashAttribute(
+            "successMessage",
+            "Vous allez recevoir un mail contenant la demande de réinitialisation du mot de passe."
+        )
+
+        return "redirect:/password-reset"
+    }
+
     @GetMapping("/login")
     fun login(): String {
         return "auth/login"
@@ -54,7 +77,7 @@ class AuthController(private val userRepository: UserRepository) {
 
         authWithAuthManager(user.userName, user.password)
 
-        redirectAttributes.addFlashAttribute("successMessage", "User created successfully.")
+        redirectAttributes.addFlashAttribute("successMessage", "Utilisateur créé avec succès.")
 
         return "redirect:/login"
     }

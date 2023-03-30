@@ -12,6 +12,7 @@
             width: 40%;
         }
     }
+
     @media screen and (max-width: 769px) {
         .vertical-center {
             width: 100%;
@@ -26,7 +27,11 @@
     <div class="columns" style="height: 100%; width: 100%; margin: 0">
         <div class="column">
             <div>
-                <div class="vertical-center" style="background-color: rgba(182,182,182,0.27); padding: 2.5rem; border-radius: 0.8rem">
+                <div class="vertical-center"
+                     style="background-color: rgba(182,182,182,0.27); padding: 2.5rem; border-radius: 0.8rem">
+                    <#if successMessage??>
+                        <div class="notification is-success">${successMessage}</div>
+                    </#if>
                     <#if errorMessage??>
                         <div class="notification is-danger">${errorMessage}</div>
                     </#if>
@@ -34,7 +39,8 @@
                         <h2 class="title has-text-centered">S'inscrire</h2>
                         <div class="field">
                             <p class="control has-icons-left">
-                                <input id="username" class="input" type="text" placeholder="Email" name="userName">
+                                <input id="username" class="input" type="text" placeholder="Email" name="userName"
+                                       required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-envelope"></i>
                                 </span>
@@ -42,7 +48,8 @@
                         </div>
                         <div class="field">
                             <p class="control has-icons-left">
-                                <input id="password" class="input" type="password" placeholder="Mot de passe" name="password">
+                                <input id="password" class="input" type="password" placeholder="Mot de passe"
+                                       name="password" required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>
@@ -50,21 +57,20 @@
                         </div>
                         <div class="field">
                             <p class="control has-icons-left">
-                                <input id="confirm-password" class="input" type="password" placeholder="Confirmer le mot de passe" name="confirm-password">
+                                <input id="confirm-password" class="input" type="password"
+                                       placeholder="Confirmer le mot de passe" name="confirm-password" required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>
                             </p>
                         </div>
 
-                        <a href="" class="is-link has-text-black">Un problème pour se connecter ?</a>
-
                         <button class="mt-3 button is-fullwidth">
                             Créer votre compte
                         </button>
-
-                        <p class="m-5 has-text-centered">— Vous avez déjà un compte ? —</p>
                     </form>
+
+                    <p class="m-5 has-text-centered">— Vous avez déjà un compte ? —</p>
 
                     <a href="/login">
                         <button class="button" style="width: 50%; margin-left: 50%; transform: translateX(-50%)">

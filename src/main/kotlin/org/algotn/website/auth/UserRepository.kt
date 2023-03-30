@@ -8,6 +8,8 @@ interface UserRepository {
         removeUser(user.email)
     }
 
+    fun userExists(email: String): Boolean
+
     fun removeUser(email: String)
 
     fun save(user: User)
