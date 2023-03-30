@@ -4,6 +4,12 @@ import java.util.*
 
 interface UserRepository {
 
+    fun removeUser(user: User) {
+        removeUser(user.email)
+    }
+
+    fun removeUser(email: String)
+
     fun save(user: User)
 
     fun findByUsername(userName: String): Optional<User>

@@ -27,6 +27,9 @@
         <div class="column">
             <div>
                 <div class="vertical-center" style="background-color: rgba(182,182,182,0.27); padding: 2.5rem; border-radius: 0.8rem">
+                    <#if errorMessage??>
+                        <div class="notification is-danger">${errorMessage}</div>
+                    </#if>
                     <form action="/register" method="post">
                         <h2 class="title has-text-centered">S'inscrire</h2>
                         <div class="field">
@@ -40,6 +43,14 @@
                         <div class="field">
                             <p class="control has-icons-left">
                                 <input id="password" class="input" type="password" placeholder="Mot de passe" name="password">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <p class="control has-icons-left">
+                                <input id="confirm-password" class="input" type="password" placeholder="Confirmer le mot de passe" name="confirm-password">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>

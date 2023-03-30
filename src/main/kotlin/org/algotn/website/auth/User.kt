@@ -1,11 +1,10 @@
 package org.algotn.website.auth
 
+import org.algotn.api.database.data.UserData
 import java.io.Serializable
-import java.util.*
 
 data class User(
-    val uuid: UUID = UUID.randomUUID(),
     var userName: String = "",
     var password: String = "",
-    val email: String = "",
-) : Serializable
+    override var email: String = "",
+) : UserData(), Serializable

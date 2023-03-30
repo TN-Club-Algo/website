@@ -39,10 +39,11 @@ repositories {
 }
 
 dependencies {
-    implementation("org.algotn:api:1.0-SNAPSHOT")
+    implementation("org.algotn:api:1.0.3-SNAPSHOT")
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.0.4")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
@@ -55,6 +56,10 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-security:3.0.4")
     testImplementation("org.springframework.security:spring-security-test:6.0.2")
+
+    testImplementation("org.testcontainers:testcontainers:1.17.6")
+    testImplementation("org.testcontainers:junit-jupiter:1.17.6")
+    testImplementation("com.redis.testcontainers:testcontainers-redis-junit-jupiter:1.4.6")
 }
 
 tasks.getByName<Test>("test") {

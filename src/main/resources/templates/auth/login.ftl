@@ -35,7 +35,7 @@
                         <h2 class="title has-text-centered">Se connecter</h2>
                         <div class="field">
                             <p class="control has-icons-left">
-                                <input class="input" type="text" placeholder="Email">
+                                <input id="username" name="username" class="input" type="text" placeholder="Email">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-envelope"></i>
                                 </span>
@@ -43,7 +43,7 @@
                         </div>
                         <div class="field">
                             <p class="control has-icons-left">
-                                <input class="input" type="password" placeholder="Mot de passe">
+                                <input id="password" name="password" class="input" type="password" placeholder="Mot de passe">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>
@@ -57,13 +57,13 @@
                         </button>
 
                         <p class="m-5 has-text-centered">— Vous n'avez pas encore de compte ? —</p>
-
-                        <a href="/register">
-                            <button class="button" style="width: 50%; margin-left: 50%; transform: translateX(-50%)">
-                                S'inscrire
-                            </button>
-                        </a>
                     </form>
+
+                    <a href="/register">
+                        <button class="button" style="width: 50%; margin-left: 50%; transform: translateX(-50%)">
+                            S'inscrire
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
