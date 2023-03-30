@@ -10,4 +10,19 @@ class DefaultController {
     fun index(): String {
         return "index"
     }
+
+    @RequestMapping("/scoreboard")
+    fun scoreboard(): String {
+        return "default/scoreboard"
+    }
+
+    @RequestMapping("/mentionLegal")
+    fun mentionLegal(): String {
+        return "default/mentionLegal"
+    }
+
+    @RequestMapping("/contact")
+    fun contact(): String {
+        return "default/contact"
+    }
 }

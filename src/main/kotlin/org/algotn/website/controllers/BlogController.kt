@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 class BlogController {
 
     @RequestMapping("/blog")
-    fun blog(): Stirng {
-        return "/blog"
+    fun blog(): String {
+        return "/blog/blog"
     }
 
     @RequestMapping("/blog/create")
@@ -16,8 +16,8 @@ class BlogController {
         return "/blog/create"
     }
 
-    @RequestMapping("/blog/{artNumber}")
+    @RequestMapping("/blog/article/{artNumber}")
     fun article(): String {
-        return "/blog/{artNumner}"
+        return "/blog/article"
     }
 }
