@@ -38,9 +38,9 @@ open class WebSecurityConfig {
             .csrf().disable()
             .authorizeHttpRequests { requests ->
                 requests
-                    .requestMatchers("/").authenticated()
                     .requestMatchers("/register").anonymous()
                     .requestMatchers("/password-reset").anonymous()
+                    .requestMatchers("/password-reset/{token}").anonymous()
                     .anyRequest().authenticated()
             }
             .formLogin { login ->

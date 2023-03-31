@@ -8,10 +8,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 
@@ -19,6 +16,38 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 class AuthController(private val userRepository: UserRepository) {
 
     private val passwordEncoder = BCryptPasswordEncoder()
+
+    @PostMapping("/password-reset/{token}")
+    fun passwordResetToken(
+        @PathVariable("token") token: String,
+        @RequestParam allParams: Map<String, String>,
+        redirectAttributes: RedirectAttributes
+    ): String {
+        // token exists?
+
+        if (!allParams.containsKey("confirm-password") || allParams["confirm-password"] != allParams["password"]) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Les mots de passe ne correspondent pas.")
+            return "redirect:/password-reset/$token"
+        }
+
+/*        val user = userRepository.findByUsername(token)
+
+        user.password = passwordEncoder.encode(allParams["password"]!!)
+
+        userRepository.save(user)
+
+        authWithAuthManager(user.userName, user.password)
+
+        redirectAttributes.addFlashAttribute("successMessage", "Mot de passe modifié avec succès.")*/
+
+        return "redirect:/"
+    }
+
+    @GetMapping("/password-reset/{token}")
+    fun passwordResetToken(@PathVariable("token") token: String): String {
+        // token exists?
+        return "auth/password-reset-form"
+    }
 
     @GetMapping("/password-reset")
     fun passwordReset(): String {
