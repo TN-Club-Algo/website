@@ -1,27 +1,32 @@
 package org.algotn.website.controllers
 
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.GetMapping
 
 @Controller
 class DefaultController {
 
-    @RequestMapping("/")
+    @GetMapping("/")
     fun index(): String {
         return "index"
     }
 
-    @RequestMapping("/scoreboard")
+    @GetMapping("/error")
+    fun error(): String {
+        return "default/error"
+    }
+
+    @GetMapping("/scoreboard")
     fun scoreboard(): String {
         return "default/scoreboard"
     }
 
-    @RequestMapping("/mentionLegal")
+    @GetMapping("/legalNotice")
     fun mentionLegal(): String {
-        return "default/mentionLegal"
+        return "default/legalNotice"
     }
 
-    @RequestMapping("/contact")
+    @GetMapping("/contact")
     fun contact(): String {
         return "default/contact"
     }

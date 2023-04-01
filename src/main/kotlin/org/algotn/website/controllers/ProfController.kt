@@ -1,27 +1,27 @@
 package org.algotn.website.controllers
 
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.GetMapping
 
 @Controller
 class ProfController {
 
-    @RequestMapping("/statExam")
+    @GetMapping("/statExam")
     fun statExam(): String {
         return "prof/statExam"
     }
 
-    @RequestMapping("/createExam")
+    @GetMapping("/createExam")
     fun createExam(): String {
         return "prof/createExam"
     }
 
-    @RequestMapping("/modifyExam")
+    @GetMapping("/modifyExam")
     fun modifyExam(): String {
-        return "prof/modifyExam"
+        return "prof/editExam"
     }
 
-    @RequestMapping("/answerIssueExam")
+    @GetMapping("/answerIssueExam")
     fun answerIssueExam(): String {
         return "prof/answerIssueExam"
     }

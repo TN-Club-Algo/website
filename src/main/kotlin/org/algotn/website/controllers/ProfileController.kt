@@ -1,22 +1,22 @@
 package org.algotn.website.controllers
 
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.GetMapping
 
 @Controller
 class ProfileController {
 
-    @RequestMapping("/profile")
+    @GetMapping("/profile")
     fun profile(): String {
         return "profiles/profile"
     }
 
-    @RequestMapping("/profile/info")
+    @GetMapping("/profile/info")
     fun info(): String {
         return "profiles/info"
     }
 
-    @RequestMapping("/profile/parameter")
+    @GetMapping("/profile/parameter")
     fun parameter(): String {
         return "profiles/parameter"
     }

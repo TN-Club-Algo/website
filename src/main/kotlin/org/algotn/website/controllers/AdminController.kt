@@ -1,32 +1,32 @@
 package org.algotn.website.controllers
 
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.GetMapping
 
 @Controller
 class AdminController {
 
-    @RequestMapping("/stat")
+    @GetMapping("/stat")
     fun stat(): String {
         return "admin/stat"
     }
 
-    @RequestMapping("/createContest")
+    @GetMapping("/createContest")
     fun createContest(): String {
         return "admin/createContest"
     }
 
-    @RequestMapping("/modifyContest")
+    @GetMapping("/modifyContest")
     fun modifyContest(): String {
-        return "admin/modifyContest"
+        return "admin/editContest"
     }
 
-    @RequestMapping("/modoAdmin")
+    @GetMapping("/modoAdmin")
     fun modoAdmin(): String {
         return "admin/modoAdmin"
     }
 
-    @RequestMapping("/admin/answerIssue")
+    @GetMapping("/admin/answerIssue")
     fun answerIssue(): String {
         return "admin/answerIssue"
     }

@@ -1,22 +1,22 @@
 package org.algotn.website.controllers
 
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.GetMapping
 
 @Controller
 class AuthController {
 
-    @RequestMapping("/login")
+    @GetMapping("/login")
     fun login(): String {
         return "auth/login"
     }
 
-    @RequestMapping("/register")
+    @GetMapping("/register")
     fun register(): String {
         return "auth/register"
     }
 
-    @RequestMapping("/passwordRecovery")
+    @GetMapping("/passwordRecovery")
     fun passwordRecovery(): String {
         return "auth/passwordRecovery"
     }
