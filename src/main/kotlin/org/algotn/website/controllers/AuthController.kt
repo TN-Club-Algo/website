@@ -30,15 +30,15 @@ class AuthController(private val userRepository: UserRepository) {
             return "redirect:/password-reset/$token"
         }
 
-    /*        val user = userRepository.findByUsername(token)
+/*        val user = userRepository.findByUsername(token)
 
-            user.password = passwordEncoder.encode(allParams["password"]!!)
+        user.password = passwordEncoder.encode(allParams["password"]!!)
 
-            userRepository.save(user)
+        userRepository.save(user)
 
-            authWithAuthManager(user.userName, user.password)
+        authWithAuthManager(user.userName, user.password)
 
-            redirectAttributes.addFlashAttribute("successMessage", "Mot de passe modifié avec succès.")*/
+        redirectAttributes.addFlashAttribute("successMessage", "Mot de passe modifié avec succès.")*/
 
         return "redirect:/"
     }
