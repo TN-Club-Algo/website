@@ -5,3 +5,9 @@
     margin-right: auto;
     margin-left: auto;
 }
+.delimiters{
+
+}
+.no_shadow{
+    box-shadow: 0 0 #000000 !important;
+}
