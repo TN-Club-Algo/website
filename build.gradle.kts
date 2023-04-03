@@ -28,6 +28,7 @@ publishing {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven {
         url = uri("https://maven.pkg.jetbrains.space/algo-tn/p/main/maven")
