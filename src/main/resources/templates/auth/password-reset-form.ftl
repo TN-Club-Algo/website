@@ -1,4 +1,5 @@
 <#import "../_layout.ftl" as layout />
+<script src="../../static/js/register.js"></script>
 <style>
     @media screen and (min-width: 769px) {
         .vertical-center {
@@ -28,43 +29,33 @@
             <div>
                 <div class="vertical-center"
                      style="background-color: rgba(182,182,182,0.27); padding: 2.5rem; border-radius: 0.8rem">
-                    <#if successMessage??>
-                        <div class="notification is-success">${successMessage}</div>
+                    <#if errorMessage??>
+                        <div class="notification is-danger">${errorMessage}</div>
                     </#if>
-                    <form id="loginForm" action="/login" method="post">
-                        <h2 class="title has-text-centered">Se connecter</h2>
+                    <form action="/password-reset/${token}" method="post">
+                        <h2 class="title has-text-centered">Modification de votre mot de passe</h2>
                         <div class="field">
                             <p class="control has-icons-left">
-                                <input id="username" name="username" class="input" type="text" placeholder="Email" required>
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-envelope"></i>
-                                </span>
-                            </p>
-                        </div>
-                        <div class="field">
-                            <p class="control has-icons-left">
-                                <input id="password" name="password" class="input" type="password"
-                                       placeholder="Mot de passe" required>
+                                <input id="password" class="input" type="text" placeholder="Mot de passe"
+                                       name="password" required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>
                             </p>
                         </div>
-                    </form>
-
-                    <a href="/password-reset" class="is-link has-text-black">Un problème pour se connecter ?</a>
-
-                    <button form="loginForm" class="mt-3 button is-fullwidth">
-                        Se connecter
-                    </button>
-
-                    <p class="m-5 has-text-centered">— Vous n'avez pas encore de compte ? —</p>
-
-                    <a href="/register">
-                        <button class="button" style="width: 50%; margin-left: 50%; transform: translateX(-50%)">
-                            S'inscrire
+                        <div class="field">
+                            <p class="control has-icons-left">
+                                <input id="password-confirm" class="input" type="text"
+                                       placeholder="Confirmer le mot de passe" name="password-confirm" required>
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                            </p>
+                        </div>
+                        <button class="mt-3 button is-fullwidth">
+                            Changer votre mot de passe
                         </button>
-                    </a>
+                    </form>
                 </div>
             </div>
         </div>
