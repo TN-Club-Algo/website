@@ -40,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.algotn:api:1.0-SNAPSHOT")
+    implementation("org.algotn:api:1.4-dev-aristide")
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.0.4")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
