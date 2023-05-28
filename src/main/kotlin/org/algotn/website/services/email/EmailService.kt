@@ -1,14 +1,11 @@
 package org.algotn.website.services.email
 
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.mail.SimpleMailMessage
-import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.stereotype.Service
 
 @Service
 class EmailService {
 
-    @Autowired
+    /*@Autowired
     private lateinit var emailSender: JavaMailSender
 
     fun sendPasswordResetEmail(emailTo: String) {
@@ -30,5 +27,5 @@ class EmailService {
 
     enum class EmailType(val email: String) {
         NO_REPLY("noreply@limpou.fr")
-    }
+    }*/
 }
