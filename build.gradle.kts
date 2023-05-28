@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     id("java")
     kotlin("jvm") version "1.8.20-RC"
@@ -56,8 +54,8 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-mail:3.0.4")
 
-    implementation("org.springframework.boot:spring-boot-starter-security:3.0.4")
-    testImplementation("org.springframework.security:spring-security-test:6.0.2")
+    implementation("org.springframework.boot:spring-boot-starter-security:3.1.0")
+    testImplementation("org.springframework.security:spring-security-test:6.1.0")
 
     testImplementation("org.testcontainers:testcontainers:1.17.6")
     testImplementation("org.testcontainers:junit-jupiter:1.17.6")
@@ -66,12 +64,4 @@ dependencies {
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
-}
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = "17"
-}
-val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.kotlinOptions {
-    jvmTarget = "17"
 }

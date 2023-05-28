@@ -35,7 +35,7 @@ open class WebSecurityConfig {
     @Throws(Exception::class)
     open fun securityFilterChain(http: HttpSecurity): SecurityFilterChain? {
         http
-            .csrf().disable()
+            .csrf { it.disable() }
             .authorizeHttpRequests { requests ->
                 requests
                     .requestMatchers("/register").anonymous()
