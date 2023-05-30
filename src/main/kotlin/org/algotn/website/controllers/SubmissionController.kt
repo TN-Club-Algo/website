@@ -42,7 +42,6 @@ class SubmissionController {
             file = fileCopy
         } else {
             if (files[0].size.compareTo(0) == 0) {
-                println("case2")
                 val fileCopy = File(name);
                 fileCopy.createNewFile()
                 fileCopy.writeText(prog)
