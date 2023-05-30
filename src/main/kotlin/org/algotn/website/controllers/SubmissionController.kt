@@ -2,7 +2,9 @@ package org.algotn.website.controllers
 
 import org.algotn.api.Chili
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.multipart.MultipartFile
@@ -12,14 +14,19 @@ import java.util.*
 @Controller
 class SubmissionController {
 
-    @GetMapping("/submit")
-    fun seeForm(): String {
-        return "submit"
+//    @GetMapping("/submit/{problemId}")
+//    fun seeForm(): String {
+//        return "submit"
+//    }
+    @GetMapping("/submit/{problemId}")
+    fun seeForm(@PathVariable problemId: String, model: Model): String {
+        model.addAttribute("problemId", problemId)
+        return "submit"//+problemId.toString()
     }
 
-    @PostMapping("/submit")
+    @PostMapping("/submit/{problemId}")
     fun sendForm(
-        @RequestParam("problemId") problemId: String,
+        @PathVariable("problemId") problemId: String,
         @RequestParam("lang") lang: String,
         @RequestParam("prog") prog: String,
         @RequestParam("files") files: ArrayList<MultipartFile>

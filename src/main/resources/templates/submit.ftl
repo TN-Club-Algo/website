@@ -9,10 +9,10 @@
     <div id="container">
         <div class="card">
             <div class="card-header">
-                Submit
+                Submit ${problemId}
             </div>
             <div class="card-content">
-                <form action="/submit" method="post" enctype="multipart/form-data">
+                <form action="/submit/{$problemId}" method="post" enctype="multipart/form-data">
 
                     <textarea id="prog" name="prog" rows="25">
                     </textarea>
