@@ -6,23 +6,31 @@
 <meta charset="UTF-8">
 <!--<link rel="stylesheet" href="../static/css/submission.css">-->
 <@layout.header>
-<div id="container">
-    <div class="card">
-        <div class="card-header">
-            Problem Creation
-        </div>
-        <div class="card-content">
-            <form action="/new_problem" method="post" enctype="multipart/form-data">
-                <textarea id="prog" name="prog" rows="25">
-                </textarea>
-                <#-- <input type="file" multiple name="files" class="selection">-->
-                <br>
-                <button class="mt-3 button is-fullwidth">
-                    Create Problem
-                </button>
+    <div id="container">
+        <div class="card">
+            <div class="card-header">
+                Problem Creation
+            </div>
+            <div class="card-content">
+                <form action="/new_problem" method="post" enctype="multipart/form-data">
+                    <input name="uuid" type="text" disabled>
+                    <input name="title" type="text">
+                    <input name="statement" type="text">
+                    <input name="input" type="text">
+                    <input name="execConstraints" type="text">
+                    <input name="exempleInput" type="text">
+                    <input name="exempleOutput" type="text">
+                    <input name="explaination" type="text">
 
-            </form>
+
+
+                    <br>
+                    <button class="mt-3 button is-fullwidth">
+                        Create Problem
+                    </button>
+
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </@layout.header>
