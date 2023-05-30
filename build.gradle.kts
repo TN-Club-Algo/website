@@ -38,7 +38,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.algotn:api:1.0.7-SNAPSHOT")
+    implementation("org.algotn:api:1.0.8-SNAPSHOT")
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.0.4")
 
     implementation("org.redisson:redisson:3.21.3") // fix missing cross dependency
