@@ -1,13 +1,14 @@
 package org.algotn.website.controllers
 
-import org.algotn.api.submission.Submission
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.multipart.MultipartFile
-import java.util.UUID
+import java.nio.file.Files
+import java.util.*
+import kotlin.collections.ArrayList
+
 @Controller
 class SubmissionController {
 
@@ -16,16 +17,23 @@ class SubmissionController {
         return "submit"
     }
     @PostMapping("/submit")
-    fun sendform(@RequestParam("lang") lang: String,
-                 @RequestParam("prog") prog: String,
-                 @RequestParam("files") file: MultipartFile): String {
+    fun sendform(
+        @RequestParam("lang") lang: String,
+        @RequestParam("prog") prog: String,
+        @RequestParam("files") files: ArrayList<MultipartFile>): String {
         println("yeah");
         println(lang);
-        if (file.isEmpty){
+        if (files.size==0){
             println(prog)
         }else{
-            print(file.inputStream.readBytes().decodeToString())
+            files.stream().forEach { file ->
+                println(file.originalFilename)
+                print(file.inputStream.readBytes().decodeToString())
+            }
+//            println(files.originalFilename)
+//            print(files.inputStream.readBytes().decodeToString())
         }
+//        Chili.getRedisInterface()
         return "/submit";
     }
 }
