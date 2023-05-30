@@ -9,13 +9,14 @@
     <div id="container">
         <div class="card">
             <div class="card-header">
-                Submit ${problemId}
+                Submit
             </div>
             <div class="card-content">
                 <form action="/submit/${problemId}" method="post" enctype="multipart/form-data">
-
-                    <textarea id="prog" name="prog" rows="25">
-                    </textarea>
+                    <label class="label">Program</label>
+                    <div class="control">
+                        <textarea id="prog" name="prog" rows="25"></textarea>
+                    </div>
                     <div id="menu">
                         <div id="myfiles" class="file has-name is-boxed">
                             <label class="file-label">
