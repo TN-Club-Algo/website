@@ -47,6 +47,7 @@ repositories {
 dependencies {
     implementation("org.algotn:api:1.0.9-SNAPSHOT")
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.0.4")
+    implementation("org.springframework:spring-messaging:6.0.9")
 
     implementation("org.redisson:redisson:3.21.3") // fix missing cross dependency
 
