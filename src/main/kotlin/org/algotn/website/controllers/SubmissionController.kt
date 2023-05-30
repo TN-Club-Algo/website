@@ -14,10 +14,6 @@ import java.util.*
 @Controller
 class SubmissionController {
 
-//    @GetMapping("/submit/{problemId}")
-//    fun seeForm(): String {
-//        return "submit"
-//    }
     @GetMapping("/submit/{problemId}")
     fun seeForm(@PathVariable problemId: String, model: Model): String {
         model.addAttribute("problemId", problemId)
