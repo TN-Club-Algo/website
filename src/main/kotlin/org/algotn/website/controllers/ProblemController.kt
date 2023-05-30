@@ -16,9 +16,9 @@ class ProblemController {
     fun lookprob(model: Model): ModelAndView {
         val pb_demo = Problem(UUID.randomUUID(),"Strange doors", "Dans votre exploration de ruines interstellaires vous arrivez devant une porte fermer,vous observez un petit moniteur devant celle-ci il y est inscrit un nombre H ainsi qu'une liste L de longeur N d'entier K.\n" +
                 "Pour dévérouiller la porte vous devez renvoyer la somme des diviseur de H contenu dans L ayant exactement 2 diviseurs premier.",
-            "Sur la premiere ligne 0<=N<=10**5 la longeur de la liste<br>" +
-                    "Sur la deuxiéme ligne 1<=H<=10**9 le nombre dont on cherche les diviseurs <br>" +
-                    "Sur les lignes 3 N entier 1<=K<=1000 séparé par des espaces", "Un entiers égal à la somme des diviseurs de H dans L ayant exactement 2 diviseurs premier.",
+            "Sur la premiere ligne \\(0 \\le N \\le 10^5\\) la longeur de la liste<br>" +
+                    "Sur la deuxiéme ligne \\(1 \\le H \\le 10^9\\) le nombre dont on cherche les diviseurs <br>" +
+                    "Sur la ligne 3, N entiers \\(1 \\le K \\le 10^3\\) séparés par des espaces", "Un entiers égal à la somme des diviseurs de H dans L ayant exactement 2 diviseurs premier.",
             "Temps maximal d'éxécution : 1000 ms<br>" +
                     "Quantités de mémoire maximale : 100000 kilobytes", listOf(Example(UUID.randomUUID(),"10<br>" +
                     "45<br>" +

@@ -40,7 +40,7 @@ class SubmissionController {
 //            println(files.originalFilename)
 //            print(files.inputStream.readBytes().decodeToString())
         }
-        Chili.getRedisInterface().client
+//        Chili.getRedisInterface().client
         return "/submit";
     }
 }
