@@ -26,7 +26,7 @@ publishing {
 }
 
 repositories {
-    mavenLocal()
+    //mavenLocal()
     mavenCentral()
     maven {
         url = uri("https://maven.pkg.jetbrains.space/algo-tn/p/main/maven")
@@ -38,8 +38,10 @@ repositories {
 }
 
 dependencies {
-    implementation("org.algotn:api:1.4-dev-aristide")
+    implementation("org.algotn:api:1.0.7-SNAPSHOT")
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.0.4")
+
+    implementation("org.redisson:redisson:3.21.3") // fix missing cross dependency
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")

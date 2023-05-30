@@ -11,6 +11,7 @@ open class WebApplication {
         @JvmStatic
         fun main(args: Array<String>) {
             Chili.getRedisInterface()
+            println(Chili.getRedisInterface().client())
             SpringApplication.run(WebApplication::class.java, *args)
         }
     }
