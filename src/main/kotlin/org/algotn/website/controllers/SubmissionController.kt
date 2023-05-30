@@ -14,7 +14,7 @@ import java.util.*
 @Controller
 class SubmissionController {
 
-//    @GetMapping("/submit/{problemId}")
+    //    @GetMapping("/submit/{problemId}")
 //    fun seeForm(): String {
 //        return "submit"
 //    }
@@ -35,18 +35,27 @@ class SubmissionController {
         if (lang == "python3") name += ".py"
         var file: File? = null
         if (files.size == 0) {
+            println("case1")
             val fileCopy = File(name);
             fileCopy.createNewFile()
             fileCopy.writeText(prog)
-
             file = fileCopy
         } else {
-            name = files[0].originalFilename!!
-            files.stream().forEach { fl ->
-                val fileCopy = File(fl.originalFilename!!);
-                if (file == null) file = fileCopy
+            if (files[0].size.compareTo(0) == 0) {
+                println("case2")
+                val fileCopy = File(name);
                 fileCopy.createNewFile()
-                fileCopy.writeText(fl.inputStream.readBytes().decodeToString())
+                fileCopy.writeText(prog)
+                file = fileCopy
+            } else {
+                println("case3")
+                name = files[0].originalFilename!!
+                files.stream().forEach { fl ->
+                    val fileCopy = File(fl.originalFilename!!);
+                    if (file == null) file = fileCopy
+                    fileCopy.createNewFile()
+                    fileCopy.writeText(fl.inputStream.readBytes().decodeToString())
+                }
             }
         }
 
