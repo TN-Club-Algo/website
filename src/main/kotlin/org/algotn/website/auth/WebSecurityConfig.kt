@@ -41,7 +41,7 @@ open class WebSecurityConfig {
                     .requestMatchers("/register").anonymous()
                     .requestMatchers("/password-reset").anonymous()
                     .requestMatchers("/password-reset/{token}").anonymous()
-                    .anyRequest().permitAll()//.authenticated()
+                    .anyRequest().authenticated()
             }
             .formLogin { login ->
                 login
