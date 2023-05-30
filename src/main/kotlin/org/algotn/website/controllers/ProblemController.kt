@@ -21,14 +21,14 @@ class ProblemController {
             problems["test1"] = Problem(
                 UUID.randomUUID(),
                 "Strange doors",
-                "Dans votre exploration de ruines interstellaires vous arrivez devant une porte fermer,vous observez un petit moniteur devant celle-ci il y est inscrit un nombre H ainsi qu'une liste L de longeur N d'entier K.\n" +
-                        "Pour dévérouiller la porte vous devez renvoyer la somme des diviseur de H contenu dans L ayant exactement 2 diviseurs premier.",
-                "Sur la premiere ligne \\(0 \\le N \\le 10^5\\) la longeur de la liste<br>" +
-                        "Sur la deuxiéme ligne \\(1 \\le H \\le 10^9\\) le nombre dont on cherche les diviseurs <br>" +
+                "Dans votre exploration de ruines interstellaires vous arrivez devant une porte fermée,vous observez un petit moniteur devant celle-ci il y est inscrit un nombre H ainsi qu'une liste L de longueur N d'entier K.\n" +
+                        "Pour déverrouiller la porte vous devez renvoyer la somme des diviseur de H contenu dans L ayant exactement 2 diviseurs premier.",
+                "Sur la premiere ligne \\(0 \\le N \\le 10^5\\) la longueur de la liste<br>" +
+                        "Sur la deuxième ligne \\(1 \\le H \\le 10^9\\) le nombre dont on cherche les diviseurs <br>" +
                         "Sur la ligne 3, N entiers \\(1 \\le K \\le 10^3\\) séparés par des espaces",
-                "Un entiers égal à la somme des diviseurs de H dans L ayant exactement 2 diviseurs premier.",
-                "Temps maximal d'éxécution : 1000 ms<br>" +
-                        "Quantités de mémoire maximale : 100000 kilobytes",
+                "Un entier égal à la somme des diviseurs de H dans L ayant exactement 2 diviseurs premier.",
+                "Temps maximal d'exécution : 1s<br>" +
+                        "Quantité de mémoire maximale : 100 MB",
                 listOf(
                     Example(
                         UUID.randomUUID(),
