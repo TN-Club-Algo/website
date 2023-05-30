@@ -1,58 +1,65 @@
 package org.algotn.website.controllers
 
 import org.algotn.api.Chili
-import org.algotn.api.submission.Submission
-import org.algotn.website.auth.User
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
-import java.nio.file.Files
 import java.util.*
-import kotlin.collections.ArrayList
 
 @Controller
 class SubmissionController {
 
     @GetMapping("/submit")
-    fun seeform(): String{
+    fun seeForm(): String {
         return "submit"
     }
+
     @PostMapping("/submit")
-    fun sendform(
+    fun sendForm(
+        @RequestParam("problemId") problemId: String,
         @RequestParam("lang") lang: String,
         @RequestParam("prog") prog: String,
-        @RequestParam("files") files: ArrayList<MultipartFile>): String{
-        println("yeah");
-        println(lang);
-        if (files.size==0){
-            println(prog)
-        }else{
-            if (files.size==1){
-                val file = files[0]
-                val fileCopy = File(file.originalFilename);
+        @RequestParam("files") files: ArrayList<MultipartFile>
+    ): String {
+        var name = "program"
+        if (lang == "python3") name += ".py"
+        var file: File? = null
+        if (files.size == 0) {
+            val fileCopy = File(name);
+            fileCopy.createNewFile()
+            fileCopy.writeText(prog)
+
+            file = fileCopy
+        } else {
+            name = files[0].originalFilename!!
+            files.stream().forEach { fl ->
+                val fileCopy = File(fl.originalFilename!!);
+                if (file == null) file = fileCopy
                 fileCopy.createNewFile()
-                fileCopy.writeText(file.inputStream.readBytes().decodeToString())
-                val sub = Submission(UUID.randomUUID(),"",lang,fileCopy.path)
-            }else{
-                println("multiple files not supported")
+                fileCopy.writeText(fl.inputStream.readBytes().decodeToString())
             }
-//            files.stream().forEach { file ->
-//                println(file.originalFilename);
-//                val fileCopy = File(file.originalFilename);
-//                //               @todo save right place
-//                fileCopy.createNewFile()
-//                fileCopy.writeText(file.inputStream.readBytes().decodeToString())
-//
-//                print(file.inputStream.readBytes().decodeToString())
-//            }
-//            println(files.originalFilename)
-//            print(files.inputStream.readBytes().decodeToString())
         }
 
-        Chili.getRedisInterface().client
+        val problem = ProblemController.problems[problemId]
+
+        val jsonMap = mutableMapOf<String, Any>()
+        jsonMap["id"] = UUID.randomUUID().toString()
+        jsonMap["programLocation"] = file!!.absolutePath
+        jsonMap["userProgram"] = name
+        jsonMap["testType"] = "input/output"
+        jsonMap["testCount"] = problem!!.tests[0].input.size
+
+        val insideMap = mutableMapOf<String, Any>()
+        insideMap["input"] = problem.tests[0].input
+        insideMap["output"] = problem.tests[0].output
+
+        jsonMap["tests"] = listOf(insideMap)
+
+        Chili.getRedisInterface().client.getTopic("pepper-tests").publish(jsonMap)
+
         return "/submit";
     }
 }
