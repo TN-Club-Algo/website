@@ -38,7 +38,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.algotn:api:1.0.8-SNAPSHOT")
+    implementation("org.algotn:api:1.0.9-SNAPSHOT")
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.0.4")
 
     implementation("org.redisson:redisson:3.21.3") // fix missing cross dependency
@@ -67,4 +67,16 @@ dependencies {
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
+}
+
+val fatJar = task("fatJar", type = Jar::class) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveBaseName.set("${project.name}-fat")
+    manifest {
+        attributes["Implementation-Title"] = "Website"
+        attributes["Implementation-Version"] = archiveVersion
+        attributes["Main-Class"] = "org.algotn.website.WebApplication"
+    }
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+    with(tasks.jar.get() as CopySpec)
 }
