@@ -63,7 +63,7 @@ class SubmissionController {
         insideMap["input"] = problem.tests[0].input
         insideMap["output"] = problem.tests[0].output
 
-        jsonMap["tests"] = listOf(insideMap)
+        jsonMap["tests"] = insideMap
 
         Chili.getRedisInterface().client.getTopic("pepper-tests").publish(jsonMap)
 
