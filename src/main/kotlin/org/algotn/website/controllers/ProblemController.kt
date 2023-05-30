@@ -23,13 +23,13 @@ class ProblemController {
                     "Quantités de mémoire maximale : 100000 kilobytes", listOf(Example(UUID.randomUUID(),"10<br>" +
                     "45<br>" +
                     "1 8 3 9 15 9 18 46 20 45","33","Les seul diviseurs de 45 ayants exactement 2 diviseurs premiers sont 9 et 15,<br>" +
-                    "il y a 2 fois 9 et 1 fois 15 donc une somme égale à 33.")), listOf()
+                    "il y a 2 fois 9 et 1 fois 15 donc une somme égale à 33.")), listOf(), mapOf()
         )
         val problem = Problem(
             UUID.randomUUID(), "Problem Name (test)", "When \\(a \\ne 0\\), there are two solutions to \\(ax^2 + bx + c = 0\\) and they are\n" +
                     "\$\$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.\$\$ (test)",
             "Problem input (test)", "Problem output (test)",
-            "Problem exec_c (test)", listOf(Example(UUID.randomUUID(),"0<br>1 2","2","")), listOf()
+            "Problem exec_c (test)", listOf(Example(UUID.randomUUID(),"0<br>1 2","2","")), listOf(), mapOf()
         ) // need to be replaced by a real request to the api
         model.addAttribute("problem", pb_demo)
         return ModelAndView("problem")

@@ -1,5 +1,6 @@
 package org.algotn.website.controllers
 
+import org.algotn.api.Chili
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -39,7 +40,7 @@ class SubmissionController {
 //            println(files.originalFilename)
 //            print(files.inputStream.readBytes().decodeToString())
         }
-//        Chili.getRedisInterface()
+        Chili.getRedisInterface().client
         return "/submit";
     }
 }
