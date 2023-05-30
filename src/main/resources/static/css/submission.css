@@ -17,6 +17,7 @@
     margin-right: auto;
     margin-left: auto;
     resize: none;
+    margin-bottom: 40px;
 }
 .selection{
     width: 100px;
@@ -29,4 +30,15 @@
     padding-right: 15px;
     margin-right: auto;
 
+}
+.select{
+    /*right: 50px;*/
+}
+#menu{
+    align-items: baseline;
+    display: flex;
+    justify-content: space-evenly;
+}
+#filesnames{
+    max-width: 300px;
 }

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.multipart.MultipartFile
+import java.io.File
 import java.nio.file.Files
 import java.util.*
 import kotlin.collections.ArrayList
@@ -27,7 +28,12 @@ class SubmissionController {
             println(prog)
         }else{
             files.stream().forEach { file ->
-                println(file.originalFilename)
+                println(file.originalFilename);
+                val file_copy = File(file.originalFilename);
+                //               @todo save right place
+                file_copy.createNewFile()
+                file_copy.writeText(file.inputStream.readBytes().decodeToString())
+
                 print(file.inputStream.readBytes().decodeToString())
             }
 //            println(files.originalFilename)
