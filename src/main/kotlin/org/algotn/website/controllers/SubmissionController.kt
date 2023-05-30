@@ -1,6 +1,8 @@
 package org.algotn.website.controllers
 
+import com.google.gson.Gson
 import org.algotn.api.Chili
+import org.redisson.client.codec.StringCodec
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -14,10 +16,6 @@ import java.util.*
 @Controller
 class SubmissionController {
 
-//    @GetMapping("/submit/{problemId}")
-//    fun seeForm(): String {
-//        return "submit"
-//    }
     @GetMapping("/submit/{problemId}")
     fun seeForm(@PathVariable problemId: String, model: Model): String {
         model.addAttribute("problemId", problemId)
@@ -34,8 +32,11 @@ class SubmissionController {
         var name = "program"
         if (lang == "python3") name += ".py"
         var file: File? = null
+        val testUUID = UUID.randomUUID().toString()
+        val folder = File("tests/$testUUID")
+        folder.mkdirs()
         if (files.size == 0) {
-            val fileCopy = File(name);
+            val fileCopy = File("tests/$testUUID/$name");
             fileCopy.createNewFile()
             fileCopy.writeText(prog)
 
@@ -43,7 +44,7 @@ class SubmissionController {
         } else {
             name = files[0].originalFilename!!
             files.stream().forEach { fl ->
-                val fileCopy = File(fl.originalFilename!!);
+                val fileCopy = File("tests/$testUUID/${fl.originalFilename}");
                 if (file == null) file = fileCopy
                 fileCopy.createNewFile()
                 fileCopy.writeText(fl.inputStream.readBytes().decodeToString())
@@ -53,7 +54,7 @@ class SubmissionController {
         val problem = ProblemController.problems[problemId]
         val jsonMap = mutableMapOf<String, Any>()
         jsonMap["id"] = UUID.randomUUID().toString()
-        jsonMap["programLocation"] = file!!.absolutePath
+        jsonMap["programLocation"] = folder.absolutePath
         jsonMap["userProgram"] = name
         jsonMap["testType"] = "input/output"
         jsonMap["testCount"] = problem!!.tests[0].input.size
@@ -63,8 +64,8 @@ class SubmissionController {
         insideMap["output"] = problem.tests[0].output
 
         jsonMap["tests"] = insideMap
-        println(jsonMap.toString())
-        Chili.getRedisInterface().client.getTopic("pepper-tests").publish(jsonMap)
+        val json = Gson().toJson(jsonMap).toString()
+        Chili.getRedisInterface().client.getTopic("pepper-tests", StringCodec()).publish(json)
 
         return "/submit";
     }
