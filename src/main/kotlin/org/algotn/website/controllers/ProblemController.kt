@@ -1,7 +1,10 @@
 package org.algotn.website.controllers
 
+import jdk.incubator.vector.VectorOperators.Test
 import org.algotn.api.problem.Example
 import org.algotn.api.problem.Problem
+import org.algotn.api.tests.CodeTest
+import org.algotn.api.tests.InputOutputTest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -40,7 +43,11 @@ class ProblemController {
                                 "il y a 2 fois 9 et 1 fois 15 donc une somme égale à 33."
                     )
                 ),
-                listOf(),
+                listOf(
+                    InputOutputTest(
+                        listOf("10\n" + "45\n" + "1 8 3 9 15 9 18 46 20 45"), listOf("33")
+                    )
+                ),
                 mapOf()
             )
 
