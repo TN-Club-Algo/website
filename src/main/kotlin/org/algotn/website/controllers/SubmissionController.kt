@@ -1,6 +1,8 @@
 package org.algotn.website.controllers
 
 import org.algotn.api.Chili
+import org.algotn.api.submission.Submission
+import org.algotn.website.auth.User
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -22,25 +24,35 @@ class SubmissionController {
     fun sendform(
         @RequestParam("lang") lang: String,
         @RequestParam("prog") prog: String,
-        @RequestParam("files") files: ArrayList<MultipartFile>): String {
+        @RequestParam("files") files: ArrayList<MultipartFile>): String{
         println("yeah");
         println(lang);
         if (files.size==0){
             println(prog)
         }else{
-            files.stream().forEach { file ->
-                println(file.originalFilename);
-                val file_copy = File(file.originalFilename);
-                //               @todo save right place
-                file_copy.createNewFile()
-                file_copy.writeText(file.inputStream.readBytes().decodeToString())
-
-                print(file.inputStream.readBytes().decodeToString())
+            if (files.size==1){
+                val file = files[0]
+                val fileCopy = File(file.originalFilename);
+                fileCopy.createNewFile()
+                fileCopy.writeText(file.inputStream.readBytes().decodeToString())
+                val sub = Submission(UUID.randomUUID(),"",lang,fileCopy.path)
+            }else{
+                println("multiple files not supported")
             }
+//            files.stream().forEach { file ->
+//                println(file.originalFilename);
+//                val fileCopy = File(file.originalFilename);
+//                //               @todo save right place
+//                fileCopy.createNewFile()
+//                fileCopy.writeText(file.inputStream.readBytes().decodeToString())
+//
+//                print(file.inputStream.readBytes().decodeToString())
+//            }
 //            println(files.originalFilename)
 //            print(files.inputStream.readBytes().decodeToString())
         }
-//        Chili.getRedisInterface().client
+
+        Chili.getRedisInterface().client
         return "/submit";
     }
 }
