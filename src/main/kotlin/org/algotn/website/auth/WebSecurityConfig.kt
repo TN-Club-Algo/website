@@ -8,6 +8,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector
+
+
+
 
 
 @Configuration
@@ -29,6 +33,11 @@ open class WebSecurityConfig {
     @Bean
     open fun passwordEncoder(): BCryptPasswordEncoder {
         return BCryptPasswordEncoder()
+    }
+
+    @Bean(name = ["mvcHandlerMappingIntrospector"])
+    open fun mvcHandlerMappingIntrospector(): HandlerMappingIntrospector? {
+        return HandlerMappingIntrospector()
     }
 
     @Bean
