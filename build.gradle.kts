@@ -51,6 +51,13 @@ dependencies {
 
     implementation("org.redisson:redisson:3.21.3") // fix missing cross dependency
 
+    //implementation ("org.webjars:webjars-locator-core")
+    implementation ("org.webjars:sockjs-client:1.5.1")
+    implementation ("org.webjars:stomp-websocket:2.3.4")
+    implementation ("org.webjars:bootstrap:5.2.3")
+    implementation ("org.webjars:jquery:3.6.4")
+    implementation("org.springframework:spring-websocket:6.0.9")
+
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
