@@ -1,6 +1,8 @@
 package org.algotn.website.controllers
 
+import com.google.gson.Gson
 import org.algotn.api.Chili
+import org.redisson.client.codec.StringCodec
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -66,8 +68,8 @@ class SubmissionController {
         insideMap["output"] = problem.tests[0].output
 
         jsonMap["tests"] = insideMap
-        println(jsonMap.toString())
-        Chili.getRedisInterface().client.getTopic("pepper-tests").publish(jsonMap)
+        val json = Gson().toJson(jsonMap).toString()
+        Chili.getRedisInterface().client.getTopic("pepper-tests", StringCodec()).publish(json)
 
         return "/submit";
     }
