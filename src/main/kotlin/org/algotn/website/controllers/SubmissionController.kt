@@ -59,7 +59,7 @@ class SubmissionController {
 
         val problem = ProblemController.problems[problemId]
         val jsonMap = mutableMapOf<String, Any>()
-        jsonMap["problemName"] = problemId
+        jsonMap["problemName"] = problem!!.name
         jsonMap["id"] = UUID.randomUUID().toString()
         jsonMap["programLocation"] = folder.absolutePath
         jsonMap["userProgram"] = name
