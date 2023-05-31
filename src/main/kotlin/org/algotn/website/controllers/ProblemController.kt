@@ -58,6 +58,15 @@ class ProblemController {
                 listOf(
                     Example(
                         UUID.randomUUID(),
+                        "5<br>" +
+                                "9<br>" +
+                                "0 1 3 5 7",
+                        "0",
+                        "Le seul diviseur de 9 ayants exactement 2 diviseurs premiers est 9,<br>" +
+                                "il n'y a pas de 9 donc la somme vaut 0"
+                    ),
+                    Example(
+                        UUID.randomUUID(),
                         "10<br>" +
                                 "45<br>" +
                                 "1 8 3 9 15 9 18 46 20 45",
