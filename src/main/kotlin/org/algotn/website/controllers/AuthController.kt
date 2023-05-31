@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Controller
+import org.springframework.util.MultiValueMap
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
@@ -85,15 +86,15 @@ class AuthController(private val userRepository: UserRepository) {
     @PostMapping("/register")
     fun register(
         @ModelAttribute user: User,
-        @RequestParam allParams: Map<String, String>,
+        @RequestBody allParams: MultiValueMap<String, String>,
         redirectAttributes: RedirectAttributes
     ): String {
-        if (!validateEmail(allParams["userName"]!!)) {
+        if (!validateEmail(allParams.getFirst("userName")!!)) {
             redirectAttributes.addFlashAttribute("errorMessage", "L'adresse email n'est pas valide.")
             return "redirect:/register"
         }
 
-        if (!allParams.containsKey("confirm-password") || allParams["confirm-password"] != user.password) {
+        if (!allParams.containsKey("confirm-password") || allParams.getFirst("confirm-password") != user.password) {
             redirectAttributes.addFlashAttribute("errorMessage", "Les mots de passe ne correspondent pas.")
             return "redirect:/register"
         }
