@@ -5,23 +5,23 @@
         <div class="navbar-menu">
 
             <div class="navbar-start">
-                <a class="navbar-item" href="@{/}">
+                <a class="navbar-item" href="/">
                     Home
                 </a>
 
-                <a class="navbar-item" href="@{/blog}">
+                <a class="navbar-item" href="/blog">
                     Blog
                 </a>
 
-                <a class="navbar-item" href="@{/problem}">
+                <a class="navbar-item" href="/problem">
                     Problèmes
                 </a>
 
-                <a class="navbar-item" href="@{/profile/test}">
+                <a class="navbar-item" href="/profile/test">
                     Test
                 </a>
 
-                <a class="navbar-item" href="@{/scoreboard}">
+                <a class="navbar-item" href="/scoreboard">
                     Classement
                 </a>
 

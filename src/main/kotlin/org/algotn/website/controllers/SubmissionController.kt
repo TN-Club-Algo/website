@@ -74,6 +74,6 @@ class SubmissionController {
         val json = Gson().toJson(jsonMap).toString()
         Chili.getRedisInterface().client.getTopic("pepper-tests", StringCodec()).publish(json)
 
-        return "redirect:/profiles/test";
+        return "redirect:/profile/test";
     }
 }
