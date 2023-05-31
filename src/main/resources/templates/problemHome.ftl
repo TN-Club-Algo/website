@@ -8,7 +8,7 @@
 <script src="../../static/js/app.js"></script>
 <link rel="stylesheet" href="../../static/bulma.min.css">
 <@layout.header>
-    <h1 class="title is-1" style="text-align: center">Tests</h1>
+    <h1 class="title is-1" style="text-align: center">Problèmes</h1>
         <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" id="conversation">
             <thead class="testTableHead">
             <tr class="testTableHeaderRow">
