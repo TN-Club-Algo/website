@@ -1,5 +1,4 @@
 <#import "../_layout.ftl" as layout />
-<script src="../../static/js/register.js"></script>
 <style>
     @media screen and (min-width: 769px) {
         .vertical-center {
