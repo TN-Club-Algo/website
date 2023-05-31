@@ -1,14 +1,7 @@
 plugins {
     id("java")
-    kotlin("jvm") version "1.8.21"
+    kotlin("jvm") version "1.8.20-RC"
     `maven-publish`
-    id("org.springframework.boot") version "2.5.5"
-}
-
-buildscript {
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.0.M2")
-    }
 }
 
 group "org.algotn"
@@ -33,7 +26,6 @@ publishing {
 }
 
 repositories {
-    //mavenLocal()
     mavenCentral()
     maven {
         url = uri("https://maven.pkg.jetbrains.space/algo-tn/p/main/maven")
@@ -45,23 +37,29 @@ repositories {
 }
 
 dependencies {
-    implementation("org.algotn:api:1.0.9-SNAPSHOT")
-    implementation("org.springframework.boot:spring-boot-starter-actuator:3.0.4")
-    implementation("org.springframework:spring-messaging:6.0.9")
+    implementation("org.algotn:api:1.0.4-SNAPSHOT")
+    implementation("org.springframework.boot:spring-boot-starter-actuator:3.1.0")
 
-    implementation("org.redisson:redisson:3.21.3") // fix missing cross dependency
+    //implementation ("org.springframework.boot:spring-boot-starter-websocket:6.0.9")
+    implementation ("org.webjars:webjars-locator-core")
+    implementation ("org.webjars:sockjs-client:1.5.1")
+    implementation ("org.webjars:stomp-websocket:2.3.4")
+    implementation ("org.webjars:bootstrap:5.2.3")
+    implementation ("org.webjars:jquery:3.6.4")
+    implementation("org.springframework:spring-websocket:6.0.9")
+    implementation ("org.springframework:spring-messaging:6.0.9")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    implementation("org.springframework.boot:spring-boot-starter-web:3.0.4")
-    implementation("org.springframework.boot:spring-boot-starter-freemarker:3.0.4")
+    implementation("org.springframework.boot:spring-boot-starter-web:3.1.0")
+    implementation("org.springframework.boot:spring-boot-starter-freemarker:3.1.0")
     implementation("com.google.code.gson:gson:2.10.1")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:3.0.4")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.0")
 
-    //implementation("org.springframework.boot:spring-boot-devtools:3.0.4")
+    implementation("org.springframework.boot:spring-boot-devtools:3.0.4")
 
     implementation("org.springframework.boot:spring-boot-starter-mail:3.0.4")
 
@@ -73,31 +71,6 @@ dependencies {
     testImplementation("com.redis.testcontainers:testcontainers-redis-junit-jupiter:1.4.6")
 }
 
-/*tasks.getByName<Test>("test") {
+tasks.getByName<Test>("test") {
     useJUnitPlatform()
-}*/
-
-tasks {
-    val fatJar = register<Jar>("fatJar") {
-        dependsOn.addAll(
-            listOf(
-                "compileJava",
-                "compileKotlin",
-                "processResources"
-            )
-        ) // We need this for Gradle optimization to work
-        archiveClassifier.set("") // Naming the jar
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-        manifest {
-            attributes["Main-Class"] = "org.algotn.website.WebApplicationKt"
-        }
-        val sourcesMain = sourceSets.main.get()
-        val contents = configurations.runtimeClasspath.get()
-            .map { if (it.isDirectory) it else zipTree(it) } +
-                sourcesMain.output
-        from(contents)
-    }
-    build {
-        dependsOn(fatJar) // Trigger fat jar creation during build
-    }
 }
