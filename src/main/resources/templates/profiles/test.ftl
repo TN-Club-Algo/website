@@ -1,6 +1,9 @@
 <#import "../_layout.ftl" as layout /><#-- not an error -->
 
 <title>Test result</title>
+<script src="../../static/js/jquery.min.js"></script>
+<script src="../../static/js/sockjs.min.js"></script>
+<script src="../../static/js/stomp.min.js"></script>
 <script src="../../static/js/app.js"></script>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../../static/bulma.min.css">
