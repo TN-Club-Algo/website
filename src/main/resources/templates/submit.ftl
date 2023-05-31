@@ -8,8 +8,8 @@
 <@layout.header>
     <div id="container">
         <div class="card">
-            <div class="card-header">
-                Submit
+            <div class="card-header title is-1">
+                Submit: ${problemId}
             </div>
             <div class="card-content">
                 <form action="/submit/${problemId}" method="post" enctype="multipart/form-data">

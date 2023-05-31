@@ -7,10 +7,17 @@
 <link rel="stylesheet" href="../static/css/problem.css">
 <@layout.header>
     <div id="container">
-        <h1 class="title is-1"><#if problem.name??> ${problem.name}
-            <#else>Problem name is missing
-            </#if>
-        </h1>
+        <#if problem.name??>
+            <div class="space">
+            <div style="float: left;padding-top: 8px;padding-left: 5px;">
+                <h1 class="title is-1">${problem.name}</h1>
+            </div>
+            <a style="padding-top: 17px;" href="/submit/${id}">
+                <button class="button copybut">Submit</button>
+            </a>
+            </div>
+        <#else>Problem name is missing
+        </#if>
         <div class="card">
             <div class="card-header no_shadow">
                 <p class="card-header-title is-size-5">Problem statement:</p>
