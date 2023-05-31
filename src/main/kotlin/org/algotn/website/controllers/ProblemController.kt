@@ -1,9 +1,7 @@
 package org.algotn.website.controllers
 
-import jdk.incubator.vector.VectorOperators.Test
 import org.algotn.api.problem.Example
 import org.algotn.api.problem.Problem
-import org.algotn.api.tests.CodeTest
 import org.algotn.api.tests.InputOutputTest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -21,6 +19,31 @@ class ProblemController {
         val problems = mutableMapOf<String, Problem>()
 
         init {
+            problems["basic"] = Problem(
+                UUID.randomUUID(),
+                "Problème basique",
+                "C'est pas très compliqué donc essayez de réussir...",
+                "Une ligne contenant une chaîne de caractère",
+                "La même ligne",
+                "Temps maximal d'exécution : 1s<br>" +
+                        "Quantité de mémoire maximale : 100 MB",
+                listOf(
+                    Example(
+                        UUID.randomUUID(),
+                        "Hello world",
+                        "Hello world",
+                        "Est-il nécessaire d'expliquer ?"
+                    )
+                ),
+                listOf(
+                    InputOutputTest(
+                        listOf("abc", "Je suis une patate", "Moi je suis un concombre"),
+                        listOf("abc", "Je suis une patate", "Moi je suis un concombre")
+                    )
+                ),
+                mapOf()
+            )
+
             problems["test1"] = Problem(
                 UUID.randomUUID(),
                 "Strange doors",
