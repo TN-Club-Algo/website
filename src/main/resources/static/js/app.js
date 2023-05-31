@@ -1,4 +1,4 @@
-var stompClient = null;
+let stompClient = null;
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -19,7 +19,7 @@ function connect() {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/return/tests', function (result) {
-            showTest(JSON.parse(result.body).content);
+            showTest(JSON.parse(result.body));
         });
     });
 }
