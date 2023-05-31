@@ -20,4 +20,9 @@ class ProfileController {
     fun parameter(): String {
         return "profiles/parameter"
     }
+
+    @GetMapping("/profile/test")
+    fun test(): String {
+        return "profiles/test"
+    }
 }
