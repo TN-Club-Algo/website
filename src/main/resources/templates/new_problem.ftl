@@ -13,14 +13,6 @@
             </div>
             <div class="card-content">
                 <form action="/new_problem" method="post" enctype="multipart/form-data">
-<#--                    <input name="uuid" type="text" disabled>-->
-<#--                    <input name="title" type="text">-->
-<#--                    <input name="statement" type="text">-->
-<#--                    <input name="input" type="text">-->
-<#--                    <input name="execConstraints" type="text">-->
-<#--                    <input name="exempleInput" type="text">-->
-<#--                    <input name="exempleOutput" type="text">-->
-<#--                    <input name="explaination" type="text">-->
                     <div class="field">
                         <label class="label">Problem Name</label>
                         <div class="control">
@@ -31,8 +23,6 @@
                         <label class="label">Statement</label>
                         <div class="control">
                             <textarea class="txtArea" name="statement" rows="15"></textarea>
-<#--                            <input class='input' type="text"-->
-<#--                                   value="{% if user.last_name != None %}{{ user.last_name }}{% endif %}" name="last_name">-->
                         </div>
                     </div>
 
@@ -42,7 +32,6 @@
                             <div class="field">
                                 <label class="label">Input</label>
                                 <div class="control">
-<#--                                    <input class='input' type="text" name="input">-->
                                     <textarea class="txtArea" name="input" rows="5"></textarea>
                                 </div>
                             </div>
@@ -51,7 +40,6 @@
                             <div class="field">
                                 <label class="label">Output</label>
                                 <div class="control">
-<#--                                    <input class='input' type="text" name="output">-->
                                     <textarea class="txtArea" name="output" rows="5"></textarea>
                                 </div>
 

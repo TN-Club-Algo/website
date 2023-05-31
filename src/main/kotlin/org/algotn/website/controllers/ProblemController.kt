@@ -1,5 +1,6 @@
 package org.algotn.website.controllers
 
+import org.algotn.api.Chili
 import org.algotn.api.problem.Example
 import org.algotn.api.problem.Problem
 import org.algotn.api.tests.InputOutputTest

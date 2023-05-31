@@ -33,10 +33,20 @@
         </div>
         <div class="card">
             <div class="card-header no_shadow">
+                <p class="card-header-title is-size-5">Output:</p>
+            </div>
+            <div class="card-content">
+                <#if problem.output??> ${problem.output}
+                <#else>Problem output is missing
+                </#if>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header no_shadow">
                 <p class="card-header-title is-size-5">Constraints:</p>
             </div>
             <div class="card-content">
-                <#if problem.exec_constraints??> ${problem.exec_constraints}
+                <#if problem.execConstraints??> ${problem.execConstraints}
                 <#else>Problem Constraints are missing
                 </#if>
             </div>
