@@ -1,5 +1,6 @@
 package org.algotn.website.controllers
 
+import com.google.gson.Gson
 import org.algotn.api.Chili
 import org.algotn.api.problem.Example
 import org.algotn.api.problem.Problem
@@ -106,12 +107,18 @@ class ProblemController {
     fun lookProblem(
         @PathVariable("id") id: String, model: Model
     ): ModelAndView {
-        if (!problems.containsKey(id))
-            return ModelAndView("redirect:/")
-
+        if (!problems.containsKey(id)) {
+            val pbMap = Chili.getRedisInterface().client.getMap<String, String>("problem")
+            val newPbJson = pbMap.getOrDefault(id,"")
+            if (newPbJson=="") {
+                return ModelAndView("redirect:/")
+            }else{
+                val newPb = Gson().fromJson(newPbJson,Problem::class.java)
+                problems.put(newPb.name,newPb)
+            }
+        }
         val problem = problems[id]
         model.addAttribute("problem", problem)
         return ModelAndView("problem")
     }
-
 }

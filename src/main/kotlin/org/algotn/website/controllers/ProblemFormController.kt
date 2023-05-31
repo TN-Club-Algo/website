@@ -28,12 +28,12 @@ class ProblemFormController {
         @RequestParam("input") input: String,
         @RequestParam("output") output: String,
     ): String {
-        val pb_map = Chili.getRedisInterface().client.getMap<String, String>("problem")
+        val pbMap = Chili.getRedisInterface().client.getMap<String, String>("problem")
 
         val newPb = Problem(UUID.randomUUID(),pbName,statement,input,output,"Temps maximal d'exécution : 1s<br>" +
                 "Quantité de mémoire maximale : 100 MB", listOf(), listOf(), mapOf())
         val newPbJson = Gson().toJson(newPb)
-        pb_map.put(pbName,newPbJson)
+        pbMap.put(pbName,newPbJson)
 
         // @todo et all inputs and create problem to add to the map
         return "/new_problem";
