@@ -8,7 +8,10 @@ import org.springframework.stereotype.Controller
 
 @Controller
 class TestController {
+
     @MessageMapping("/results")
     @SendTo("/return/tests")
-    fun sendTest(message: Test): Test { return message; }
+    fun sendTest(message: Test): Test {
+        return message;
+    }
 }
