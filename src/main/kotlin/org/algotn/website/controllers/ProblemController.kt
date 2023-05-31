@@ -100,6 +100,10 @@ class ProblemController {
                 listOf(),
                 mapOf()
             )
+            val pbMap = Chili.getRedisInterface().client.getMap<String, String>("problem")
+            for (key in pbMap.keys){
+                problems.put(key,Gson().fromJson(pbMap.get(key),Problem::class.java))
+            }
         }
     }
 
@@ -108,14 +112,16 @@ class ProblemController {
         @PathVariable("id") id: String, model: Model
     ): ModelAndView {
         if (!problems.containsKey(id)) {
-            val pbMap = Chili.getRedisInterface().client.getMap<String, String>("problem")
-            val newPbJson = pbMap.getOrDefault(id,"")
-            if (newPbJson=="") {
-                return ModelAndView("redirect:/")
-            }else{
-                val newPb = Gson().fromJson(newPbJson,Problem::class.java)
-                problems.put(newPb.name,newPb)
-            }
+//            val pbMap = Chili.getRedisInterface().client.getMap<String, String>("problem")
+//            val newPbJson = pbMap.getOrDefault(id,"")
+//            if (newPbJson=="") {
+//                return ModelAndView("redirect:/")
+//            }else{
+//                val newPb = Gson().fromJson(newPbJson,Problem::class.java)
+//                problems.put(newPb.name,newPb)
+//            }
+            return ModelAndView("redirect:/")
+
         }
         val problem = problems[id]
         model.addAttribute("problem", problem)
