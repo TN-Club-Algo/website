@@ -11,3 +11,10 @@
 .no_shadow{
     box-shadow: 0 0 #000000 !important;
 }
+.copybut{
+    float: right;
+}
+.space{
+    display: flex;
+    justify-content: space-between;
+}
