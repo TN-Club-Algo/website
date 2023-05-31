@@ -10,7 +10,7 @@
 <@layout.header>
     <h1 class="title is-1" style="text-align: center">Tests</h1>
     <div class="test" style="display: block;">
-        <div class="row">
+        <!--<div class="row">
             <div class="col-md-6">
                 <form class="form-inline">
                     <div class="form-group">
@@ -36,15 +36,15 @@
                     <button id="send" class="btn btn-default" type="submit">Send</button>
                 </form>
             </div>
-        </div>
+        </div>-->
 
         <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" id="conversation">
             <thead class="testTableHead">
             <tr class="testTableHeaderRow">
-                <th>Id test</th>
-                <th>Index test</th>
-                <th>Answer</th>
-                <th>Accepted</th>
+                <th>Nom du problème</th>
+                <th>Index du test</th>
+                <th>Retour</th>
+                <th>Résultat</th>
             </tr>
             </thead>
             <tbody class="testTable-Body" id="result"></tbody>

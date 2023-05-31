@@ -59,6 +59,7 @@ class SubmissionController {
 
         val problem = ProblemController.problems[problemId]
         val jsonMap = mutableMapOf<String, Any>()
+        jsonMap["problemName"] = problemId
         jsonMap["id"] = UUID.randomUUID().toString()
         jsonMap["programLocation"] = folder.absolutePath
         jsonMap["userProgram"] = name
@@ -73,6 +74,6 @@ class SubmissionController {
         val json = Gson().toJson(jsonMap).toString()
         Chili.getRedisInterface().client.getTopic("pepper-tests", StringCodec()).publish(json)
 
-        return "/submit";
+        return "redirect:/profiles/test";
     }
 }
