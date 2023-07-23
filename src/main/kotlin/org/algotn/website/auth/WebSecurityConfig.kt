@@ -47,6 +47,7 @@ open class WebSecurityConfig {
             .csrf { it.disable() }
             .authorizeHttpRequests { requests ->
                 requests
+                    .requestMatchers("/", "/blog", "/problem", "/scoreboard").permitAll()
                     .requestMatchers("/register").anonymous()
                     .requestMatchers("/password-reset").anonymous()
                     .requestMatchers("/password-reset/{token}").anonymous()
@@ -55,6 +56,9 @@ open class WebSecurityConfig {
             .formLogin { login ->
                 login
                     .loginPage("/login")
+                    .failureHandler { request, response, exception ->
+                        response.writer.write("{\"fail\": true}")
+                    }
                     .defaultSuccessUrl("/")
                     .permitAll()
             }

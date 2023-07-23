@@ -31,11 +31,12 @@
                     <#if successMessage??>
                         <div class="notification is-success">${successMessage}</div>
                     </#if>
-                    <form id="loginForm" action="/login" method="post">
+                    <form id="loginForm" <#--action="/login" method="post"-->>
                         <h2 class="title has-text-centered">Se connecter</h2>
                         <div class="field">
                             <p class="control has-icons-left">
-                                <input id="username" name="username" class="input" type="text" placeholder="Email" required>
+                                <input id="username" name="username" class="input" type="text" placeholder="Email"
+                                       required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-envelope"></i>
                                 </span>
@@ -69,4 +70,40 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#loginForm").submit(function (event) {
+                event.preventDefault(); // Prevent form submission
+
+                const formData = $(this).serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/login",
+                    data: formData,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.fail) {
+                            console.log("Login failed");
+
+                            // remove password from input
+                            $("#password").val("");
+
+                            const notification = document.createElement("div");
+                            notification.classList.add("notification", "is-danger");
+                            notification.innerHTML = "Une erreur est survenue lors de la connexion";
+                            document.body.appendChild(notification);
+                        } else {
+                            console.log("Login successful");
+                            window.location.href = "/";
+                        }
+                    },
+                    error: function (error) {
+                        console.error("Error:", error);
+                    }
+                });
+            });
+        });
+    </script>
+
 </@layout.header>
