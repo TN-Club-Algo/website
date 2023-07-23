@@ -39,6 +39,7 @@
                         <div class="field">
                             <p class="control has-icons-left">
                                 <input id="username" class="input" type="text" placeholder="Email" name="userName"
+                                       autocomplete="username"
                                        required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-envelope"></i>
@@ -48,6 +49,7 @@
                         <div class="field">
                             <p class="control has-icons-left">
                                 <input id="password" class="input" type="password" placeholder="Mot de passe"
+                                       autocomplete="new-password"
                                        name="password" required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
@@ -57,6 +59,7 @@
                         <div class="field">
                             <p class="control has-icons-left">
                                 <input id="confirm-password" class="input" type="password"
+                                       autocomplete="new-password"
                                        placeholder="Confirmer le mot de passe" name="confirm-password" required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>

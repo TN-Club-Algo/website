@@ -36,6 +36,7 @@
                         <div class="field">
                             <p class="control has-icons-left">
                                 <input id="username" name="username" class="input" type="text" placeholder="Email"
+                                       autocomplete="username"
                                        required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-envelope"></i>
@@ -45,6 +46,7 @@
                         <div class="field">
                             <p class="control has-icons-left">
                                 <input id="password" name="password" class="input" type="password"
+                                       autocomplete="current-password"
                                        placeholder="Mot de passe" required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
@@ -95,13 +97,9 @@
                     dataType: "json",
                     success: function (data) {
                         if (data.fail) {
-                            console.log("Login failed");
-
-                            // remove password from input
                             $("#password").val("");
                             $("#errorNotification").html(data.message).removeClass("is-invisible");
                         } else {
-                            console.log("Login successful");
                             window.location.href = "/";
                         }
                     },
