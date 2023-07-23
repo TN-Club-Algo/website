@@ -59,6 +59,9 @@
                         Se connecter
                     </button>
 
+                    <!-- fail notification -->
+                    <div id="errorNotification" class="notification is-danger is-small is-invisible"></div>
+
                     <p class="m-5 has-text-centered">— Vous n'avez pas encore de compte ? —</p>
 
                     <a href="/register">
@@ -70,6 +73,14 @@
             </div>
         </div>
     </div>
+
+    <style>
+        .notification.is-danger.is-small {
+            margin-top: 1rem;
+            opacity: 0.8;
+            padding: 0.5rem 0.75rem;
+        }
+    </style>
 
     <script>
         $(document).ready(function () {
@@ -88,11 +99,7 @@
 
                             // remove password from input
                             $("#password").val("");
-
-                            const notification = document.createElement("div");
-                            notification.classList.add("notification", "is-danger");
-                            notification.innerHTML = "Une erreur est survenue lors de la connexion";
-                            document.body.appendChild(notification);
+                            $("#errorNotification").html(data.message).removeClass("is-invisible");
                         } else {
                             console.log("Login successful");
                             window.location.href = "/";

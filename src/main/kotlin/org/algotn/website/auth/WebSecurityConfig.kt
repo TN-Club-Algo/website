@@ -1,17 +1,19 @@
 package org.algotn.website.auth
 
+import com.google.gson.Gson
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.authentication.*
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedCredentialsNotFoundException
+import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationException
+import org.springframework.security.web.authentication.session.SessionAuthenticationException
+import org.springframework.security.web.authentication.www.NonceExpiredException
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector
-
-
-
 
 
 @Configuration
@@ -21,7 +23,11 @@ open class WebSecurityConfig {
     companion object {
         fun authenticationManager(): AuthenticationManager {
             return AuthenticationManager { authentication ->
-                if (UserRepositoryImpl.doesUserMatchPassword(authentication.name, authentication.credentials.toString())) {
+                if (UserRepositoryImpl.doesUserMatchPassword(
+                        authentication.name,
+                        authentication.credentials.toString()
+                    )
+                ) {
                     UsernamePasswordAuthenticationToken(authentication.name, authentication.credentials, emptyList())
                 } else {
                     null
@@ -57,7 +63,39 @@ open class WebSecurityConfig {
                 login
                     .loginPage("/login")
                     .failureHandler { request, response, exception ->
-                        response.writer.write("{\"fail\": true}")
+                        val responseMap = mutableMapOf<String, Any>()
+                        responseMap["fail"] = true
+
+                        if (exception is AccountStatusException) {
+                            responseMap["message"] = exception.message!!
+                        } else if (exception is AuthenticationCredentialsNotFoundException) {
+                            responseMap["message"] = exception.message!!
+                        } else if (exception is AuthenticationServiceException) {
+                            responseMap["message"] = "Erreur serveur lors de l'authentification. Code d'erreur : 1"
+                        } else if (exception is BadCredentialsException) {
+                            responseMap["message"] = "Le couple email / mot de passe est incorrect."
+                        } else if (exception is InsufficientAuthenticationException) {
+                            responseMap["message"] = "Erreur serveur lors de l'authentification. Code d'erreur : 2"
+                        } else if (exception is NonceExpiredException) {
+                            responseMap["message"] = "Erreur serveur lors de l'authentification. Code d'erreur : 3"
+                        } else if (exception is PreAuthenticatedCredentialsNotFoundException) {
+                            responseMap["message"] = exception.message!!
+                        } else if (exception is ProviderNotFoundException) {
+                            responseMap["message"] = "Erreur serveur lors de l'authentification. Code d'erreur : 4"
+                        } else if (exception is RememberMeAuthenticationException) {
+                            responseMap["message"] = "Erreur serveur lors de l'authentification. Code d'erreur : 5"
+                        } else if (exception is SessionAuthenticationException) {
+                            responseMap["message"] =
+                                "Erreur lors de la création de la session. Avez-vous trop de sessions simultanées ?"
+                        } else if (exception is UsernameNotFoundException) {
+                            responseMap["message"] = "Le couple email / mot de passe est incorrect."
+                        } else {
+                            responseMap["message"] = "Le couple email / mot de passe est incorrect."
+                        }
+
+                        // write the response
+                        response.contentType = "application/json"
+                        response.writer.write(Gson().toJson(responseMap))
                     }
                     .defaultSuccessUrl("/")
                     .permitAll()
