@@ -15,45 +15,40 @@
 
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-menu">
-
                 <div class="navbar-start">
-                    <a class="navbar-item" href="/">
-                        Home
-                    </a>
-
-                    <a class="navbar-item" href="/blog">
-                        Blog
-                    </a>
-
-                    <a class="navbar-item" href="/problem">
-                        Problèmes
-                    </a>
-
-                    <a class="navbar-item" href="/profile/test">
-                        Test
-                    </a>
-
-                    <a class="navbar-item" href="/scoreboard">
-                        Classement
-                    </a>
-
+                    <a class="navbar-item" href="/">Home</a>
+                    <a class="navbar-item" href="/blog">Blog</a>
+                    <a class="navbar-item" href="/problem">Problèmes</a>
+                    <a class="navbar-item" href="/profile/test">Test</a>
+                    <a class="navbar-item" href="/scoreboard">Classement</a>
                     <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">
-                            More
-                        </a>
-
+                        <a class="navbar-link">Plus</a>
                         <div class="navbar-dropdown">
-                            <a class="navbar-item" href="@{/contact}">
-                                Contact
-                            </a>
-                            <a class="navbar-item" href="@{/legalNotice}">
-                                Legals
-                            </a>
+                            <a class="navbar-item" href="@{/contact}">Contact</a>
+                            <a class="navbar-item" href="@{/legalNotice}">Legals</a>
                         </div>
                     </div>
                 </div>
+
+                <div class="navbar-end">
+                    <#assign known = SPRING_SECURITY_CONTEXT??>
+                    <#if known>
+                        <a class="navbar-item" href="/logout">Déconnexion</a>
+                    <#else>
+                        <a class="navbar-item" href="/login">Se connecter</a>
+                    </#if>
+                </div>
             </div>
         </nav>
+
+        <style>
+            .navbar-menu {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        </style>
+
         <#nested>
     </div>
     </body>

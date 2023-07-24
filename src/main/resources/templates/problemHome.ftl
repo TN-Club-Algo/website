@@ -1,4 +1,4 @@
-<#import "/_layout.ftl" as layout /><#-- not an error -->
+<#import "./_layout.ftl" as layout /><#-- not an error -->
 
 <title>Test result</title>
 <script src="../../static/js/jquery.min.js"></script>
@@ -8,24 +8,72 @@
 <script src="../../static/js/app.js"></script>
 <link rel="stylesheet" href="../../static/bulma.min.css">
 <@layout.header>
-    <h1 class="title is-1" style="text-align: center">Problèmes</h1>
-        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" id="conversation">
-            <thead class="testTableHead">
-            <tr class="testTableHeaderRow">
-                <th>Nom du problème</th>
-                <th>Lien</th>
-            </tr>
-            </thead>
-            <tbody class="testTable-Body" id="result"></tbody>
-                <#list keys as key>
+    <div class="card">
+        <header class="card-header">
+            <p class="subtitle is-4 p-3">
+                Problèmes en vedette
+            </p>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                <table class="table is-fullwidth is-striped">
+                    <thead>
                     <tr>
-
-                        <td>  ${problems[key].name}</td>
-                        <td>
-                            <a href="/problem/${key}">${key}</a>
-                        </td>
+                        <th>Problème</th>
+                        <th>Thèmes</th>
+                        <th>Difficulté</th>
                     </tr>
-                </#list>
-        </table>
+                    </thead>
+                    <tbody>
+                    <#list keys as key>
+                        <tr>
+                            <td><a href="/problem/${problems[key].uuid}">${problems[key].name}</a></td>
+                            <td>
+                                <#list problems[key].categories as tag>
+                                    <span class="tag">${tag}</span>
+                                </#list>
+                            </td>
+                            <td>Non renseigné</td>
+                        </tr>
+                    </#list>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mt-6">
+        <header class="card-header">
+            <p class="subtitle is-4 p-3">
+                Tous les problèmes
+            </p>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                <table class="table is-fullwidth is-striped">
+                    <thead>
+                    <tr>
+                        <th>Problème</th>
+                        <th>Thèmes</th>
+                        <th>Difficulté</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <#list keys as key>
+                        <tr>
+                            <td><a href="/problem/${problems[key].uuid}">${problems[key].name}</a></td>
+                            <td>
+                                <#list problems[key].categories as tag>
+                                    <span class="tag">${tag}</span>
+                                </#list>
+                            </td>
+                            <td>Non renseigné</td>
+                        </tr>
+                    </#list>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </@layout.header>

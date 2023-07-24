@@ -53,18 +53,22 @@ open class WebSecurityConfig {
             .csrf { it.disable() }
             .authorizeHttpRequests { requests ->
                 requests
-                    .requestMatchers("/", "/blog", "/problem", "/scoreboard").permitAll()
-                    .requestMatchers("/register").anonymous()
-                    .requestMatchers("/password-reset").anonymous()
-                    .requestMatchers("/password-reset/{token}").anonymous()
+                    .requestMatchers("/", "/error", "/blog", "/problem", "/scoreboard", "/problem/*").permitAll()
+                    .requestMatchers("/register", "/login", "/password-reset", "/password-reset/{token}").anonymous()
                     .anyRequest().authenticated()
+            }
+            .exceptionHandling {
+                it
+                    .accessDeniedHandler { request, response, exception ->
+                        response.sendRedirect(request.contextPath + "/")
+                    }
             }
             .formLogin { login ->
                 login
                     .loginPage("/login")
                     .failureHandler { request, response, exception ->
                         val responseMap = mutableMapOf<String, Any>()
-                        responseMap["fail"] = true
+                        responseMap["success"] = false
 
                         if (exception is AccountStatusException) {
                             responseMap["message"] = exception.message!!
@@ -97,8 +101,15 @@ open class WebSecurityConfig {
                         response.contentType = "application/json"
                         response.writer.write(Gson().toJson(responseMap))
                     }
-                    .defaultSuccessUrl("/")
-                    .permitAll()
+                    .successHandler { request, response, authentication ->
+                        val responseMap = mutableMapOf<String, Any>()
+                        responseMap["success"] = true
+                        responseMap["redirect"] = "/"
+
+                        response.contentType = "application/json"
+                        response.writer.write(Gson().toJson(responseMap))
+                    }
+                    .permitAll(false)
             }
             .logout { logout ->
                 logout.permitAll()

@@ -100,7 +100,7 @@
                             $("#password").val("");
                             $("#errorNotification").html(data.message).removeClass("is-invisible");
                         } else {
-                            window.location.href = "/";
+                            window.location.href = data.redirect;
                         }
                     },
                     error: function (error) {
