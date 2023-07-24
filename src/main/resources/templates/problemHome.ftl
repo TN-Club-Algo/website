@@ -22,18 +22,20 @@
                         <th>Problème</th>
                         <th>Thèmes</th>
                         <th>Difficulté</th>
+                        <th>Avancement</th>
                     </tr>
                     </thead>
                     <tbody>
                     <#list keys as key>
                         <tr>
-                            <td><a href="/problem/${problems[key].uuid}">${problems[key].name}</a></td>
+                            <td><a href="/problem/${key}">${problems[key].name}</a></td>
                             <td>
                                 <#list problems[key].categories as tag>
                                     <span class="tag">${tag}</span>
                                 </#list>
                             </td>
                             <td>Non renseigné</td>
+                            <td>✗</td>
                         </tr>
                     </#list>
                     </tbody>
@@ -57,6 +59,7 @@
                         <th>Problème</th>
                         <th>Thèmes</th>
                         <th>Difficulté</th>
+                        <th>Avancement</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -69,6 +72,7 @@
                                 </#list>
                             </td>
                             <td>Non renseigné</td>
+                            <td>✗</td>
                         </tr>
                     </#list>
                     </tbody>

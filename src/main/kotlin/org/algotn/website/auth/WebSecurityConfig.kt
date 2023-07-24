@@ -53,7 +53,7 @@ open class WebSecurityConfig {
             .csrf { it.disable() }
             .authorizeHttpRequests { requests ->
                 requests
-                    .requestMatchers("/", "/error", "/blog", "/problem", "/scoreboard", "/problem/*").permitAll()
+                    .requestMatchers("/", "/error", "/blog", "/problem", "/scoreboard", "/problem/{id}").permitAll()
                     .requestMatchers("/register", "/login", "/password-reset", "/password-reset/{token}").anonymous()
                     .anyRequest().authenticated()
             }
