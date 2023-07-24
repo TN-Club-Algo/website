@@ -15,6 +15,7 @@ class WebApplicationKt {
         @JvmStatic
         fun main(args: Array<String>) {
             Chili.getRedisInterface()
+            if (args.isNotEmpty()) Chili.SAVE_LOCATION = "${args[0]}/algotn"
             SpringApplication.run(WebApplication::class.java, *args)
         }
     }

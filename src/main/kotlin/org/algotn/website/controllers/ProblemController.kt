@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import org.algotn.api.Chili
 import org.algotn.api.problem.Problem
 import org.algotn.api.problem.ProblemType
+import org.algotn.api.utils.slugify
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,8 +21,9 @@ class ProblemController {
         val problems = mutableMapOf<String, Problem>()
 
         init {
-            problems["basic"] = Problem(
-                name = "Problème basique",
+            val name = "Problème basique"
+            problems[name.slugify()] = Problem(
+                name = name,
                 type = ProblemType.PASS_FAIL,
                 "C'est pas très compliqué donc essayez de réussir...",
                 "Une ligne contenant une chaîne de caractère",
