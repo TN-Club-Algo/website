@@ -2,6 +2,7 @@
   "name": "main",
   "version": "1.0.0",
   "dependencies": {
-    "sockjs-client": "^1.6.1"
+    "sockjs-client": "^1.6.1",
+    "vue": "^3.3.4"
   }
 }
