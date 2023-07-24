@@ -2,9 +2,8 @@ package org.algotn.website.controllers
 
 import com.google.gson.Gson
 import org.algotn.api.Chili
-import org.algotn.api.problem.Example
 import org.algotn.api.problem.Problem
-import org.algotn.api.tests.InputOutputTest
+import org.algotn.api.problem.ProblemType
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,14 +21,15 @@ class ProblemController {
 
         init {
             problems["basic"] = Problem(
-                UUID.randomUUID(),
-                "Problème basique",
+                name = "Problème basique",
+                type = ProblemType.PASS_FAIL,
                 "C'est pas très compliqué donc essayez de réussir...",
                 "Une ligne contenant une chaîne de caractère",
                 "La même ligne",
                 "Temps maximal d'exécution : 1s<br>" +
                         "Quantité de mémoire maximale : 100 MB",
-                listOf(
+                keywords = arrayOf("graphe", "dijkstra"),
+                /*listOf(
                     Example(
                         UUID.randomUUID(),
                         "Hello world",
@@ -43,9 +43,9 @@ class ProblemController {
                         listOf("abc", "Je suis une patate", "Moi je suis un concombre")
                     )
                 ),
-                mapOf()
+                mapOf()*/
             )
-
+/*
             problems["test1"] = Problem(
                 UUID.randomUUID(),
                 "Strange doors",
@@ -99,7 +99,7 @@ class ProblemController {
                 listOf(Example(UUID.randomUUID(), "0<br>1 2", "2", "")),
                 listOf(),
                 mapOf()
-            )
+            )*/
             val pbMap = Chili.getRedisInterface().client.getMap<String, String>("problem")
             for (key in pbMap.keys){
                 problems.put(key,Gson().fromJson(pbMap.get(key),Problem::class.java))

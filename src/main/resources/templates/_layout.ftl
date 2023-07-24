@@ -1,4 +1,5 @@
 <#macro header>
+    <#assign known = SPRING_SECURITY_CONTEXT??>
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -19,7 +20,9 @@
                     <a class="navbar-item" href="/">Home</a>
                     <a class="navbar-item" href="/blog">Blog</a>
                     <a class="navbar-item" href="/problem">Problèmes</a>
-                    <a class="navbar-item" href="/profile/test">Test</a>
+                    <#if known>
+                        <a class="navbar-item" href="/profile/test">Test</a>
+                    </#if>
                     <a class="navbar-item" href="/scoreboard">Classement</a>
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-link">Plus</a>
@@ -31,8 +34,8 @@
                 </div>
 
                 <div class="navbar-end">
-                    <#assign known = SPRING_SECURITY_CONTEXT??>
                     <#if known>
+                        <a class="navbar-item" href="/profile">Profil</a>
                         <a class="navbar-item" href="/logout">Déconnexion</a>
                     <#else>
                         <a class="navbar-item" href="/login">Se connecter</a>

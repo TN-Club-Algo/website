@@ -64,11 +64,11 @@ class SubmissionController {
         jsonMap["programLocation"] = folder.absolutePath
         jsonMap["userProgram"] = name
         jsonMap["testType"] = "input/output"
-        jsonMap["testCount"] = problem!!.tests[0].input.size
+        //jsonMap["testCount"] = problem!!.tests[0].input.size
 
         val insideMap = mutableMapOf<String, Any>()
-        insideMap["input"] = problem.tests[0].input
-        insideMap["output"] = problem.tests[0].output
+        //insideMap["input"] = problem.tests[0].input
+        //insideMap["output"] = problem.tests[0].output
 
         jsonMap["tests"] = insideMap
         val json = Gson().toJson(jsonMap).toString()

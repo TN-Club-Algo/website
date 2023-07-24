@@ -30,11 +30,26 @@
                         <tr>
                             <td><a href="/problem/${key}">${problems[key].name}</a></td>
                             <td>
-                                <#list problems[key].categories as tag>
+                                <#list problems[key].keywords as tag>
                                     <span class="tag">${tag}</span>
                                 </#list>
                             </td>
-                            <td>Non renseigné</td>
+                            <td>
+                                <#if problems[key].difficulty gt 0>
+                                    <#list 1..problems[key].difficulty as _>
+                                        <span class="icon has-text-danger">
+                                            🟐
+                                        </span>
+                                    </#list>
+                                </#if>
+                                <#if 5 - problems[key].difficulty gt 0>
+                                    <#list 1..(5 - problems[key].difficulty) as _>
+                                        <span class="icon has-text-grey-light">
+                                            🟐
+                                        </span>
+                                    </#list>
+                                </#if>
+                            </td>
                             <td>✗</td>
                         </tr>
                     </#list>
@@ -65,13 +80,28 @@
                     <tbody>
                     <#list keys as key>
                         <tr>
-                            <td><a href="/problem/${problems[key].uuid}">${problems[key].name}</a></td>
+                            <td><a href="/problem/${problems[key].slug}">${problems[key].name}</a></td>
                             <td>
-                                <#list problems[key].categories as tag>
+                                <#list problems[key].keywords as tag>
                                     <span class="tag">${tag}</span>
                                 </#list>
                             </td>
-                            <td>Non renseigné</td>
+                            <td>
+                                <#if problems[key].difficulty gt 0>
+                                    <#list 1..problems[key].difficulty as _>
+                                        <span class="icon has-text-danger">
+                                            🟐
+                                        </span>
+                                    </#list>
+                                </#if>
+                                <#if 5 - problems[key].difficulty gt 0>
+                                    <#list 1..(5 - problems[key].difficulty) as _>
+                                        <span class="icon has-text-grey-light">
+                                            🟐
+                                        </span>
+                                    </#list>
+                                </#if>
+                            </td>
                             <td>✗</td>
                         </tr>
                     </#list>
