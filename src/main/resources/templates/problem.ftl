@@ -40,7 +40,7 @@
 
             <div class="card-content">
                 <#assign i = 0>
-                <#list problem.getSamples() as example>
+                <#list problem.sampleFiles.samples as example>
                     <div class="card">
                         <div class="card-header space">
                             <div style="float: left;padding-top: 8px;padding-left: 5px;">Entrée :</div>

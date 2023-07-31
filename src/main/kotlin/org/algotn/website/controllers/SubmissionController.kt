@@ -1,8 +1,5 @@
 package org.algotn.website.controllers
 
-import com.google.gson.Gson
-import org.algotn.api.Chili
-import org.redisson.client.codec.StringCodec
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -55,7 +52,7 @@ class SubmissionController {
                     fileCopy.writeText(fl.inputStream.readBytes().decodeToString())
                 }
             }
-        }
+        }/*
 
         val problem = ProblemController.problems[problemId]
         val jsonMap = mutableMapOf<String, Any>()
@@ -72,7 +69,7 @@ class SubmissionController {
 
         jsonMap["tests"] = insideMap
         val json = Gson().toJson(jsonMap).toString()
-        Chili.getRedisInterface().client.getTopic("pepper-tests", StringCodec()).publish(json)
+        Chili.getRedisInterface().client.getTopic("pepper-tests", StringCodec()).publish(json)*/
 
         return "redirect:/profile/test";
     }
