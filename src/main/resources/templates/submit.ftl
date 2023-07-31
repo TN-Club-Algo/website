@@ -24,10 +24,10 @@
             </div>
             <div class="card-content">
                 <div class="select mb-2">
-                    <select name="lang">
-                        <option value="python3">Python 3</option>
+                    <select id="language" name="lang">
+                        <option value="python">Python 3</option>
                         <option value="kotlin">Kotlin</option>
-                        <option value="C++">C++</option>
+                        <option value="c_cpp">C++</option>
                         <option value="java">Java</option>
                     </select>
                 </div>
