@@ -17,3 +17,7 @@ fileInput.onchange = () => {
         fileName.textContent = names.slice(0,-1);
     }
 }
+
+var editor = ace.edit("editor");
+
+editor.session.setMode("ace/mode/python");

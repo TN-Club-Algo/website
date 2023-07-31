@@ -7,6 +7,7 @@
 <script src="../static/js/ace/mode-c_cpp.js" type="text/cpp" charset="utf-8"></script>
 <script src="../static/js/ace/mode-kotlin.js" type="text/kotlin" charset="utf-8"></script>
 <script src="../static/js/ace/mode-java.js" type="text/java" charset="utf-8"></script>
+<script src="../static/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../static/css/submission.css">
 <style>
@@ -32,12 +33,6 @@
                 </div>
 
                 <div id="editor" class="mb-6">some text</div>
-                <script src="../static/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
-                <script>
-                    var editor = ace.edit("editor");
-
-                    editor.session.setMode("ace/mode/python");
-                </script>
 
                 <form action="/submit/${problemId}" method="post" enctype="multipart/form-data">
                     <div id="menu">

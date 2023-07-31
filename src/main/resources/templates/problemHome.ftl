@@ -64,7 +64,7 @@
                         Page précédente
                     </a>
                 </#if>
-                <span class="ml-4 mr-4">${currentPage}</span>
+                <span class="ml-4 mr-4">${currentPage} / ${pageCount}</span>
                 <#if currentPage lt pageCount>
                     <a href="/problem?page=${currentPage + 1}" class="link-info">
                         Page suivante
