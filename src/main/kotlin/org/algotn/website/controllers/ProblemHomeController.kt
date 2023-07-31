@@ -17,14 +17,14 @@ class ProblemHomeController {
     fun seeForm(model: Model, @RequestParam("page", defaultValue = "1") page: Int): ModelAndView {
         val pageCount = Chili.getProblems().getProblems().size / problemsPerPage + 1
         model.addAttribute("pageCount", pageCount)
+        model.addAttribute("currentPage", page)
         if (page < 1 || page > pageCount) {
             return ModelAndView("redirect:/problem?page=1")
         }
 
-        val pbMap = Chili.getProblems().getProblems()
-        val subList = pbMap.toList().subList(
+        val subList = Chili.getProblems().sortedProblems.subList(
             (page - 1) * problemsPerPage,
-            (page * problemsPerPage).coerceAtMost(pbMap.size)
+            (page * problemsPerPage).coerceAtMost(Chili.getProblems().sortedProblems.size)
         )
         model.addAttribute("keys", subList.map { it.slug })
         val problems = hashMapOf<String, Problem>()
