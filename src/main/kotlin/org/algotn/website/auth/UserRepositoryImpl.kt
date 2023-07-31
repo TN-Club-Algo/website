@@ -15,24 +15,25 @@ class UserRepositoryImpl : UserRepository {
     }
 
     override fun removeUser(email: String) {
-        Chili.getRedisInterface().removeAllData("users:$email")
+        //Chili.getRedisInterface().removeAllData(email)
     }
 
     override fun userExists(email: String): Boolean {
-        return Chili.getRedisInterface().exists("users:$email")
+        return Chili.getRedisInterface().hasData(email, User::class.java)
     }
 
     override fun save(user: User) {
-        Chili.getRedisInterface().saveData("users:${user.userName}", user)
+        Chili.getRedisInterface().saveData(user.email, user)
     }
 
     override fun findByUsername(userName: String): Optional<User> {
-        Chili.getRedisInterface().getData("users:$userName", User::class.java).let {
+        if (!userExists(userName)) return Optional.empty()
+        Chili.getRedisInterface().getData(userName, User::class.java).let {
             return Optional.ofNullable(it)
         }
     }
 
-    override fun findByEmail(mail: String): Optional<User> {
-        return findByUsername(mail)
+    override fun findByEmail(userName: String): Optional<User> {
+        return findByUsername(userName)
     }
 }

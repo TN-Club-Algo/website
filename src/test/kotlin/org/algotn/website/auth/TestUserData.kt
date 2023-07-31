@@ -1,9 +1,8 @@
 package org.algotn.website.auth
 
-import org.algotn.api.database.data.UserData
 import java.util.*
 
-class TestUserData(override var email: String) : UserData() {
+class TestUserData(var email: String) : org.algotn.api.database.data.Data {
 
     constructor() : this("")
 

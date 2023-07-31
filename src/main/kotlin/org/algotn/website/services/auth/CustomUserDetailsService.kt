@@ -15,7 +15,7 @@ class CustomUserDetailsService(private val userRepository: UserRepository) : Use
             .orElseThrow { UsernameNotFoundException("User not found with username: $username") }
 
         return org.springframework.security.core.userdetails.User
-            .withUsername(user.userName)
+            .withUsername(user.email)
             .password(user.password)
             .authorities(emptyList()) // You can add authorities or roles here if needed
             .accountExpired(false)

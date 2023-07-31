@@ -31,15 +31,15 @@ class AuthController(private val userRepository: UserRepository) {
             return "redirect:/password-reset/$token"
         }
 
-/*        val user = userRepository.findByUsername(token)
+        /*        val user = userRepository.findByUsername(token)
 
-        user.password = passwordEncoder.encode(allParams["password"]!!)
+                user.password = passwordEncoder.encode(allParams["password"]!!)
 
-        userRepository.save(user)
+                userRepository.save(user)
 
-        authWithAuthManager(user.userName, user.password)
+                authWithAuthManager(user.userName, user.password)
 
-        redirectAttributes.addFlashAttribute("successMessage", "Mot de passe modifié avec succès.")*/
+                redirectAttributes.addFlashAttribute("successMessage", "Mot de passe modifié avec succès.")*/
 
         return "redirect:/"
     }
@@ -61,7 +61,10 @@ class AuthController(private val userRepository: UserRepository) {
         redirectAttributes: RedirectAttributes
     ): String {
         if (!userRepository.userExists(allParams["userName"]!!)) {
-            redirectAttributes.addFlashAttribute("errorMessage", "L'adresse email renseignée n'est associé à aucun compte.")
+            redirectAttributes.addFlashAttribute(
+                "errorMessage",
+                "L'adresse email renseignée n'est associé à aucun compte."
+            )
             return "redirect:/password-reset"
         }
 
@@ -85,27 +88,33 @@ class AuthController(private val userRepository: UserRepository) {
 
     @PostMapping("/register")
     fun register(
-        @ModelAttribute user: User,
         @RequestBody allParams: MultiValueMap<String, String>,
         redirectAttributes: RedirectAttributes
     ): String {
+        if (allParams.getFirst("userName") == null || allParams.getFirst("password") == null) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Veuillez renseigner tous les champs.")
+            return "redirect:/register"
+        }
+
         if (!validateEmail(allParams.getFirst("userName")!!)) {
             redirectAttributes.addFlashAttribute("errorMessage", "L'adresse email n'est pas valide.")
             return "redirect:/register"
         }
+
+        val user = User()
+        user.email = allParams.getFirst("userName")!!
+        user.password = allParams.getFirst("password")!!
 
         if (!allParams.containsKey("confirm-password") || allParams.getFirst("confirm-password") != user.password) {
             redirectAttributes.addFlashAttribute("errorMessage", "Les mots de passe ne correspondent pas.")
             return "redirect:/register"
         }
 
-
         user.password = passwordEncoder.encode(user.password)
-        user.email = user.userName
 
         userRepository.save(user)
 
-        authWithAuthManager(user.userName, user.password)
+        authWithAuthManager(user.email, user.password)
 
         redirectAttributes.addFlashAttribute("successMessage", "Utilisateur créé avec succès.")
 

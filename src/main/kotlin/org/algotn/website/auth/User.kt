@@ -1,10 +1,13 @@
 package org.algotn.website.auth
 
-import org.algotn.api.database.data.UserData
-import java.io.Serializable
+import org.algotn.api.database.data.Data
 
-data class User(
-    var userName: String = "",
-    var password: String = "",
-    override var email: String = "",
-) : UserData(), Serializable
+class User : Data {
+
+    var email: String = ""
+    var password: String = ""
+
+    override fun toString(): String {
+        return "User(email='$email', password='$password')"
+    }
+}
