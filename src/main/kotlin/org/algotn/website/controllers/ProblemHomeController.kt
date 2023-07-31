@@ -7,6 +7,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.ModelAndView
+import kotlin.math.ceil
 
 @Controller
 class ProblemHomeController {
@@ -15,7 +16,7 @@ class ProblemHomeController {
 
     @GetMapping("/problem")
     fun seeForm(model: Model, @RequestParam("page", defaultValue = "1") page: Int): ModelAndView {
-        val pageCount = Chili.getProblems().getProblems().size / problemsPerPage + 1
+        val pageCount = ceil(Chili.getProblems().getProblems().size / problemsPerPage.toDouble())
         model.addAttribute("pageCount", pageCount)
         model.addAttribute("currentPage", page)
         if (page < 1 || page > pageCount) {
