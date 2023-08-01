@@ -9,10 +9,16 @@
 <link rel="stylesheet" href="../../static/bulma.min.css">
 <@layout.header>
     <div class="card">
-        <header class="card-header">
+        <header class="card-header" style="position: relative;height: 54px;">
             <p class="subtitle is-4 p-3">
-                Compétitons en cour
+                Compétitons en cours
             </p>
+            <b-button id="head_centered" tag="a"
+                      href="/contest/submit"
+                      target="_blank"
+                      style="position: absolute;top: 50%;transform: translateY(-50%);right: 20px;">
+                Créer une Compétition
+            </b-button>
         </header>
         <div class="card-content">
             <div class="content">
@@ -78,33 +84,33 @@
                     </tr>
                     </thead>
                     <tbody>
-<#--                    <#list keys as key>-->
-<#--                        <tr>-->
-<#--                            <td><a href="/problem/${problems[key].slug}">${problems[key].name}</a></td>-->
-<#--                            <td>-->
-<#--                                <#list problems[key].keywords as tag>-->
-<#--                                    <span class="tag">${tag}</span>-->
-<#--                                </#list>-->
-<#--                            </td>-->
-<#--                            <td>-->
-<#--                                <#if problems[key].difficulty gt 0>-->
-<#--                                    <#list 1..problems[key].difficulty as _>-->
-<#--                                        <span class="icon has-text-danger">-->
-<#--                                            🟐-->
-<#--                                        </span>-->
-<#--                                    </#list>-->
-<#--                                </#if>-->
-<#--                                <#if 5 - problems[key].difficulty gt 0>-->
-<#--                                    <#list 1..(5 - problems[key].difficulty) as _>-->
-<#--                                        <span class="icon has-text-grey-light">-->
-<#--                                            🟐-->
-<#--                                        </span>-->
-<#--                                    </#list>-->
-<#--                                </#if>-->
-<#--                            </td>-->
-<#--                            <td>✗</td>-->
-<#--                        </tr>-->
-<#--                    </#list>-->
+                    <#--                    <#list keys as key>-->
+                    <#--                        <tr>-->
+                    <#--                            <td><a href="/problem/${problems[key].slug}">${problems[key].name}</a></td>-->
+                    <#--                            <td>-->
+                    <#--                                <#list problems[key].keywords as tag>-->
+                    <#--                                    <span class="tag">${tag}</span>-->
+                    <#--                                </#list>-->
+                    <#--                            </td>-->
+                    <#--                            <td>-->
+                    <#--                                <#if problems[key].difficulty gt 0>-->
+                    <#--                                    <#list 1..problems[key].difficulty as _>-->
+                    <#--                                        <span class="icon has-text-danger">-->
+                    <#--                                            🟐-->
+                    <#--                                        </span>-->
+                    <#--                                    </#list>-->
+                    <#--                                </#if>-->
+                    <#--                                <#if 5 - problems[key].difficulty gt 0>-->
+                    <#--                                    <#list 1..(5 - problems[key].difficulty) as _>-->
+                    <#--                                        <span class="icon has-text-grey-light">-->
+                    <#--                                            🟐-->
+                    <#--                                        </span>-->
+                    <#--                                    </#list>-->
+                    <#--                                </#if>-->
+                    <#--                            </td>-->
+                    <#--                            <td>✗</td>-->
+                    <#--                        </tr>-->
+                    <#--                    </#list>-->
                     </tbody>
                 </table>
             </div>

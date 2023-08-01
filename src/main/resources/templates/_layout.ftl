@@ -24,6 +24,7 @@
                     <#if known>
                         <a class="navbar-item" href="/profile/test">Test</a>
                     </#if>
+                    <a class="navbar-item" href="/contest">Compétitions</a>
                     <a class="navbar-item" href="/scoreboard">Classement</a>
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-link">Plus</a>

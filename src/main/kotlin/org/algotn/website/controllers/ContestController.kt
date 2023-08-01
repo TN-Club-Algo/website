@@ -1,7 +1,11 @@
 package org.algotn.website.controllers
 
+import org.algotn.api.Chili
+import org.algotn.api.problem.Problem
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.servlet.ModelAndView
 
 @Controller
 class ContestController {
@@ -12,8 +16,14 @@ class ContestController {
     }
 
     @GetMapping("/contest/submit")
-    fun submit(): String {
-        return "contest/submit"
+    fun submit(model: Model): ModelAndView {
+//        val printProblems = hashMapOf<String, Problem>()
+        val listProblems = Chili.getProblems().sortedProblems//.forEach {
+//            printProblems[it.slug] = it
+//        }
+//        print(printProblems)
+        model.addAttribute("keys", listProblems.map { it.slug })
+        return ModelAndView("contest/submit")
     }
 
     @GetMapping("/contest/createIssue")
