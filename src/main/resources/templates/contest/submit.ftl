@@ -2,7 +2,7 @@
 
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../static/css/new_problem.css">
-<script src="../static/js/problem_selection.js"
+<script type="module"  src="../static/js/problem_selection.js"
 <@layout.header>
     <div id="container">
         <div class="card">
@@ -11,25 +11,30 @@
             </div>
             <div class="card-content">
                 <form action="/new_problem" method="post" enctype="multipart/form-data">
-                    <section>
-                        <p class="content"><b>Selected:</b> {{ selected }}</p>
-                        <b-field label="Find a JS framework">
-                            <b-autocomplete
-                                    rounded
-                                    v-model="name"
-                                    :data="filteredDataArray"
-                                    placeholder="e.g. jQuery"
-                                    icon="magnify"
-                                    clearable
-                                    @select="option => selected = option">
-                                <template #empty>No results found</template>
-                            </b-autocomplete>
-                        </b-field>
-                    </section>
+                    <div id="app_test" class="container">
+                        <section>
+                            <p class="content"><b>Selected:</b> {{ selected }}</p>
+                            <b-field label="Find a JS framework">
+                                <b-autocomplete
+                                        rounded
+                                        v-model="name"
+                                        :data="filteredDataArray"
+                                        placeholder="e.g. jQuery"
+                                        icon="magnify"
+                                        clearable
+                                        @select="option => selected = option">
+                                    <template #empty>No results found</template>
+                                </b-autocomplete>
+                            </b-field>
+                        </section>
+                    </div>
+
+
+
 
 
                     <div class="field">
-                        <label class="label">Problem Name</label>
+                        <label class="label">Contest Name</label>
                         <div class="control">
                             <input class='input' type="text" name="pbName">
                         </div>
@@ -65,7 +70,7 @@
 
                     <br>
                     <button class="mt-3 button is-fullwidth">
-                        Create Problem
+                        Créer la Compétition
                     </button>
 
                 </form>

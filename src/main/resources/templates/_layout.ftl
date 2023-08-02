@@ -10,6 +10,9 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://kit.fontawesome.com/701effbac8.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+        <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+        <script src="../../static/js/jquery.min.js"></script>
         <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
         <#--<link rel="icon" type="image/png" href=""/>-->
     </head>
@@ -55,14 +58,16 @@
             }
         </style>
 
-        <div id="app">
+        <div>
             <#nested>
         </div>
 
 <#--        <script src="https://unpkg.com/vue@2"></script>-->
         <!-- Full bundle -->
-        <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
-
+        <script>
+            const app = new Vue()
+            app.$mount('#app')
+        </script>
         <!-- Individual components -->
         <script src="https://unpkg.com/buefy/dist/components/table"></script>
         <script src="https://unpkg.com/buefy/dist/components/input"></script>

@@ -81,10 +81,8 @@
          for a more production like setup it is recommended to setup a build process
          to transpile and minify the code (such as using webpack)
      -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script>
-    <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
-    <script type="text/babel">
+
+    <script>
         // player-card is now a Vue component that generates a 'card' showing a player
         // It can be used
         // declaratively like <player-card v-bind:player="someplayer">
@@ -150,7 +148,7 @@
             }
         }
 
-        const app = new Vue(example)
-        app.$mount('#app_test')
+        const app_test = new Vue(example)
+        app_test.$mount('#app_test')
     </script>
 </@layout.header>

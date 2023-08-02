@@ -1,7 +1,6 @@
 package org.algotn.website.controllers
 
 import org.algotn.api.Chili
-import org.algotn.api.problem.Problem
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,6 +14,15 @@ class ContestController {
         return "contest/contestIndex"
     }
 
+    @GetMapping("/contest/test")
+    fun index(model: Model): String {
+        model.addAttribute("eventName", "FIFA 2018")
+        return "contest/test"
+    }
+//    @GetMapping("/contest/test")
+//    fun test():String{
+//        return "contest/test"
+//    }
     @GetMapping("/contest/submit")
     fun submit(model: Model): ModelAndView {
 //        val printProblems = hashMapOf<String, Problem>()

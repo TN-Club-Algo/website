@@ -6,19 +6,20 @@
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <meta charset="UTF-8">
 <script src="../../static/js/app.js"></script>
-<link rel="stylesheet" href="../../static/bulma.min.css">
 <@layout.header>
     <div class="card">
         <header class="card-header" style="position: relative;height: 54px;">
             <p class="subtitle is-4 p-3">
                 Compétitons en cours
             </p>
+            <div id="app" class="container">
             <b-button id="head_centered" tag="a"
                       href="/contest/submit"
                       target="_blank"
                       style="position: absolute;top: 50%;transform: translateY(-50%);right: 20px;">
                 Créer une Compétition
             </b-button>
+            </div>
         </header>
         <div class="card-content">
             <div class="content">
