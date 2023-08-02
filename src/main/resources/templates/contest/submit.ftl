@@ -2,7 +2,7 @@
 
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../static/css/new_problem.css">
-<script type="module"  src="../static/js/problem_selection.js"
+<script type="module" src="../static/js/problem_selection.js"
 <@layout.header>
     <div id="container">
         <div class="card">
@@ -13,24 +13,42 @@
                 <form action="/new_problem" method="post" enctype="multipart/form-data">
                     <div id="app_test" class="container">
                         <section>
-                            <p class="content"><b>Selected:</b> {{ selected }}</p>
-                            <b-field label="Find a JS framework">
+                            <p v-for="(option, index) in selected" :key="index">
+                                Selected: {{index + 1}}) {{option}}
+                                <button type="button" onclick="removeSelectedOption(index)">Remove</button>
+                            </p>
+                            <b-field label="Find problems">
                                 <b-autocomplete
                                         rounded
-                                        v-model="name"
-                                        :data="filteredDataArray"
-                                        placeholder="e.g. jQuery"
+                                        :value="name"
+
+<#--                                        v-model="name"-->
+                                        :data="filteredDataObj"
+                                        placeholder="e.g. ex1"
                                         icon="magnify"
-                                        clearable
-                                        @select="option => selected = option">
+                                        :clearable="clearable"
+                                        @input="updateName"
+                                        @select="selectOption">
                                     <template #empty>No results found</template>
                                 </b-autocomplete>
                             </b-field>
+
+                            <#--                            <p class="content"><b>Selected:</b> {{ selected }}</p>-->
+                            <#--                            <b-field label="Find problems">-->
+                            <#--                                <b-autocomplete-->
+                            <#--                                        rounded-->
+                            <#--                                        v-model="name"-->
+                            <#--                                        :data="filteredDataObj"-->
+                            <#--                                        field="slug"-->
+                            <#--                                        placeholder="e.g. ex1"-->
+                            <#--                                        icon="magnify"-->
+                            <#--                                        clearable-->
+                            <#--                                        @select="option => (selected = option)">-->
+                            <#--                                    <template #empty>No results found</template>-->
+                            <#--                                </b-autocomplete>-->
+                            <#--                            </b-field>-->
                         </section>
                     </div>
-
-
-
 
 
                     <div class="field">

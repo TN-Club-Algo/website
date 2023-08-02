@@ -14,7 +14,12 @@ class jsController {
     @GetMapping("/get_problems")
     @ResponseBody
     fun showAllCategories(): String{
-        val problems = Chili.getProblems().sortedProblems.map { it.slug }
+        val problems = Chili.getProblems().sortedProblems.map { val cur_map = HashMap<String,Any>();
+            cur_map.put("slug",it.slug);
+            cur_map.put("difficulty",it.difficulty);
+            cur_map.put("author",it.author)
+            cur_map.put("type",it.type)
+            Gson().toJson(cur_map) }
 //        print(problems.toString())
 //        val json = ""
 //        for (pb in problems){
