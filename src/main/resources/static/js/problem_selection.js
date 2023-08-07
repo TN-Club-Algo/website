@@ -44,6 +44,8 @@
 // function resizeInput() {
 //     this.style.width = this.value.length + "ch";
 // }
+// import SvgIcon from '/@jamescoyle/vue-icon'
+// import { mdiAccount } from '/@mdi/js'
 const problems = $.getJSON('/get_problems', function (json) {
 
     // console.log(problems)
@@ -70,15 +72,28 @@ const problems = $.getJSON('/get_problems', function (json) {
     console.log(json_problem);
     console.log(json_problem[0])
     const example = {
+        // components:{
+        //     SvgIcon
+        // },
         data() {
             return {
                 data: json_problem,
                 name: '',
                 selected: [],
-                clearable: true
+                clearable: true,
+                begDate: new Date(),
+                showWeekNumber: false,
+                enableSeconds: false,
+                hourFormat: undefined, // Browser locale
+                locale: undefined, // Browser locale
+                firstDayOfWeek: undefined, // 0 - Sunday
+                endDate: new Date()
             }
         },
         methods: {
+            clearDateTime () {
+                this.selected = null
+            },
             selectOption(option) {
                 console.log("select update")
                 console.log(option)
@@ -90,6 +105,9 @@ const problems = $.getJSON('/get_problems', function (json) {
                     this.name = ""
                     console.log(this.selected);
                 }
+            },
+            showDate(date){
+              console.log(date)
             },
             updateScore(event,index){
                 console.log("score update")

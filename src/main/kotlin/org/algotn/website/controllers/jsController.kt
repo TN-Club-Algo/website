@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 class jsController {
     @GetMapping("/get_problems")
     @ResponseBody
-    fun showAllCategories(): String{
+    fun showAllProblems(): String{
         val problems = Chili.getProblems().sortedProblems.map { val cur_map = HashMap<String,Any>();
             cur_map.put("slug",it.slug);
             cur_map.put("difficulty",it.difficulty);
@@ -25,7 +25,7 @@ class jsController {
 //        for (pb in problems){
 //            json = j
 //        }
-        print(Gson().toJson(problems))
+        println(Gson().toJson(problems))
         return Gson().toJson(problems)
     }
 }

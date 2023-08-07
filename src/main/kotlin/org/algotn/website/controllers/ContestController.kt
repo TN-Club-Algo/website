@@ -4,7 +4,11 @@ import org.algotn.api.Chili
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.ModelAndView
+import java.time.ZonedDateTime
+import java.util.*
 
 @Controller
 class ContestController {
@@ -19,7 +23,8 @@ class ContestController {
         model.addAttribute("eventName", "FIFA 2018")
         return "contest/test"
     }
-//    @GetMapping("/contest/test")
+
+    //    @GetMapping("/contest/test")
 //    fun test():String{
 //        return "contest/test"
 //    }
@@ -33,6 +38,35 @@ class ContestController {
         model.addAttribute("keys", listProblems.map { it.slug })
         return ModelAndView("contest/submit")
     }
+
+    @PostMapping("/contest/submit")
+    fun sendForm(
+        @RequestParam("pbSelected") problems: String,
+        @RequestParam("begDate") begDate: String,
+        @RequestParam("endDate") endDate: String,
+        @RequestParam("contestName") contestName: String,
+        @RequestParam("organisator") organisator: String,
+        @RequestParam("desc") desc: String,
+
+        ): String {
+        println("form in submit")
+        println(problems)
+        println(begDate)
+        println(endDate)
+        println(contestName)
+        println(organisator)
+        println(desc)
+        /* val pbMap = Chili.getRedisInterface().client.getMap<String, String>("problem")
+
+         val newPb = Problem(UUID.randomUUID(),pbName,statement,input,output,"Temps maximal d'exécution : 1s<br>" +
+                 "Quantité de mémoire maximale : 100 MB", listOf(), listOf(), mapOf())
+         val newPbJson = Gson().toJson(newPb)
+         pbMap.put(pbName,newPbJson)
+
+         // @todo et all inputs and create problem to add to the map*/
+        return "/contest/submit";
+    }
+
 
     @GetMapping("/contest/createIssue")
     fun issue(): String {
