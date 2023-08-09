@@ -1,6 +1,8 @@
 package org.algotn.website.controllers
 
 import org.algotn.api.Chili
+import org.algotn.api.contest.Contest
+import org.algotn.api.contest.ContestType
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -58,6 +60,18 @@ class ContestController {
         println(organisator)
         println(desc)
 //        println(Instant.parse(begDate))
+
+        val contestMap = Chili.getRedisInterface().client.getMap<String, String>("contest")
+        val newContest = Contest()
+        newContest.name = contestName
+        newContest.organisator = organisator
+        newContest.beginning = begDate
+        newContest.end = endDate
+
+        for (problem in problems) {
+            val pbContest = ContestProblem(problem)
+            newContest.addProblem(pbContest)
+        }
         /* val pbMap = Chili.getRedisInterface().client.getMap<String, String>("problem")
 
          val newPb = Problem(UUID.randomUUID(),pbName,statement,input,output,"Temps maximal d'exécution : 1s<br>" +
