@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.ModelAndView
+import java.time.Instant
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -56,6 +57,7 @@ class ContestController {
         println(contestName)
         println(organisator)
         println(desc)
+//        println(Instant.parse(begDate))
         /* val pbMap = Chili.getRedisInterface().client.getMap<String, String>("problem")
 
          val newPb = Problem(UUID.randomUUID(),pbName,statement,input,output,"Temps maximal d'exécution : 1s<br>" +

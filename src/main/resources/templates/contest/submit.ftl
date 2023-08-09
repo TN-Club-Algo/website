@@ -184,7 +184,7 @@
 <#--                                                @click="begDate = null"/>-->
 <#--                                    </b-datetimepicker>-->
 <#--                                </b-field>-->
-                                <input type="hidden" name="begDate" v-model="begDate"/>
+                                <input type="hidden" name="begDate" v-model="begDate.toISOString()"/>
                             </div>
                             <div class="column">
                                 <b-field grouped group-multiline label="Select end date">
@@ -246,7 +246,7 @@
                                                 @click="endDate = null"/>
                                     </b-datetimepicker>
                                 </b-field>
-                                <input type="hidden" name="endDate" v-model="endDate"/>
+                                <input type="hidden" name="endDate" v-model="endDate.toISOString()"/>
                             </div>
                         </div>
                         <div>
