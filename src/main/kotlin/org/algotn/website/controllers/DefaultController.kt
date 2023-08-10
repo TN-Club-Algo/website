@@ -10,8 +10,7 @@ class DefaultController {
 
     @GetMapping("/")
     fun index(model: Model): ModelAndView {
-        model.addAttribute("keys", listOf(Pair("https://res.cloudinary.com/practicaldev/image/fetch/s--MZvaMEOV--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qll2w5atklv13ljmqope.png", "/problem")
-            , Pair("https://wallpaperaccess.com/full/254361.jpg", "/test")))
+        model.addAttribute("keys", listOf(Pair("/api/image/alise-30-ans.png", "/problem")))
         return ModelAndView("index")
     }
 
