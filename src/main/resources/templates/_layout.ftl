@@ -14,46 +14,55 @@
     </head>
     <body>
     <div class="container">
-
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item" href="/">Home</a>
-                    <a class="navbar-item" href="/blog">Blog</a>
-                    <a class="navbar-item" href="/problem">Problèmes</a>
-                    <#if known>
-                        <a class="navbar-item" href="/profile/test">Test</a>
-                    </#if>
-                    <a class="navbar-item" href="/scoreboard">Classement</a>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">Plus</a>
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item" href="@{/contact}">Contact</a>
-                            <a class="navbar-item" href="@{/legalNotice}">Legals</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="navbar-end">
-                    <#if known>
-                        <a class="navbar-item" href="/profile">Profil</a>
-                        <a class="navbar-item" href="/logout">Déconnexion</a>
-                    <#else>
-                        <a class="navbar-item" href="/login">Se connecter</a>
-                    </#if>
-                </div>
-            </div>
-        </nav>
-
-        <style>
-            .navbar-menu {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-        </style>
-
         <div id="app">
+            <template>
+                <b-navbar>
+                    <template #brand>
+                        <b-navbar-item tag="router-link" :to="{ path: '/' }">
+                            <img
+                                    src="/api/image/algotn.webp"
+                                    alt="AlgoTN"
+                            >
+                        </b-navbar-item>
+                    </template>
+                    <template #start>
+                        <b-navbar-item href="#">
+                            Accueil
+                        </b-navbar-item>
+                        <b-navbar-item href="/blog">
+                            Blog
+                        </b-navbar-item>
+                        <b-navbar-item href="/problem">
+                            Problèmes
+                        </b-navbar-item>
+                        <#if known>
+                            <b-navbar-item href="/profile/test">
+                                Tests
+                            </b-navbar-item>
+                        </#if>
+                        <b-navbar-item href="/scoreboard">
+                            Classement
+                        </b-navbar-item>
+                    </template>
+
+                    <template #end>
+                        <#if known>
+                            <b-navbar-item href="/profile">
+                                Profil
+                            </b-navbar-item>
+                            <b-navbar-item href="/logout">
+                                Déconnexion
+                            </b-navbar-item>
+                        <#else>
+                            <b-navbar-item href="/login">
+                                Se connecter
+                            </b-navbar-item>
+                        </#if>
+
+                    </template>
+                </b-navbar>
+            </template>
+
             <#nested>
         </div>
 
