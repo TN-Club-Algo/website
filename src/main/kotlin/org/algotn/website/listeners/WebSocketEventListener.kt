@@ -2,8 +2,8 @@ package org.algotn.website.listeners
 
 import com.google.gson.Gson
 import org.algotn.api.Chili
-import org.algotn.website.Test
 import org.algotn.website.api.TestJSON
+import org.algotn.website.data.TestData
 import org.redisson.client.codec.StringCodec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.event.EventListener
@@ -27,15 +27,15 @@ class WebSocketEventListener {
     private val gson = Gson()
 
     init {
-        Chili.getRedisInterface().client.getTopic("pepper-inner-test-results", StringCodec())
+        Chili.getRedisInterface().client.getTopic("pepper-test-results", StringCodec())
             .addListener(String::class.java) { _, result ->
                 val retMap = gson.fromJson(result, Map::class.java)
-
+                val email = retMap["email"].toString()
                 val problem = Chili.getProblems().getProblem(retMap["problemSlug"].toString())
                 if (problem != null) {
                     val testJson = TestJSON(
                         retMap["testID"].toString(),
-                        retMap["email"].toString(),
+                        email,
                         problem,
                         retMap["codeURL"].toString(),
                         retMap["progress"].toString(),
@@ -45,34 +45,48 @@ class WebSocketEventListener {
 
                     testsInProgress[testJson.email] = testJson
 
-                    this.template!!.convertAndSend(
-                        "/return/tests",
-                        Test(
-                            retMap["problemName"].toString(),
-                            retMap["index"].toString().toFloat().toInt(),
-                            retMap["answer"].toString(),
-                            retMap["ok"].toString().toBoolean()
-                        )
+                    // save for user
+                    val data = Chili.getRedisInterface().getData(email, TestData::class.java)
+                    data!!.testInProgress = null
+
+                    data.allTests.add(testJson)
+                    Chili.getRedisInterface().saveData(email, data)
+
+                    this.template!!.convertAndSend("/return/tests", testJson)
+                }
+            }
+
+        Chili.getRedisInterface().client.getTopic("pepper-inner-test-results", StringCodec())
+            .addListener(String::class.java) { _, result ->
+                val retMap = gson.fromJson(result, Map::class.java)
+
+                val email = retMap["email"].toString()
+                val problem = Chili.getProblems().getProblem(retMap["problemSlug"].toString())
+                if (problem != null) {
+                    val testJson = TestJSON(
+                        retMap["testID"].toString(),
+                        email,
+                        problem,
+                        retMap["codeURL"].toString(),
+                        retMap["progress"].toString(),
+                        retMap["timeElapsed"].toString(),
+                        retMap["memoryUsed"].toString()
                     )
+
+                    testsInProgress[testJson.email] = testJson
+
+                    // save for user
+                    val data = Chili.getRedisInterface().getData(email, TestData::class.java)
+                    data!!.testInProgress = testJson
+
+                    Chili.getRedisInterface().saveData(email, data)
+
+                    this.template!!.convertAndSend("/return/tests", testJson)
                 }
             }
     }
 
     @EventListener
     fun handleSessionConnection(event: SessionConnectEvent) {
-        println("connected")
     }
-
-    /*@Scheduled(fixedRate = 2000)
-    fun fireGreeting() {
-        println("yo")
-        this.template!!.convertAndSend(
-            "/return/tests",
-            Test(
-                "Fire", ThreadLocalRandom.current().nextInt(0, 123),
-                "aefzhek:", Random().nextBoolean()
-            )
-        )
-    }*/
-
 }
