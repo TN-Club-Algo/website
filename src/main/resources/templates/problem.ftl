@@ -1,12 +1,5 @@
 <#import "./_layout.ftl" as layout /><#-- not an error -->
 <!DOCTYPE html>
-
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script type="module">
-
-    import { LaTeXJSComponent } from "https://cdn.jsdelivr.net/npm/latex.js/dist/latex.mjs"
-    customElements.define("latex-js", LaTeXJSComponent)
-</script>
 <meta charset="UTF-8">
 <@layout.header>
     <div style="width: 75%; margin: auto">
@@ -28,40 +21,22 @@
         </div>
 
         <span class="m-3"></span>
+
+        <div id="statement" class="content"></div>
     </div>
+    <script type="application/javascript">
+        window.texme = {
+            renderOnLoad: false,
+            style: 'none',
+        }
+    </script>
+    <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+    <script type="application/javascript">
+        $(window).on('load', function () {
+            var body = document.body.innerHTML
+            document.body.innerHTML = `<div id="statement" class="content">${problemStatement}</div>`
+            texme.renderPage()
+            document.body.innerHTML = body.replace(`<div id="statement" class="content"></div>`, document.body.innerHTML)
+        });
+    </script>
 </@layout.header>
-
-<div class="container-fluid">
-    <latex-js baseURL="https://cdn.jsdelivr.net/npm/latex.js/dist/">
-        ${problem.fullStatement}
-    </latex-js>
-</div>
-
-<div class="card">
-    <div class="card-header no_shadow">
-        <p class="card-header-title is-size-5">Exemples :</p>
-    </div>
-
-    <div class="card-content">
-        <#assign i = 0>
-        <#list problem.sampleFiles.samples as example>
-            <div class="card">
-                <div class="card-header space">
-                    <div style="float: left;padding-top: 8px;padding-left: 5px;">Entrée :</div>
-                </div>
-                <div class="card-content">
-                    <div id="example-input-${i}">${example.first}</div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <div style="padding-left: 5px;">Sortie :</div>
-                </div>
-                <div class="card-content">
-                    <div id="example-output-${i}">${example.second}</div>
-                </div>
-            </div>
-            <br>
-        </#list>
-    </div>
-</div>
