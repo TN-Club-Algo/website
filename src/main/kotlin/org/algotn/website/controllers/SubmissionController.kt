@@ -30,6 +30,7 @@ class SubmissionController {
         if (lang == "python3") name += ".py"
         var file: File? = null
         val testUUID = UUID.randomUUID().toString()
+        // Save test to file
         val folder = File("tests/$testUUID")
         folder.mkdirs()
         if (files.size == 0) {

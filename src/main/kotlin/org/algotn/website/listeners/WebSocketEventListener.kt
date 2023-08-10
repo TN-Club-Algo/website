@@ -60,11 +60,12 @@ class WebSocketEventListener {
             .addListener(String::class.java) { _, result ->
                 val retMap = gson.fromJson(result, Map::class.java)
 
+                val id = retMap["testID"].toString()
                 val email = retMap["email"].toString()
                 val problem = Chili.getProblems().getProblem(retMap["problemSlug"].toString())
                 if (problem != null) {
                     val testJson = TestJSON(
-                        retMap["testID"].toString(),
+                        id,
                         email,
                         problem,
                         retMap["codeURL"].toString(),
