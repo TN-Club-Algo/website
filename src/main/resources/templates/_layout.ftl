@@ -15,7 +15,7 @@
     <body>
     <div class="container">
         <div id="app">
-            <template>
+            <template class="mb-3">
                 <b-navbar>
                     <template #brand>
                         <b-navbar-item tag="router-link" :to="{ path: '/' }">
@@ -26,7 +26,7 @@
                         </b-navbar-item>
                     </template>
                     <template #start>
-                        <b-navbar-item href="#">
+                        <b-navbar-item href="/">
                             Accueil
                         </b-navbar-item>
                         <b-navbar-item href="/blog">
@@ -62,9 +62,9 @@
                     </template>
                 </b-navbar>
             </template>
-
-            <#nested>
         </div>
+
+        <#nested>
 
         <script src="https://unpkg.com/vue@2"></script>
         <!-- Full bundle -->

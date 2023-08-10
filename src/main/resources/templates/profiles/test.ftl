@@ -4,8 +4,8 @@
 <script src="../../static/js/jquery.min.js"></script>
 <script src="../../static/js/stomp.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script type="module" src="../../static/js/app.js"></script>
 <meta charset="UTF-8">
-<script src="../../static/js/app.js"></script>
 <link rel="stylesheet" href="../../static/bulma.min.css">
 <@layout.header>
     <h1 class="title is-1" style="text-align: center">Tests</h1>
@@ -14,8 +14,16 @@
         <h2 class="subtitle">Test en cours</h2>
     </div>
 
+    <div id="testApp">
+        <template>
+            <b-table :data="data" :columns="columns"></b-table>
+        </template>
+    </div>
+
     <div class="test" style="display: block;">
-        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" id="conversation">
+
+
+<!--        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" id="conversation">
             <thead class="testTableHead">
             <tr class="testTableHeaderRow">
                 <th>Nom du problème</th>
@@ -25,6 +33,6 @@
             </tr>
             </thead>
             <tbody class="testTable-Body" id="result"></tbody>
-        </table>
+        </table>-->
     </div>
 </@layout.header>

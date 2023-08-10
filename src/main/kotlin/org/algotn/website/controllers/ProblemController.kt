@@ -25,7 +25,7 @@ class ProblemController {
 
         var problemStatement = problem!!.fullStatement
         if (problem.sampleFiles.samples.isNotEmpty()) {
-            problemStatement += "## Exemples\n"
+            problemStatement += "\n## Exemples\n"
             problem.sampleFiles.samples.forEachIndexed { index, sample ->
                 problemStatement += "### Exemple ${index + 1}\n"
 

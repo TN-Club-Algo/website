@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "sockjs-client": "^1.6.1",
-    "vue": "^3.3.4"
+    "vue": "^2.6.11",
+    "buefy": "^0.9.23"
   }
 }
