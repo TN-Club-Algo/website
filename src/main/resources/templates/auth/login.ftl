@@ -84,30 +84,28 @@
         }
     </style>
 
-    <script>
-        $(document).ready(function () {
-            $("#loginForm").submit(function (event) {
-                event.preventDefault(); // Prevent form submission
+    <script type="application/javascript">
+        $("#loginForm").submit(function (event) {
+            event.preventDefault(); // Prevent form submission
 
-                const formData = $(this).serialize();
-                $.ajax({
-                    type: "POST",
-                    url: "/login",
-                    data: formData,
-                    dataType: "json",
-                    success: function (data) {
-                        $("#successNotification").remove();
-                        if (!data.success) {
-                            $("#password").val("");
-                            $("#errorNotification").html(data.message).removeClass("is-invisible");
-                        } else {
-                            window.location.href = data.redirect;
-                        }
-                    },
-                    error: function (error) {
-                        console.error("Error:", error);
+            const formData = $(this).serialize();
+            $.ajax({
+                type: "POST",
+                url: "/login",
+                data: formData,
+                dataType: "json",
+                success: function (data) {
+                    $("#successNotification").remove();
+                    if (!data.success) {
+                        $("#password").val("");
+                        $("#errorNotification").html(data.message).removeClass("is-invisible");
+                    } else {
+                        window.location.href = data.redirect;
                     }
-                });
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
             });
         });
     </script>

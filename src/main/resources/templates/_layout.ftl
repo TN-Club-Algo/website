@@ -10,7 +10,16 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://kit.fontawesome.com/701effbac8.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css">
         <link rel="icon" type="image/x-icon" href="/api/image/algotn.ico">
+
+        <script src="https://unpkg.com/vue@2"></script>
+        <!-- Full bundle -->
+        <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+
+        <!-- Individual components -->
+        <script src="https://unpkg.com/buefy/dist/components/table"></script>
+        <script src="https://unpkg.com/buefy/dist/components/input"></script>
     </head>
     <body>
     <div class="container">
@@ -65,14 +74,6 @@
         </div>
 
         <#nested>
-
-        <script src="https://unpkg.com/vue@2"></script>
-        <!-- Full bundle -->
-        <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
-
-        <!-- Individual components -->
-        <script src="https://unpkg.com/buefy/dist/components/table"></script>
-        <script src="https://unpkg.com/buefy/dist/components/input"></script>
 
         <script>
             new Vue({
