@@ -16,7 +16,8 @@ class ProblemHomeController {
 
     @GetMapping("/problem")
     fun seeForm(model: Model, @RequestParam("page", defaultValue = "1") page: Int): ModelAndView {
-        val pageCount = ceil(Chili.getProblems().getProblems().size / problemsPerPage.toDouble())
+        var pageCount = ceil(Chili.getProblems().getProblems().size / problemsPerPage.toDouble()).toInt()
+        if (pageCount < 1) pageCount = 1
         model.addAttribute("pageCount", pageCount)
         model.addAttribute("currentPage", page)
         if (page < 1 || page > pageCount) {

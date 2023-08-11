@@ -1,12 +1,7 @@
 <#import "./_layout.ftl" as layout /><#-- not an error -->
 
 <title>Liste des Problèmes</title>
-<script src="../../static/js/jquery.min.js"></script>
-<script src="../../static/js/stomp.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <meta charset="UTF-8">
-<script src="../../static/js/app.js"></script>
-<link rel="stylesheet" href="../../static/bulma.min.css">
 <@layout.header>
     <div class="card mt-6">
         <header class="card-header">

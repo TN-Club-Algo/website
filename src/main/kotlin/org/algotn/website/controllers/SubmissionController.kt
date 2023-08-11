@@ -88,11 +88,12 @@ class SubmissionController {
         }
 
         val jsonMap = mutableMapOf<String, Any>()
-        jsonMap["problemName"] = problem.slug
+        jsonMap["problemSlug"] = problem.slug
         jsonMap["id"] = testUUID
         jsonMap["infoURL"] = "/api/tests/restricted/${problem.slug}/info"
         jsonMap["programURL"] = "/api/tests/restricted/$testUUID"
         jsonMap["userProgram"] = name
+        jsonMap["language"] = lang
 
         val json = gson.toJson(jsonMap).toString()
         Chili.getRedisInterface().client.getTopic("pepper-tests", stringCodec).publish(json)
