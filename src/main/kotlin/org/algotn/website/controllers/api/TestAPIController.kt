@@ -1,6 +1,7 @@
 package org.algotn.website.controllers.api
 
 import org.algotn.api.Chili
+import org.algotn.api.tests.TestType
 import org.algotn.website.api.TestJSON
 import org.algotn.website.auth.UserRepository
 import org.algotn.website.data.TestData
@@ -50,6 +51,7 @@ class TestAPIController {
         if (user.isPresent) {
             val testData = Chili.getRedisInterface().getData(principal.name, TestData::class.java)!!
             if (testData.testsIds.contains(id)) {
+                // TODO: might want to change file name to match the language
                 return fileLocationService!!.findInFileSystem(id)
             }
         }
@@ -57,19 +59,42 @@ class TestAPIController {
     }
 
     // Need secret to access url
-    @GetMapping("/{problemSlug}/info")
+    @GetMapping("/restricted/{id}")
+    @ResponseBody
+    fun getTestCodeSecret(@PathVariable id: String): FileSystemResource {
+        return fileLocationService!!.findInFileSystem(id)
+    }
+
+    // Need secret to access url
+    @GetMapping("/restricted/{problemSlug}/info")
     fun getTestInformation(@PathVariable problemSlug: String): Map<String, Any> {
         val problem = Chili.getProblems().getProblem(problemSlug) ?: return mapOf("error" to "Problem not found")
 
         val map = mutableMapOf<String, Any>()
         map["problemSlug"] = problemSlug
         map["problemName"] = problem.name
-        map["testNames"] = problem.secretFiles.secretFiles
+
+        val tests = arrayListOf<Map<String, Any>>()
+
+        problem.secretFiles.secretFiles.forEach {
+            val testMap = mutableMapOf<String, Any>()
+            testMap["name"] = it
+            val type = problem.secretFiles.secretTestsTypes[it]!!
+            testMap["type"] = type.name
+
+            if (type == TestType.INPUT_OUTPUT) {
+                testMap["inputURL"] = "/api/tests/restricted/$problemSlug/in/$it.in"
+                testMap["outputURL"] = "/api/tests/restricted/$problemSlug/ans/$it.ans"
+            }
+
+            tests.add(testMap)
+        }
+        map["tests"] = tests
         return map
     }
 
     // Need secret to access url
-    @GetMapping("/{problemSlug}/in/{testName}.in")
+    @GetMapping("/restricted/{problemSlug}/in/{testName}.in")
     fun getTestInput(@PathVariable problemSlug: String, @PathVariable testName: String): ResponseEntity<*> {
         val problem = Chili.getProblems().getProblem(problemSlug) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
 

@@ -25,5 +25,6 @@ editor.session.setMode("ace/mode/python");
 $("#language").on("change", function () {
     console.log($(this).find(":selected"))
     var mode = $(this).find(":selected").val();
+    if (mode === "c") mode = "c_cpp";
     editor.session.setMode("ace/mode/" + mode);
 });

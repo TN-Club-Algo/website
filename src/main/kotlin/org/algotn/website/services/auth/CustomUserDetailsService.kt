@@ -17,7 +17,7 @@ class CustomUserDetailsService(private val userRepository: UserRepository) : Use
         return org.springframework.security.core.userdetails.User
             .withUsername(user.email)
             .password(user.password)
-            .authorities(emptyList()) // You can add authorities or roles here if needed
+            .authorities(emptyList())
             .accountExpired(false)
             .accountLocked(false)
             .credentialsExpired(false)

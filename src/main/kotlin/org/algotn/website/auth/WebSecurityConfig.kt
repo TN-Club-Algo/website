@@ -66,7 +66,7 @@ open class WebSecurityConfig {
                     .requestMatchers("/", "/error", "/blog", "/problem", "/scoreboard", "/problem/{slug}").permitAll()
                     .requestMatchers("/api/image/**").permitAll()
                     .requestMatchers("/register", "/login", "/password-reset", "/password-reset/{token}").anonymous()
-                    .requestMatchers("/api/tests/{problemSlug}/**").hasAuthority("SECRET")
+                    .requestMatchers("/api/tests/restricted/**").hasAuthority("SECRET")
                     .anyRequest().authenticated()
             }
             .exceptionHandling {
