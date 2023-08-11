@@ -28,7 +28,7 @@ open class WebSecurityConfig {
     private var requestHeaderAuthenticationProvider: RequestHeaderAuthenticationProvider =
         RequestHeaderAuthenticationProvider()
 
-    fun authenticationManager(http: HttpSecurity): AuthenticationManager {
+    fun authenticationManager(): AuthenticationManager {
         return AuthenticationManager { authentication ->
             if (UserRepositoryImpl.doesUserMatchPassword(
                     authentication.name,
