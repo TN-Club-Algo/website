@@ -3,7 +3,9 @@ package org.algotn.website.controllers
 import org.algotn.website.auth.User
 import org.algotn.website.auth.UserRepository
 import org.algotn.website.auth.WebSecurityConfig
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -17,6 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 class AuthController(private val userRepository: UserRepository) {
 
     private val passwordEncoder = BCryptPasswordEncoder()
+
+    @Autowired
+    private var webSecurityConfig: WebSecurityConfig? = null
 
     @PostMapping("/password-reset/{token}")
     fun passwordResetToken(
@@ -89,6 +94,7 @@ class AuthController(private val userRepository: UserRepository) {
     @PostMapping("/register")
     fun register(
         @RequestBody allParams: MultiValueMap<String, String>,
+        httpSecurity: HttpSecurity,
         redirectAttributes: RedirectAttributes
     ): String {
         if (allParams.getFirst("userName") == null || allParams.getFirst("password") == null) {
@@ -114,16 +120,16 @@ class AuthController(private val userRepository: UserRepository) {
 
         userRepository.save(user)
 
-        authWithAuthManager(user.email, user.password)
+        authWithAuthManager(httpSecurity, user.email, user.password)
 
         redirectAttributes.addFlashAttribute("successMessage", "Utilisateur créé avec succès.")
 
         return "redirect:/login"
     }
 
-    private fun authWithAuthManager(username: String?, password: String?) {
+    private fun authWithAuthManager(httpSecurity: HttpSecurity, username: String?, password: String?) {
         val authToken = UsernamePasswordAuthenticationToken(username, password)
-        val authentication: Authentication = WebSecurityConfig.authenticationManager().authenticate(authToken)
+        val authentication: Authentication = webSecurityConfig!!.authenticationManager(httpSecurity).authenticate(authToken)
         SecurityContextHolder.getContext().authentication = authentication
     }
 

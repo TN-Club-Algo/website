@@ -31,16 +31,19 @@ class WebSocketEventListener {
             .addListener(String::class.java) { _, result ->
                 val retMap = gson.fromJson(result, Map::class.java)
                 val email = retMap["email"].toString()
+                val id = retMap["testID"].toString()
                 val problem = Chili.getProblems().getProblem(retMap["problemSlug"].toString())
+                val testResult = retMap["result"].toString()
                 if (problem != null) {
                     val testJson = TestJSON(
                         retMap["testID"].toString(),
+                        -1,
                         email,
                         problem,
-                        retMap["codeURL"].toString(),
-                        retMap["progress"].toString(),
-                        retMap["timeElapsed"].toString(),
-                        retMap["memoryUsed"].toString()
+                        "/api/tests/$id",
+                        testResult,
+                        "none",
+                        "none"
                     )
 
                     testsInProgress[testJson.email] = testJson
@@ -61,15 +64,18 @@ class WebSocketEventListener {
                 val retMap = gson.fromJson(result, Map::class.java)
 
                 val id = retMap["testID"].toString()
+                val index = retMap["index"].toString().toInt()
                 val email = retMap["email"].toString()
                 val problem = Chili.getProblems().getProblem(retMap["problemSlug"].toString())
+                var progress = ""
                 if (problem != null) {
                     val testJson = TestJSON(
                         id,
+                        index,
                         email,
                         problem,
-                        retMap["codeURL"].toString(),
-                        retMap["progress"].toString(),
+                        "/api/tests/$id",
+                        progress,
                         retMap["timeElapsed"].toString(),
                         retMap["memoryUsed"].toString()
                     )

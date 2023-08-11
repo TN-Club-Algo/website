@@ -1,18 +1,23 @@
 package org.algotn.website.auth
 
 import com.google.gson.Gson
+import org.algotn.website.auth.secret.RequestHeaderAuthenticationProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.*
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedCredentialsNotFoundException
+import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter
 import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationException
 import org.springframework.security.web.authentication.session.SessionAuthenticationException
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
 import org.springframework.security.web.authentication.www.NonceExpiredException
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector
 
 
@@ -20,18 +25,23 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector
 @EnableWebSecurity
 open class WebSecurityConfig {
 
-    companion object {
-        fun authenticationManager(): AuthenticationManager {
-            return AuthenticationManager { authentication ->
-                if (UserRepositoryImpl.doesUserMatchPassword(
-                        authentication.name,
-                        authentication.credentials.toString()
-                    )
-                ) {
-                    UsernamePasswordAuthenticationToken(authentication.name, authentication.credentials, emptyList())
-                } else {
-                    null
-                }
+    private var requestHeaderAuthenticationProvider: RequestHeaderAuthenticationProvider =
+        RequestHeaderAuthenticationProvider()
+
+    fun authenticationManager(http: HttpSecurity): AuthenticationManager {
+        return AuthenticationManager { authentication ->
+            if (UserRepositoryImpl.doesUserMatchPassword(
+                    authentication.name,
+                    authentication.credentials.toString()
+                )
+            ) {
+                UsernamePasswordAuthenticationToken(
+                    authentication.name,
+                    authentication.credentials,
+                    emptyList()
+                )
+            } else {
+                null
             }
         }
     }
@@ -56,6 +66,7 @@ open class WebSecurityConfig {
                     .requestMatchers("/", "/error", "/blog", "/problem", "/scoreboard", "/problem/{slug}").permitAll()
                     .requestMatchers("/api/image/**").permitAll()
                     .requestMatchers("/register", "/login", "/password-reset", "/password-reset/{token}").anonymous()
+                    .requestMatchers("/api/tests/{problemSlug}/**").hasAuthority("SECRET")
                     .anyRequest().authenticated()
             }
             .exceptionHandling {
@@ -115,6 +126,22 @@ open class WebSecurityConfig {
             .logout { logout ->
                 logout.permitAll()
             }
+
+        http.addFilterAfter(requestHeaderAuthenticationFilter(http), BasicAuthenticationFilter::class.java)
+
         return http.build()
+    }
+
+    @Bean
+    open fun requestHeaderAuthenticationFilter(http: HttpSecurity): RequestHeaderAuthenticationFilter {
+        val filter = RequestHeaderAuthenticationFilter()
+        filter.setRequiresAuthenticationRequestMatcher(AntPathRequestMatcher("/api/tests/{problemSlug}/**", "GET"))
+        filter.setPrincipalRequestHeader("x-auth-secret-key")
+        filter.setExceptionIfHeaderMissing(false)
+        filter.setAuthenticationManager(
+            http.getSharedObject(AuthenticationManagerBuilder::class.java)
+                .authenticationProvider(requestHeaderAuthenticationProvider).build()
+        )
+        return filter
     }
 }
