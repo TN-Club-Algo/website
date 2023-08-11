@@ -65,7 +65,8 @@ const problems = $.getJSON('/get_problems', function (json) {
     //     type: obj.type,
     //     //...obj, // Spread all other attributes
     // }));
-    let json_problem = json.map(item => {let fulljson = JSON.parse(item)
+    let json_problem = json.map(item => {
+        let fulljson = JSON.parse(item)
         fulljson["json"] = item
         return fulljson
     });
@@ -81,17 +82,46 @@ const problems = $.getJSON('/get_problems', function (json) {
                 name: '',
                 selected: [],
                 clearable: true,
-                begDate: new Date(),
+                beginningDate: new Date(),
                 showWeekNumber: false,
                 enableSeconds: false,
                 hourFormat: undefined, // Browser locale
                 locale: undefined, // Browser locale
                 firstDayOfWeek: undefined, // 0 - Sunday
-                endDate: new Date()
+                endDate: new Date(),
+                returnSelected: []
             }
         },
         methods: {
-            clearDateTime () {
+            parseSelected() {
+                // selected[ind].slug = undefined;
+                console.log("parsing")
+                console.log(this.selected)
+                if (this.selected.length > 0) {
+                    // console.log(selected)
+                    // return JSON.stringify(selected)
+                    let value = Array()
+                    for (let ind = 0; ind < this.selected.length; ind++) {
+                        // let simplifiedProblem = Object()
+                        // simplifiedProblem["slug"] = selected[ind].slug
+                        // simplifiedProblem["score"] = selected[ind].score
+                        value.push([this.selected[ind].slug ,this.selected[ind].score])
+
+                        // value.push("{\"slug\":\"{{selected[ind].slug}}\",{\"score\":\"${selected[ind].score}\"}")
+
+                        // if (ind < selected.length - 1) {
+                        //     value = value + ","
+                        // }
+                    }
+                    console.log("parsing done")
+                    this.returnSelected =  value //+ "]"
+                } else {
+                    console.log("parsing done")
+                    this.returnSelected = []
+                }
+
+            },
+            clearDateTime() {
                 this.selected = null
             },
             selectOption(option) {
@@ -105,25 +135,27 @@ const problems = $.getJSON('/get_problems', function (json) {
                     this.name = ""
                     console.log(this.selected);
                 }
+                this.parseSelected()
             },
-            showDate(date){
-              console.log(date)
+            showDate(date) {
+                console.log(date)
             },
-            updateScore(event,index){
+            updateScore(event, index) {
                 console.log("score update")
                 console.log(event)
                 this.selected[index]["score"] = parseInt(event)
                 console.log(this.selected)
                 this.updateWidth(index)
+                this.parseSelected()
             },
-            updateWidth(index){
+            updateWidth(index) {
                 console.log("updating width")
                 var classname = "widthUpdate" + index
                 console.log(classname)
                 var inputField = document.getElementById(classname);
-                if (!inputField){
+                if (!inputField) {
                     console.log("not found")
-                }else {
+                } else {
                     var width = this.selected[index]["score"].length + 2; // 8px per character
                     inputField.style.width = width + "ch";
                 }
@@ -132,18 +164,19 @@ const problems = $.getJSON('/get_problems', function (json) {
                 console.log(index)
                 // this.selected = [];
                 this.selected.splice(index, 1);
+                this.parseSelected()
             },
             updateName(event) {
                 console.log("name update")
                 console.log(event)
-                if (event){
+                if (event) {
                     this.name = event;
-                }else{
+                } else {
                     this.name = "";
                 }
 
             },
-            concatWidth(index){
+            concatWidth(index) {
                 return "widthUpdate" + index
             },
         },
@@ -174,8 +207,6 @@ const problems = $.getJSON('/get_problems', function (json) {
     app.$mount('#app_test')
 
 });
-
-
 
 
 // $.getJSON('/get_problems', function (json) {

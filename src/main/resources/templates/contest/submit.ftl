@@ -13,9 +13,9 @@
                 <form action="/contest/submit" method="post" enctype="multipart/form-data" @submit.prevent>
                     <div id="app_test" class="container">
                         <section>
+                            <input type="hidden" name="selectedProblems" :value="returnSelected"/>
                             <div>
                                 Selected:
-                                <input type="hidden" name="pbSelected" v-model="selected"/>
                                 <p v-for="(option, index) in selected" :key="index"
                                    style="display: flex;align-items: center">
                                     <span style="margin-right: 1ch;">{{index + 1}})</span>
@@ -86,8 +86,8 @@
                                 </b-field>
                             </div>
                             <div class="column">
-                                <b-field label="Organisator Name">
-                                    <b-input placeholder="Club Algo" rounded name=organisator></b-input>
+                                <b-field label="Creator Name">
+                                    <b-input placeholder="Club Algo" rounded name=creator></b-input>
                                 </b-field>
                             </div>
                         </div>
@@ -143,7 +143,7 @@
                                 <section>
                                     <b-field label="Select datetime">
                                         <b-datetimepicker
-                                                v-model="begDate"
+                                                v-model="beginningDate"
                                                 rounded
                                                 placeholder="Click to select..."
                                                 icon="calendar-today"
@@ -184,7 +184,7 @@
 <#--                                                @click="begDate = null"/>-->
 <#--                                    </b-datetimepicker>-->
 <#--                                </b-field>-->
-                                <input type="hidden" name="begDate" v-model="begDate.toISOString()"/>
+                                <input type="hidden" name="beginningDate" v-model="beginningDate.toISOString()"/>
                             </div>
                             <div class="column">
                                 <b-field grouped group-multiline label="Select end date">
@@ -254,10 +254,10 @@
                                 label="show"
                                 type="is-primary"
                                 icon-left="calendar-today"
-                                @click="showDate(begDate)"/>
+                                @click="showDate(beginningDate)"/>
                         </div>
                         <b-field label="Description" horizontal>
-                            <b-input maxlength="400" type="textarea"  name="desc"></b-input>
+                            <b-input maxlength="400" type="textarea"  name="description"></b-input>
                         </b-field>
                         <br>
                         <button class="mt-3 button is-fullwidth">
