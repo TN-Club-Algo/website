@@ -68,8 +68,10 @@ class ContestController {
 
         newContest.name = contestName
         newContest.organisator = creator
-        newContest.beginning = ZonedDateTime.parse(beginningDate)
-        newContest.end = ZonedDateTime.parse(endDate)
+        newContest.beginning = beginningDate
+        newContest.end = endDate
+//        newContest.beginning = ZonedDateTime.parse(beginningDate)
+//        newContest.end = ZonedDateTime.parse(endDate)
 
 //        val problemsJSON = Gson().fromJson<Object>(problems,List)
 //        println(problemsJSON)
