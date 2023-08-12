@@ -7,7 +7,8 @@ import org.algotn.website.data.TestData
 import org.algotn.website.services.tests.TestLocationService
 import org.redisson.client.codec.StringCodec
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.actuate.web.exchanges.HttpExchange.Principal
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.multipart.MultipartFile
 import java.util.*
+
 
 @Controller
 class SubmissionController {
@@ -37,24 +39,31 @@ class SubmissionController {
         return "submit"
     }
 
-    @PostMapping("/submit/{problemId}")
+    @PostMapping("/submit/{problemSlug}")
     fun submitTest(
-        principal: Principal,
-        @PathVariable("problemId") problemId: String,
-        @RequestParam("lang") lang: String,
-        @RequestParam("prog") prog: String,
+        @PathVariable("problemSlug") problemSlug: String,
+        @RequestParam("language") lang: String,
+        @RequestParam("code") prog: String,
         @RequestParam("files") files: ArrayList<MultipartFile>
     ): String {
+        val principal = SecurityContextHolder.getContext().authentication.principal
+
+        val username = if (principal is UserDetails) {
+            principal.username
+        } else {
+            principal.toString()
+        }
+
         val testUUID = UUID.randomUUID().toString()
 
-        val user = userRepository!!.findByUsername(principal.name)
+        val user = userRepository!!.findByUsername(username)
         if (!user.isPresent) {
             return "redirect:/login"
         }
 
-        val problem = Chili.getProblems().getProblem(problemId) ?: return "redirect:/problem"
+        val problem = Chili.getProblems().getProblem(problemSlug) ?: return "redirect:/problem"
 
-        val testData = Chili.getRedisInterface().getData(principal.name, TestData::class.java)!!
+        val testData = Chili.getRedisInterface().getData(username, TestData::class.java)!!
         testData.testsIds.add(testUUID)
 
         var name = "program"

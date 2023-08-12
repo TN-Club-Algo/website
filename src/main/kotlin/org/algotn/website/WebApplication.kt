@@ -2,6 +2,7 @@ package org.algotn.website
 
 import org.algotn.api.Chili
 import org.algotn.website.auth.User
+import org.algotn.website.data.TestData
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
@@ -15,7 +16,7 @@ class WebApplicationKt {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            Chili.getRedisInterface().registerData(User())
+            Chili.getRedisInterface().registerData(User(), TestData())
             SpringApplication.run(WebApplication::class.java, *args)
         }
     }

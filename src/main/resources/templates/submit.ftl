@@ -23,7 +23,7 @@
             Soumission : ${problem.name}
         </div>
         <div class="select mb-2">
-            <select id="language" name="lang">
+            <select id="language" name="language">
                 <option value="python">Python 3</option>
                 <option value="kotlin">Kotlin</option>
                 <option value="c_cpp">C++</option>
@@ -35,7 +35,7 @@
         <div id="editor" class="mb-6"></div>
 
         <div style="width: 100%; margin: auto;">
-            <form action="/submit/${problem.slug}" method="post" enctype="multipart/form-data">
+            <form id="submitForm" action="/submit/${problem.slug}" method="post" enctype="multipart/form-data">
                 <div class="field is-grouped">
                     <div class="control">
                         <div id="myfiles" class="file has-name is-boxed">
@@ -76,5 +76,35 @@
             </form>
         </div>
     </div>
-    </div>
+
+    <script type="application/javascript">
+        $("#submitForm").submit(function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            const formData = new FormData(this);
+
+            formData.append("code", editor.getValue());
+            formData.append("language", $("#language").val());
+
+            $.ajax({
+                type: "POST",
+                url: "/submit/${problem.slug}",
+                data: formData,
+                processData: false, // Prevent jQuery from processing the FormData
+                contentType: false, // Let the browser set the Content-Type header
+                dataType: "json",
+                success: function (data) {
+                    $("#successNotification").remove();
+                    if (!data.success) {
+                        // Show error
+                    } else {
+                        window.location.href = data.redirect;
+                    }
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+        });
+    </script>
 </@layout.header>
