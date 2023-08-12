@@ -111,7 +111,7 @@ class TestAPIController {
     }
 
     // Need secret to access url
-    @GetMapping("/{problemSlug}/ans/{testName}.ans")
+    @GetMapping("/restricted/{problemSlug}/ans/{testName}.ans")
     fun getTestOutput(@PathVariable problemSlug: String, @PathVariable testName: String): ResponseEntity<*> {
         val problem = Chili.getProblems().getProblem(problemSlug) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
 
