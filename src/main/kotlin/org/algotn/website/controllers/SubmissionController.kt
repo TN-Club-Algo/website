@@ -67,21 +67,26 @@ class SubmissionController {
         testData.testsIds.add(testUUID)
 
         var name = "program"
+        var extension = ""
         when (lang) {
             "python" -> {
                 name += ".py"
+                extension = ".py"
             }
 
             "kotlin" -> {
                 name += ".kt"
+                extension = ".kt"
             }
 
             "c_cpp" -> {
                 name += ".cpp"
+                extension = ".cpp"
             }
 
             "java" -> {
                 name += ".java"
+                extension = ".java"
             }
         }
 
@@ -103,6 +108,7 @@ class SubmissionController {
         jsonMap["programURL"] = "/api/tests/restricted/$testUUID"
         jsonMap["userProgram"] = name
         jsonMap["language"] = lang
+        jsonMap["extension"] = extension
 
         val json = gson.toJson(jsonMap).toString()
         Chili.getRedisInterface().client.getTopic("pepper-tests", stringCodec).publish(json)

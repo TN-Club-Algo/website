@@ -61,8 +61,17 @@ class TestAPIController {
     // Need secret to access url
     @GetMapping("/restricted/{id}")
     @ResponseBody
-    fun getTestCodeSecret(@PathVariable id: String): FileSystemResource {
-        return fileLocationService!!.findInFileSystem(id)
+    fun getTestCodeSecret(@PathVariable id: String): ResponseEntity<*> {
+        val resource = fileLocationService!!.findInFileSystem(id)
+
+        if (!resource.exists()) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        }
+
+        val headers = org.springframework.http.HttpHeaders()
+        headers.contentType = MediaType.APPLICATION_OCTET_STREAM
+
+        return ResponseEntity(resource, headers, HttpStatus.OK)
     }
 
     // Need secret to access url
