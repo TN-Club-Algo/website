@@ -66,29 +66,30 @@ class SubmissionController {
         val testData = Chili.getRedisInterface().getData(username, TestData::class.java)!!
         testData.testsIds.add(testUUID)
 
-        var name = "program"
+        var name = testUUID
         var extension = ""
         when (lang) {
             "python" -> {
-                name += ".py"
                 extension = ".py"
             }
 
             "kotlin" -> {
-                name += ".kt"
                 extension = ".kt"
             }
 
             "c_cpp" -> {
-                name += ".cpp"
                 extension = ".cpp"
             }
 
             "java" -> {
-                name += ".java"
                 extension = ".java"
             }
+
+            "c" -> {
+                extension = ".c"
+            }
         }
+        name += extension
 
         if (files.size == 0) {
             // No file, use the program input
