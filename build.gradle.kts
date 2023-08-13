@@ -78,6 +78,8 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers:1.17.6")
     testImplementation("org.testcontainers:junit-jupiter:1.17.6")
     testImplementation("com.redis.testcontainers:testcontainers-redis-junit-jupiter:1.4.6")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-RC")
 }
 
 /*tasks.getByName<Test>("test") {

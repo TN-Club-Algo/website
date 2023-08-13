@@ -126,6 +126,11 @@ open class WebSecurityConfig {
             .logout { logout ->
                 logout.permitAll()
             }
+            .headers {
+                it.contentSecurityPolicy { it2 ->
+                    it2.policyDirectives("upgrade-insecure-requests")
+                }
+            }
 
         http.addFilterAfter(requestHeaderAuthenticationFilter(http), BasicAuthenticationFilter::class.java)
 

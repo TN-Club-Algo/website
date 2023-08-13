@@ -39,7 +39,7 @@ class WebSocketEventListener {
                         retMap["testID"].toString(),
                         -1,
                         email,
-                        problem,
+                        problem.slug,
                         "/api/tests/$id",
                         testResult,
                         "none",
@@ -63,17 +63,17 @@ class WebSocketEventListener {
             .addListener(String::class.java) { _, result ->
                 val retMap = gson.fromJson(result, Map::class.java)
 
-                val id = retMap["testID"].toString()
-                val index = retMap["index"].toString().toInt()
-                val email = retMap["email"].toString()
-                val problem = Chili.getProblems().getProblem(retMap["problemSlug"].toString())
-                var progress = ""
+                val email = Chili.getRedisInterface().client.getMap<String, String>("test-to-user")[retMap["testID"] as String]!!
+                val id = retMap["testID"] as String
+                val index = (retMap["index"] as Double).toInt()
+                val problem = Chili.getProblems().getProblem(retMap["problemSlug"] as String)
+                val progress = retMap["result"] as String
                 if (problem != null) {
                     val testJson = TestJSON(
                         id,
                         index,
                         email,
-                        problem,
+                        problem.slug,
                         "/api/tests/$id",
                         progress,
                         retMap["timeElapsed"].toString(),

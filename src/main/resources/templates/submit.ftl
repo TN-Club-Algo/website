@@ -16,6 +16,7 @@
         height: 300px;
     }
 </style>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <@layout.header>
     <div style="width: 75%; margin: auto">
 
@@ -35,7 +36,7 @@
         <div id="editor" class="mb-6"></div>
 
         <div style="width: 100%; margin: auto;">
-            <form id="submitForm" action="/submit/${problem.slug}" method="post" enctype="multipart/form-data">
+            <form id="submitForm" enctype="multipart/form-data">
                 <div class="field is-grouped">
                     <div class="control">
                         <div id="myfiles" class="file has-name is-boxed">
@@ -67,6 +68,8 @@
                             </label>
                         </div>
                     </div>
+                    <div class="cf-turnstile" data-sitekey="0x4AAAAAAAIoSOON_Aer-2Ox" data-callback="javascriptCallback"
+                         data-theme="light"></div>
                     <p class="control">
                         <button class="button">
                             Soumettre
@@ -94,11 +97,10 @@
                 contentType: false, // Let the browser set the Content-Type header
                 dataType: "json",
                 success: function (data) {
-                    $("#successNotification").remove();
-                    if (!data.success) {
-                        // Show error
+                    if(data.success) {
+                        window.location.href = data.redirectURL;
                     } else {
-                        window.location.href = data.redirect;
+
                     }
                 },
                 error: function (error) {
