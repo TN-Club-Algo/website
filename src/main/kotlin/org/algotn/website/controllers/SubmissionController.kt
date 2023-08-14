@@ -84,8 +84,6 @@ class SubmissionController {
         val request = requestAttributes.request
         val ip = IPUtils.getClientIP(request)
 
-        println("IP: $ip - Token: $token")
-
         val restTemplate = RestTemplate()
         val formData = LinkedMultiValueMap<String, String>()
         formData.add("secret", "0x4AAAAAAAIoSE7qkZhMWusd6ot2RLTIpKc")
@@ -96,7 +94,6 @@ class SubmissionController {
         val result = restTemplate.postForEntity(url, formData, Map::class.java)
 
         val outcome = result.body as Map<String, Any>
-        println("Cloudflare response: $outcome")
         if (!(outcome["success"] as Boolean)) {
             // CAPTCHA verification failed
             return mapOf("message" to "CAPTCHA verification failed")
