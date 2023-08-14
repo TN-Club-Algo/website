@@ -7,61 +7,57 @@
 <meta charset="UTF-8">
 <script src="../../static/js/app.js"></script>
 <@layout.header>
-    <div class="card">
+    <div id="app" class="card">
         <header class="card-header" style="position: relative;height: 54px;">
             <p class="subtitle is-4 p-3">
                 Compétitons en cours
             </p>
-            <div id="app" class="container">
-            <b-button id="head_centered" tag="a"
-                      href="/contest/submit"
-                      target="_blank"
-                      style="position: absolute;top: 50%;transform: translateY(-50%);right: 20px;">
-                Créer une Compétition
-            </b-button>
+            <div class="container">
+                <b-button id="head_centered" tag="a"
+                          href="/contest/submit"
+                          target="_blank"
+                          style="position: absolute;top: 50%;transform: translateY(-50%);right: 20px;">
+                    Créer une Compétition
+                </b-button>
             </div>
         </header>
-        <div class="card-content">
-            <div class="content">
-                <table class="table is-fullwidth is-striped">
-                    <thead>
-                    <tr>
-                        <th>Compétitions</th>
-                        <th>Début</th>
-                        <th>Durée</th>
-                        <th>Inscrits</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <#--                    <#list keys as key>-->
-                    <#--                        <tr>-->
-                    <#--                            <td><a href="/problem/${key}">${problems[key].name}</a></td>-->
-                    <#--                            <td>-->
-                    <#--                                <#list problems[key].keywords as tag>-->
-                    <#--                                    <span class="tag">${tag}</span>-->
-                    <#--                                </#list>-->
-                    <#--                            </td>-->
-                    <#--                            <td>-->
-                    <#--                                <#if problems[key].difficulty gt 0>-->
-                    <#--                                    <#list 1..problems[key].difficulty as _>-->
-                    <#--                                        <span class="icon has-text-danger">-->
-                    <#--                                            🟐-->
-                    <#--                                        </span>-->
-                    <#--                                    </#list>-->
-                    <#--                                </#if>-->
-                    <#--                                <#if 5 - problems[key].difficulty gt 0>-->
-                    <#--                                    <#list 1..(5 - problems[key].difficulty) as _>-->
-                    <#--                                        <span class="icon has-text-grey-light">-->
-                    <#--                                            🟐-->
-                    <#--                                        </span>-->
-                    <#--                                    </#list>-->
-                    <#--                                </#if>-->
-                    <#--                            </td>-->
-                    <#--                            <td>✗</td>-->
-                    <#--                        </tr>-->
-                    <#--                    </#list>-->
-                    </tbody>
-                </table>
+        <div>
+            <div class="card-content">
+                <div class="content">
+                    <table class="table is-fullwidth is-striped">
+                        <thead>
+                        <tr>
+                            <th>Compétitions</th>
+                            <th>Début</th>
+                            <th>Durée</th>
+                            <th>Inscrits</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <#list contests as contest>
+                            <tr>
+                                <td><a href="/contest/${contest.uuid}">${contest.contestName}</a></td>
+                                <#--                                                <td>-->
+                                <#--                                                    <#list contest[key].keywords as tag>-->
+                                <#--                                                        <span class="tag">${tag}</span>-->
+                                <#--                                                    </#list>-->
+                                <#--                                                </td>-->
+                                <td>
+                                    <div>${contest.beginning}</div>
+                                </td>
+                                <td>${contest.end}</td>
+                                <td>${contest.nbUser}
+                                    <b-button @click="register">Register</b-button>
+                                </td>
+                            </tr>
+                        </#list>
+                        </tbody>
+                        <#--                    <script>-->
+                        <#--                        const app = new Vue()-->
+                        <#--                        app.$mount('#app')-->
+                        <#--                    </script>-->
+                    </table>
+                </div>
             </div>
         </div>
     </div>

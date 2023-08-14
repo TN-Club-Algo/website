@@ -33,7 +33,6 @@
                                                  :id="concatWidth(index)">
 
                                             </b-input>
-<#--                                        <input type="hidden" name="pb{{index}}" value="{{option.slug,option.score}}"/>-->
                                     <button type="button" @click="removeSelectedOption(index)">Remove problem</button>
                                     </span>
                                 </p>
@@ -61,24 +60,7 @@
                                     </template>
                                 </b-autocomplete>
                             </b-field>
-
-                            <#--                            <p class="content"><b>Selected:</b> {{ selected }}</p>-->
-                            <#--                            <b-field label="Find problems">-->
-                            <#--                                <b-autocomplete-->
-                            <#--                                        rounded-->
-                            <#--                                        v-model="name"-->
-                            <#--                                        :data="filteredDataObj"-->
-                            <#--                                        field="slug"-->
-                            <#--                                        placeholder="e.g. ex1"-->
-                            <#--                                        icon="magnify"-->
-                            <#--                                        clearable-->
-                            <#--                                        @select="option => (selected = option)">-->
-                            <#--                                    <template #empty>No results found</template>-->
-                            <#--                                </b-autocomplete>-->
-                            <#--                            </b-field>-->
                         </section>
-<#--                    </div>-->
-<#--                    <div id="app_test" class="field">-->
                         <div class="columns">
                             <div class="column">
                                 <b-field label="Contest Name">
@@ -158,67 +140,10 @@
                                         </b-datetimepicker>
                                     </b-field>
                                 </section>
-<#--                                <b-field grouped group-multiline label="Select begining date">-->
-<#--                                    <b-datetimepicker v-model="begDate"-->
-<#--                                                      :first-day-of-week="1"-->
-<#--                                                      rounded-->
-<#--                                                      editable-->
-<#--                                                      placeholder="Click to select...">-->
-
-<#--                                        <b-button-->
-<#--                                                label="Today"-->
-<#--                                                type="is-primary"-->
-<#--                                                icon-left="calendar-today"-->
-<#--                                                @click="begDate = new Date()"/>-->
-<#--                                        <b-button-->
-<#--                                                label="show"-->
-<#--                                                type="is-primary"-->
-<#--                                                icon-left="calendar-today"-->
-<#--                                                @click="showDate(begDate)"/>-->
-
-<#--                                        <b-button-->
-<#--                                                label="Clear"-->
-<#--                                                type="is-danger"-->
-<#--                                                icon-left="close"-->
-<#--                                                outlined-->
-<#--                                                @click="begDate = null"/>-->
-<#--                                    </b-datetimepicker>-->
-<#--                                </b-field>-->
                                 <input type="hidden" name="beginningDate" v-model="beginningDate.toISOString()"/>
                             </div>
                             <div class="column">
                                 <b-field grouped group-multiline label="Select end date">
-<#--                                    <section>-->
-<#--                                        <b-field grouped group-multiline>-->
-<#--                                            <b-field label="Locale">-->
-<#--                                                <b-select v-model="locale">-->
-<#--                                                    <option :value="undefined"></option>-->
-<#--                                                    <option value="de-DE">de-DE</option>-->
-<#--                                                    <option value="en-CA">en-CA</option>-->
-<#--                                                    <option value="en-GB">en-GB</option>-->
-<#--                                                    <option value="en-US">en-US</option>-->
-<#--                                                    <option value="es-ES">es-ES</option>-->
-<#--                                                    <option value="es-MX">es-MX</option>-->
-<#--                                                    <option value="fr-CA">fr-CA</option>-->
-<#--                                                    <option value="fr-FR">fr-FR</option>-->
-<#--                                                    <option value="it-IT">it-IT</option>-->
-<#--                                                    <option value="ja-JP">ja-JP</option>-->
-<#--                                                    <option value="pt-BR">pt-BR</option>-->
-<#--                                                    <option value="ru-RU">ru-RU</option>-->
-<#--                                                    <option value="zn-CN">zn-CN</option>-->
-<#--                                                </b-select>-->
-<#--                                            </b-field>-->
-<#--                                        </b-field>-->
-<#--                                        Current locale format: {{ sampleFormat }}-->
-<#--                                        <b-field label="Select datetime">-->
-<#--                                            <b-datetimepicker-->
-<#--                                                    placeholder="Type or select a date..."-->
-<#--                                                    icon="calendar-today"-->
-<#--                                                    :locale="locale"-->
-<#--                                                    editable>-->
-<#--                                            </b-datetimepicker>-->
-<#--                                        </b-field>-->
-<#--                                    </section>-->
                                     <b-datetimepicker v-model="endDate"
                                                       rounded
                                                       placeholder="Click to select..."

@@ -12,13 +12,39 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.ModelAndView
 import java.time.ZonedDateTime
 import java.util.*
+import kotlin.collections.HashMap
+
 
 @Controller
 class ContestController {
 
     @GetMapping("/contest")
-    fun contestIndex(): String {
-        return "contest/contestIndex"
+    fun contestIndex(model: Model): ModelAndView {
+        println("coucou")
+        val gson = Gson()
+        val mydata = Chili.getRedisInterface().getAllUUIDData(Contest().javaClass).map{
+            val curMap = HashMap<String,Any>();
+            curMap.put("uuid",it.uuid)
+            curMap.put("contestName",it.name);
+            curMap.put("beginning",it.beginning);
+            curMap.put("end",it.end)
+            curMap.put("nbUser",it.registeredUser.size)
+            curMap
+        }
+        println("please")
+        println(mydata)
+        println(mydata[0])
+        print("yeah")
+//        val hashContest = Chili.getRedisInterface().client.getMap<String,Contest>("contest")
+//        val keysContest = hashContest.keys
+//        println(keysContest)
+//        hashContest[keysContest.first()]?.toMap()
+//        println("ok")
+//        model.addAttribute("keys",hashContest.keys)
+        model.addAttribute("contests",mydata)
+
+//        print("yeah")
+        return ModelAndView("contest/contestIndex")
     }
 
     @GetMapping("/contest/test")
@@ -27,10 +53,6 @@ class ContestController {
         return "contest/test"
     }
 
-    //    @GetMapping("/contest/test")
-//    fun test():String{
-//        return "contest/test"
-//    }
     @GetMapping("/contest/submit")
     fun submit(model: Model): ModelAndView {
 //        val printProblems = hashMapOf<String, Problem>()
@@ -54,14 +76,12 @@ class ContestController {
         ): String {
         println("form in submit")
         println(selectedProblems)
-//        println(selectedProblems.length)
 
         println(beginningDate)
         println(endDate)
         println(contestName)
         println(creator)
         println(desc)
-//        println(Instant.parse(begDate))
 
 
         val newContest = Contest()
@@ -70,6 +90,7 @@ class ContestController {
         newContest.organisator = creator
         newContest.beginning = beginningDate
         newContest.end = endDate
+        newContest.description = desc
 //        newContest.beginning = ZonedDateTime.parse(beginningDate)
 //        newContest.end = ZonedDateTime.parse(endDate)
 
@@ -82,16 +103,11 @@ class ContestController {
             newContest.addProblem(pbContest)
         }
         println(newContest.problems)
-        val contestMap = Chili.getRedisInterface().client.getMap<UUID, String>("contest")
-        val contestJson = Gson().toJson(newContest)
-        contestMap.put(newContest.uuid,contestJson)
-
-        /* val pbMap = Chili.getRedisInterface().client.getMap<String, String>("problem")
-
-         val newPb = Problem(UUID.randomUUID(),pbName,statement,input,output,"Temps maximal d'exécution : 1s<br>" +
-                 "Quantité de mémoire maximale : 100 MB", listOf(), listOf(), mapOf())
-         val newPbJson = Gson().toJson(newPb)
-         pbMap.put(pbName,newPbJson)
+        val chili = Chili.getRedisInterface()
+        chili.saveData(newContest.uuid.toString(),newContest)
+//        val contestMap = Chili.getRedisInterface().client.getMap<UUID, Contest>("contest")
+////        val contestJson = Gson().toJson(newContest)
+//        contestMap.put(newContest.uuid,newContest)
 
          // @todo et all inputs and create problem to add to the map*/
         return "/contest/submit";
