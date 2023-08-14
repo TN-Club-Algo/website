@@ -47,7 +47,9 @@
                                 </td>
                                 <td>${contest.end}</td>
                                 <td>${contest.nbUser}
-                                    <b-button @click="register">Register</b-button>
+                                    <form type="hidden" id="contestRegister/${contest.uuid}">
+                                    </form>
+                                    <b-button class="form" id="contestRegister/${contest.uuid}">Register</b-button>
                                 </td>
                             </tr>
                         </#list>
@@ -113,4 +115,56 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            $('.form').on('click', function (event) {
+                event.preventDefault();
+
+                var urlSubmit = $(this).attr('id');
+
+                var formData = ""
+
+                $.ajax({
+                    type: "POST",
+                    url: urlSubmit,
+                    data: formData,
+                    dataType: "json",
+                    // success: function (data) {
+                    //     // Handle success response if needed
+                    // },
+                    // error: function (error) {
+                    //     // Handle error response if needed
+                    //     console.error("Error:", error);
+                    // }
+                })
+            })
+            // var data = $('.form').map(function () {
+            //     console.log($(this))
+            //     console.log($(this.attributes.form)[0].nodeValue)
+            //     var urlSubmit = $(this.attributes.form)[0].nodeValue
+            //     $(this).submit(function (event) {
+            //         // event.preventDefault(); // Prevent form submission
+            //
+            //         $.ajax({
+            //             type: "POST",
+            //             url: urlSubmit,
+            //             data: formData,
+            //             dataType: "json",
+            //             // success: function (data) {
+            //             //     $("#successNotification").remove();
+            //             //     if (!data.success) {
+            //             //         $("#password").val("");
+            //             //         $("#errorNotification").html(data.message).removeClass("is-invisible");
+            //             //     } else {
+            //             //         window.location.href = data.redirect;
+            //             //     }
+            //             // },
+            //             // error: function (error) {
+            //             //     console.error("Error:", error);
+            //             // }
+            //         });
+            //     });
+            // });
+        });
+    </script>
 </@layout.header>

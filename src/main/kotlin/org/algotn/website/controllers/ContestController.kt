@@ -4,9 +4,13 @@ import com.google.gson.Gson
 import org.algotn.api.Chili
 import org.algotn.api.contest.Contest
 import org.algotn.api.contest.ContestProblem
+import org.algotn.api.users.UserGroup
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.ModelAndView
@@ -46,6 +50,37 @@ class ContestController {
 //        print("yeah")
         return ModelAndView("contest/contestIndex")
     }
+
+    @PostMapping("contestRegister/{uuid}")
+    fun register(
+        @PathVariable("uuid") uuid:String): String{
+        println(uuid)
+
+        val principal = SecurityContextHolder.getContext().authentication.principal
+
+        val username = if (principal is UserDetails) {
+            principal.username
+        } else {
+            principal.toString()
+        }
+
+        val chili = Chili.getRedisInterface()
+        val contest = chili.getData(uuid,Contest().javaClass)
+
+        contest?.registeredUser?.add(username)
+
+        if (contest != null) {
+            chili.saveData(uuid,contest)
+        }
+
+//        val user = UserGroup!!.findByUsername(username)
+//        if (!user.isPresent) {
+//            return mapOf("error" to "Authentication error", "success" to false)
+//        }
+
+        return "/contest"
+    }
+
 
     @GetMapping("/contest/test")
     fun index(model: Model): String {
