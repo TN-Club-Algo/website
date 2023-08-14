@@ -68,8 +68,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="cf-turnstile" data-sitekey="0x4AAAAAAAIoSOON_Aer-2Ox" data-callback="javascriptCallback"
-                         data-theme="light"></div>
+                    <div class="cf-turnstile" data-sitekey="0x4AAAAAAAIoSOON_Aer-2Ox" data-theme="light"></div>
                     <p class="control">
                         <button class="button">
                             Soumettre
@@ -97,7 +96,7 @@
                 contentType: false, // Let the browser set the Content-Type header
                 dataType: "json",
                 success: function (data) {
-                    if(data.success) {
+                    if (data.success) {
                         window.location.href = data.redirectURL;
                     } else {
 

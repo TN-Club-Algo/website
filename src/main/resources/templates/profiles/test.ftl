@@ -4,10 +4,10 @@
 <script src="../../static/js/jquery.min.js"></script>
 <script src="../../static/js/stomp.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<script type="module" src="../../static/js/app.js"></script>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../../static/bulma.min.css">
 <@layout.header>
+    <script type="module" src="../../static/js/app.js"></script>
     <h1 class="title is-1" style="text-align: center">Tests</h1>
 
     <div>
@@ -18,21 +18,5 @@
         <template>
             <b-table :data="data" :columns="columns"></b-table>
         </template>
-    </div>
-
-    <div class="test" style="display: block;">
-
-
-<!--        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" id="conversation">
-            <thead class="testTableHead">
-            <tr class="testTableHeaderRow">
-                <th>Nom du problème</th>
-                <th>Index du test</th>
-                <th>Retour</th>
-                <th>Résultat</th>
-            </tr>
-            </thead>
-            <tbody class="testTable-Body" id="result"></tbody>
-        </table>-->
     </div>
 </@layout.header>

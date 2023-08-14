@@ -2,7 +2,6 @@ package org.algotn.website.controllers.api
 
 import org.algotn.api.Chili
 import org.algotn.api.tests.TestType
-import org.algotn.website.api.TestJSON
 import org.algotn.website.auth.UserRepository
 import org.algotn.website.data.TestData
 import org.algotn.website.listeners.WebSocketEventListener
@@ -14,8 +13,8 @@ import org.springframework.core.io.FileSystemResource
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.messaging.handler.annotation.MessageMapping
-import org.springframework.messaging.handler.annotation.SendTo
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 
@@ -34,12 +33,30 @@ class TestAPIController {
 
     // User dependent
     @GetMapping("/all")
-    fun getProblems(principal: Principal): Map<String, Any> {
-        val map = mutableMapOf<String, Any>()
-        if (WebSocketEventListener.testsInProgress.containsKey(principal.name)) {
-            map["inProgress"] = WebSocketEventListener.testsInProgress[principal.name]!!
+    fun getProblems(): Map<String, Any> {
+        // FIXME: this doesn't work if user has a secret
+        val principal = SecurityContextHolder.getContext().authentication.principal
+
+        val username = if (principal is UserDetails) {
+            principal.username
+        } else {
+            principal.toString()
         }
-        map["completed"] = mutableMapOf<String, TestJSON>()
+
+        val user = userRepository!!.findByUsername(username)
+        if (!user.isPresent) {
+            return mapOf("error" to "Authentication error")
+        }
+
+        val map = mutableMapOf<String, Any>()
+        if (WebSocketEventListener.testsInProgress.containsKey(username)) {
+            map["inProgress"] = WebSocketEventListener.testsInProgress[username]!!
+        }
+
+        val testData = Chili.getRedisInterface().getData(username, TestData::class.java)!!
+        testData.allTests
+
+        map["completed"] = testData.allTests
         return map
     }
 
@@ -134,11 +151,5 @@ class TestAPIController {
         headers.contentType = MediaType.APPLICATION_OCTET_STREAM
 
         return ResponseEntity(resource, headers, HttpStatus.OK)
-    }
-
-    @MessageMapping("/results")
-    @SendTo("/return")
-    fun sendTest(message: TestJSON): TestJSON {
-        return message;
     }
 }

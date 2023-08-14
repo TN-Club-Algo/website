@@ -2,9 +2,10 @@
   "name": "main",
   "version": "1.0.0",
   "dependencies": {
+    "axios": "^1.4.0",
+    "buefy": "^0.9.23",
     "sockjs-client": "^1.6.1",
     "vue": "^2.6.11",
-    "buefy": "^0.9.23",
     "vue-router": "3.1.6"
   }
 }

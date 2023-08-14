@@ -22,8 +22,6 @@
     }
 
 </style>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-<!-- https://developers.cloudflare.com/turnstile/ -->
 <@layout.header>
     <div class="columns" style="height: 100%; width: 100%; margin: 0">
         <div class="column">
@@ -59,8 +57,6 @@
 
                     <a href="/password-reset" class="is-link has-text-black">Un problème pour se connecter ?</a>
 
-                    <div class="cf-turnstile" data-sitekey="0x4AAAAAAAIoSOON_Aer-2Ox" data-callback="javascriptCallback"
-                         data-theme="light"></div>
                     <button form="loginForm" class="mt-3 button is-fullwidth">
                         Se connecter
                     </button>

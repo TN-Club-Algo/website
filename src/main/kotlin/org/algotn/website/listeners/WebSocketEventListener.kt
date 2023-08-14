@@ -7,6 +7,7 @@ import org.algotn.website.data.TestData
 import org.redisson.client.codec.StringCodec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.event.EventListener
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.stereotype.Component
@@ -26,11 +27,14 @@ class WebSocketEventListener {
     private val template: SimpMessagingTemplate? = null
     private val gson = Gson()
 
+    private val token = "token"
+
     init {
         Chili.getRedisInterface().client.getTopic("pepper-test-results", StringCodec())
             .addListener(String::class.java) { _, result ->
                 val retMap = gson.fromJson(result, Map::class.java)
-                val email = retMap["email"].toString()
+                val email =
+                    Chili.getRedisInterface().client.getMap<String, String>("test-to-user")[retMap["testID"] as String]!!
                 val id = retMap["testID"].toString()
                 val problem = Chili.getProblems().getProblem(retMap["problemSlug"].toString())
                 val testResult = retMap["result"].toString()
@@ -43,10 +47,11 @@ class WebSocketEventListener {
                         "/api/tests/$id",
                         testResult,
                         "none",
-                        "none"
+                        "none",
+                        validated = retMap["result"] == "true"
                     )
 
-                    testsInProgress[testJson.email] = testJson
+                    testsInProgress.remove(testJson.email)
 
                     // save for user
                     val data = Chili.getRedisInterface().getData(email, TestData::class.java)
@@ -55,7 +60,15 @@ class WebSocketEventListener {
                     data.allTests.add(testJson)
                     Chili.getRedisInterface().saveData(email, data)
 
-                    this.template!!.convertAndSend("/return/tests", testJson)
+                    val headerAccessor = SimpMessageHeaderAccessor.create()
+                    headerAccessor.setHeader("Authorization", "Bearer $token")
+
+                    this.template!!.convertAndSendToUser(
+                        email,
+                        "/queue/return/tests",
+                        testJson,
+                        headerAccessor.messageHeaders
+                    )
                 }
             }
 
@@ -63,7 +76,8 @@ class WebSocketEventListener {
             .addListener(String::class.java) { _, result ->
                 val retMap = gson.fromJson(result, Map::class.java)
 
-                val email = Chili.getRedisInterface().client.getMap<String, String>("test-to-user")[retMap["testID"] as String]!!
+                val email =
+                    Chili.getRedisInterface().client.getMap<String, String>("test-to-user")[retMap["testID"] as String]!!
                 val id = retMap["testID"] as String
                 val index = (retMap["index"] as Double).toInt()
                 val problem = Chili.getProblems().getProblem(retMap["problemSlug"] as String)
@@ -80,15 +94,28 @@ class WebSocketEventListener {
                         retMap["memoryUsed"].toString()
                     )
 
-                    testsInProgress[testJson.email] = testJson
-
                     // save for user
                     val data = Chili.getRedisInterface().getData(email, TestData::class.java)
                     data!!.testInProgress = testJson
 
+                    if(data.allTests.contains(testJson)) {
+                        // Looks like the test was already completed
+                        testsInProgress.remove(testJson.email)
+                    } else {
+                        testsInProgress[testJson.email] = testJson
+                    }
+
                     Chili.getRedisInterface().saveData(email, data)
 
-                    this.template!!.convertAndSend("/return/tests", testJson)
+                    val headerAccessor = SimpMessageHeaderAccessor.create()
+                    headerAccessor.setHeader("Authorization", "Bearer $token")
+
+                    this.template!!.convertAndSendToUser(
+                        email,
+                        "/queue/return/tests",
+                        testJson,
+                        headerAccessor.messageHeaders
+                    )
                 }
             }
     }
