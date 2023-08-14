@@ -26,34 +26,29 @@ class ContestController {
     fun contestIndex(model: Model): ModelAndView {
         println("coucou")
         val gson = Gson()
-        val mydata = Chili.getRedisInterface().getAllUUIDData(Contest().javaClass).map{
-            val curMap = HashMap<String,Any>();
-            curMap.put("uuid",it.uuid)
-            curMap.put("contestName",it.name);
-            curMap.put("beginning",it.beginning);
-            curMap.put("end",it.end)
-            curMap.put("nbUser",it.registeredUser.size)
+        val mydata = Chili.getRedisInterface().getAllUUIDData(Contest().javaClass).map {
+            val curMap = HashMap<String, Any>();
+            curMap.put("uuid", it.uuid)
+            curMap.put("contestName", it.name);
+            curMap.put("beginning", it.beginning);
+            curMap.put("end", it.end)
+            curMap.put("nbUser", it.registeredUser.size)
             curMap
         }
         println("please")
         println(mydata)
         println(mydata[0])
         print("yeah")
-//        val hashContest = Chili.getRedisInterface().client.getMap<String,Contest>("contest")
-//        val keysContest = hashContest.keys
-//        println(keysContest)
-//        hashContest[keysContest.first()]?.toMap()
-//        println("ok")
-//        model.addAttribute("keys",hashContest.keys)
-        model.addAttribute("contests",mydata)
 
-//        print("yeah")
+        model.addAttribute("contests", mydata)
+
         return ModelAndView("contest/contestIndex")
     }
 
     @PostMapping("contestRegister/{uuid}")
     fun register(
-        @PathVariable("uuid") uuid:String): String{
+        @PathVariable("uuid") uuid: String
+    ): String {
         println(uuid)
 
         val principal = SecurityContextHolder.getContext().authentication.principal
@@ -65,14 +60,14 @@ class ContestController {
         }
 
         val chili = Chili.getRedisInterface()
-        val contest = chili.getData(uuid,Contest().javaClass)
+        val contest = chili.getData(uuid, Contest().javaClass)
 
         contest?.registeredUser?.add(username)
 
         if (contest != null) {
-            chili.saveData(uuid,contest)
+            chili.saveData(uuid, contest)
         }
-
+//@todo edit this after merge
 //        val user = UserGroup!!.findByUsername(username)
 //        if (!user.isPresent) {
 //            return mapOf("error" to "Authentication error", "success" to false)
@@ -90,12 +85,10 @@ class ContestController {
 
     @GetMapping("/contest/submit")
     fun submit(model: Model): ModelAndView {
-//        val printProblems = hashMapOf<String, Problem>()
+
         val listProblems = Chili.getProblems().sortedProblems//.forEach {
-//            printProblems[it.slug] = it
-//        }
-//        print(printProblems)
         model.addAttribute("keys", listProblems.map { it.slug })
+
         return ModelAndView("contest/submit")
     }
 
@@ -126,25 +119,16 @@ class ContestController {
         newContest.beginning = beginningDate
         newContest.end = endDate
         newContest.description = desc
-//        newContest.beginning = ZonedDateTime.parse(beginningDate)
-//        newContest.end = ZonedDateTime.parse(endDate)
 
-//        val problemsJSON = Gson().fromJson<Object>(problems,List)
-//        println(problemsJSON)
-//        println(problemsJSON.length)
-        for (ind in 0.. (selectedProblems.size -1) step  2) {
+        for (ind in 0..(selectedProblems.size - 1) step 2) {
             println(selectedProblems[ind])
-            val pbContest = ContestProblem(selectedProblems[ind],selectedProblems[ind+1].toInt())
+            val pbContest = ContestProblem(selectedProblems[ind], selectedProblems[ind + 1].toInt())
             newContest.addProblem(pbContest)
         }
         println(newContest.problems)
         val chili = Chili.getRedisInterface()
-        chili.saveData(newContest.uuid.toString(),newContest)
-//        val contestMap = Chili.getRedisInterface().client.getMap<UUID, Contest>("contest")
-////        val contestJson = Gson().toJson(newContest)
-//        contestMap.put(newContest.uuid,newContest)
+        chili.saveData(newContest.uuid.toString(), newContest)
 
-         // @todo et all inputs and create problem to add to the map*/
         return "/contest/submit";
     }
 

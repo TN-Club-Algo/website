@@ -74,51 +74,52 @@
                             </div>
                         </div>
                         <div>
-                        <b-field grouped group-multiline>
-                            <div class="control">
-                                <b-switch v-model="showWeekNumber">Show week number</b-switch>
-                            </div>
-                            <div class="control">
-                                <b-switch v-model="enableSeconds">Enable seconds</b-switch>
-                            </div>
-                            <b-field horizontal label="Locale">
-                                <b-select v-model="locale">
-                                    <option :value="undefined"></option>
-                                    <option value="de-DE">de-DE</option>
-                                    <option value="en-CA">en-CA</option>
-                                    <option value="en-GB">en-GB</option>
-                                    <option value="en-US">en-US</option>
-                                    <option value="es-ES">es-ES</option>
-                                    <option value="es-MX">es-MX</option>
-                                    <option value="fr-CA">fr-CA</option>
-                                    <option value="fr-FR">fr-FR</option>
-                                    <option value="it-IT">it-IT</option>
-                                    <option value="ja-JP">ja-JP</option>
-                                    <option value="pt-BR">pt-BR</option>
-                                    <option value="ru-RU">ru-RU</option>
-                                    <option value="zn-CN">zn-CN</option>
-                                </b-select>
+                            <b-field grouped group-multiline>
+                                <div class="control">
+                                    <b-switch v-model="showWeekNumber">Show week number</b-switch>
+                                </div>
+                                <div class="control">
+                                    <b-switch v-model="enableSeconds">Enable seconds</b-switch>
+                                </div>
+                                <#--todo correct the datatime picker because hour not working -->
+                                <b-field horizontal label="Locale">
+                                    <b-select v-model="locale">
+                                        <option :value="undefined"></option>
+                                        <option value="de-DE">de-DE</option>
+                                        <option value="en-CA">en-CA</option>
+                                        <option value="en-GB">en-GB</option>
+                                        <option value="en-US">en-US</option>
+                                        <option value="es-ES">es-ES</option>
+                                        <option value="es-MX">es-MX</option>
+                                        <option value="fr-CA">fr-CA</option>
+                                        <option value="fr-FR">fr-FR</option>
+                                        <option value="it-IT">it-IT</option>
+                                        <option value="ja-JP">ja-JP</option>
+                                        <option value="pt-BR">pt-BR</option>
+                                        <option value="ru-RU">ru-RU</option>
+                                        <option value="zn-CN">zn-CN</option>
+                                    </b-select>
+                                </b-field>
+                                <b-field horizontal label="First day of week">
+                                    <b-select v-model="firstDayOfWeek">
+                                        <option :value="undefined"></option>
+                                        <option :value="0">Sunday</option>
+                                        <option :value="1">Monday</option>
+                                        <option :value="2">Tuesday</option>
+                                        <option :value="3">Wednesday</option>
+                                        <option :value="4">Thursday</option>
+                                        <option :value="5">Friday</option>
+                                        <option :value="6">Saturday</option>
+                                    </b-select>
+                                </b-field>
+                                <b-field horizontal label="Hour format">
+                                    <b-select v-model="hourFormat">
+                                        <option :value="undefined"></option>
+                                        <option value="12">12</option>
+                                        <option value="24">24</option>
+                                    </b-select>
+                                </b-field>
                             </b-field>
-                            <b-field horizontal label="First day of week">
-                                <b-select v-model="firstDayOfWeek">
-                                    <option :value="undefined"></option>
-                                    <option :value="0">Sunday</option>
-                                    <option :value="1">Monday</option>
-                                    <option :value="2">Tuesday</option>
-                                    <option :value="3">Wednesday</option>
-                                    <option :value="4">Thursday</option>
-                                    <option :value="5">Friday</option>
-                                    <option :value="6">Saturday</option>
-                                </b-select>
-                            </b-field>
-                            <b-field horizontal label="Hour format">
-                                <b-select v-model="hourFormat">
-                                    <option :value="undefined"></option>
-                                    <option value="12">12</option>
-                                    <option value="24">24</option>
-                                </b-select>
-                            </b-field>
-                        </b-field>
                         </div>
                         <div class="columns">
                             <div class="column">
@@ -175,14 +176,14 @@
                             </div>
                         </div>
                         <div>
-                        <b-button
-                                label="show"
-                                type="is-primary"
-                                icon-left="calendar-today"
-                                @click="showDate(beginningDate)"/>
+                            <b-button
+                                    label="show"
+                                    type="is-primary"
+                                    icon-left="calendar-today"
+                                    @click="showDate(beginningDate)"/>
                         </div>
                         <b-field label="Description" horizontal>
-                            <b-input maxlength="400" type="textarea"  name="description"></b-input>
+                            <b-input maxlength="400" type="textarea" name="description"></b-input>
                         </b-field>
                         <br>
                         <button class="mt-3 button is-fullwidth">

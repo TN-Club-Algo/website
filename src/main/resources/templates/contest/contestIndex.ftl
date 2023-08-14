@@ -34,19 +34,15 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <#-- todo edit the front for the contest-->
                         <#list contests as contest>
                             <tr>
                                 <td><a href="/contest/${contest.uuid}">${contest.contestName}</a></td>
-                                <#--                                                <td>-->
-                                <#--                                                    <#list contest[key].keywords as tag>-->
-                                <#--                                                        <span class="tag">${tag}</span>-->
-                                <#--                                                    </#list>-->
-                                <#--                                                </td>-->
                                 <td>
                                     <div>${contest.beginning}</div>
                                 </td>
                                 <td>${contest.end}</td>
-                                <td>${contest.nbUser}
+                                <td style="display: flex;align-items: center;">${contest.nbUser}
                                     <form type="hidden" id="contestRegister/${contest.uuid}">
                                     </form>
                                     <b-button class="form" id="contestRegister/${contest.uuid}">Register</b-button>
@@ -54,10 +50,6 @@
                             </tr>
                         </#list>
                         </tbody>
-                        <#--                    <script>-->
-                        <#--                        const app = new Vue()-->
-                        <#--                        app.$mount('#app')-->
-                        <#--                    </script>-->
                     </table>
                 </div>
             </div>
@@ -83,33 +75,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <#--                    <#list keys as key>-->
-                    <#--                        <tr>-->
-                    <#--                            <td><a href="/problem/${problems[key].slug}">${problems[key].name}</a></td>-->
-                    <#--                            <td>-->
-                    <#--                                <#list problems[key].keywords as tag>-->
-                    <#--                                    <span class="tag">${tag}</span>-->
-                    <#--                                </#list>-->
-                    <#--                            </td>-->
-                    <#--                            <td>-->
-                    <#--                                <#if problems[key].difficulty gt 0>-->
-                    <#--                                    <#list 1..problems[key].difficulty as _>-->
-                    <#--                                        <span class="icon has-text-danger">-->
-                    <#--                                            🟐-->
-                    <#--                                        </span>-->
-                    <#--                                    </#list>-->
-                    <#--                                </#if>-->
-                    <#--                                <#if 5 - problems[key].difficulty gt 0>-->
-                    <#--                                    <#list 1..(5 - problems[key].difficulty) as _>-->
-                    <#--                                        <span class="icon has-text-grey-light">-->
-                    <#--                                            🟐-->
-                    <#--                                        </span>-->
-                    <#--                                    </#list>-->
-                    <#--                                </#if>-->
-                    <#--                            </td>-->
-                    <#--                            <td>✗</td>-->
-                    <#--                        </tr>-->
-                    <#--                    </#list>-->
                     </tbody>
                 </table>
             </div>
@@ -129,13 +94,14 @@
                     url: urlSubmit,
                     data: formData,
                     dataType: "json",
-                    // success: function (data) {
-                    //     // Handle success response if needed
-                    // },
-                    // error: function (error) {
-                    //     // Handle error response if needed
-                    //     console.error("Error:", error);
-                    // }
+                    success: function (data) {
+                        console.log("registered")
+                    },
+                    error: function (error) {
+
+                        console.log("nop")
+                        console.error("Error:", error);
+                    }
                 })
             })
             // var data = $('.form').map(function () {

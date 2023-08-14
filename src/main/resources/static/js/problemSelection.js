@@ -1,70 +1,6 @@
-// async function fetchData() {
-//     try {
-//         const response = await fetch('/get_problems');
-//         const json = await response.json();
-//         return json;
-//     } catch (error) {
-//         console.error('Error fetching data:', error);
-//         return [];
-//     }
-// }
-// async function createVueInstance() {
-//     const json = await fetchData();
-//
-//     let json_problem = json.map(item => JSON.parse(item));
-//     console.log(json_problem);
-//
-//     const example = {
-//         data() {
-//             return {
-//                 data: json_problem,
-//                 name: '',
-//                 selectedOption: null
-//             };
-//         },
-//         computed: {
-//             filteredDataObj() {
-//                 return this.data.filter(item => {
-//                     return (
-//                         item.slug.toLowerCase().indexOf(this.name.toLowerCase()) >= 0
-//                     );
-//                 });
-//             }
-//         },
-//     };
-//
-//     const app = new Vue(example);
-//     app.$mount('#app_test');
-// }
-//
-// createVueInstance();
-// var input = document.querySelector('.scoreInput.input');
-// input.addEventListener('input', resizeInput);
-//
-// function resizeInput() {
-//     this.style.width = this.value.length + "ch";
-// }
-// import SvgIcon from '/@jamescoyle/vue-icon'
-// import { mdiAccount } from '/@mdi/js'
+// todo width adjustement not working
 const problems = $.getJSON('/get_problems', function (json) {
 
-    // console.log(problems)
-    // console.log(problems["responseJSON"])
-    // let json_problem = problems["responseJSON"].map((x) => Object.entries(JSON.parse(x)))
-    // let json_problem = problems["responseJSON"].map((obj) => {
-    //     const jsonObj = JSON.parse(JSON.stringify(Object.fromEntries(obj)));
-    //     return jsonObj;
-    // });
-    // console.log(json_problem)
-    // console.log(typeof(problems["responseJSON"][0]))
-    // console.log(json)
-    // let json_problem = json.map(obj => ({
-    //     name: obj.slug,
-    //     difficulty: obj.difficulty,
-    //     author: obj.author,
-    //     type: obj.type,
-    //     //...obj, // Spread all other attributes
-    // }));
     let json_problem = json.map(item => {
         let fulljson = JSON.parse(item)
         fulljson["json"] = item
@@ -73,9 +9,6 @@ const problems = $.getJSON('/get_problems', function (json) {
     console.log(json_problem);
     console.log(json_problem[0])
     const example = {
-        // components:{
-        //     SvgIcon
-        // },
         data() {
             return {
                 data: json_problem,
@@ -94,27 +27,16 @@ const problems = $.getJSON('/get_problems', function (json) {
         },
         methods: {
             parseSelected() {
-                // selected[ind].slug = undefined;
                 console.log("parsing")
                 console.log(this.selected)
                 if (this.selected.length > 0) {
-                    // console.log(selected)
-                    // return JSON.stringify(selected)
+
                     let value = Array()
                     for (let ind = 0; ind < this.selected.length; ind++) {
-                        // let simplifiedProblem = Object()
-                        // simplifiedProblem["slug"] = selected[ind].slug
-                        // simplifiedProblem["score"] = selected[ind].score
-                        value.push([this.selected[ind].slug ,this.selected[ind].score])
-
-                        // value.push("{\"slug\":\"{{selected[ind].slug}}\",{\"score\":\"${selected[ind].score}\"}")
-
-                        // if (ind < selected.length - 1) {
-                        //     value = value + ","
-                        // }
+                        value.push([this.selected[ind].slug, this.selected[ind].score])
                     }
                     console.log("parsing done")
-                    this.returnSelected =  value //+ "]"
+                    this.returnSelected = value
                 } else {
                     console.log("parsing done")
                     this.returnSelected = []
@@ -162,7 +84,6 @@ const problems = $.getJSON('/get_problems', function (json) {
             },
             removeSelectedOption(index) {
                 console.log(index)
-                // this.selected = [];
                 this.selected.splice(index, 1);
                 this.parseSelected()
             },
@@ -199,19 +120,7 @@ const problems = $.getJSON('/get_problems', function (json) {
             }
         },
     }
-    // const timer = setInterval(() => {
-    //     console.log("current state of selected")
-    //     console.log(example.data().selected)
-    // }, 1000);
     const app = new Vue(example)
     app.$mount('#app_test')
 
 });
-
-
-// $.getJSON('/get_problems', function (json) {
-//     appjson.json = json;
-// });
-// console.log($.getJSON('/get_problems', function (json) {
-//     appjson.json = json;
-// }))
