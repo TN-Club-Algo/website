@@ -38,17 +38,20 @@ class WebSocketEventListener {
                 val id = retMap["testID"].toString()
                 val problem = Chili.getProblems().getProblem(retMap["problemSlug"].toString())
                 val testResult = retMap["result"].toString()
+                val validated = retMap["result"] == "true"
                 if (problem != null) {
                     val testJson = TestJSON(
                         retMap["testID"].toString(),
                         -1,
                         email,
                         problem.slug,
+                        problem.name,
                         "/api/tests/$id",
                         testResult,
                         "none",
                         "none",
-                        validated = retMap["result"] == "true"
+                        ended = true,
+                        validated = validated
                     )
 
                     testsInProgress.remove(testJson.email)
@@ -59,6 +62,11 @@ class WebSocketEventListener {
 
                     data.allTests.add(testJson)
                     Chili.getRedisInterface().saveData(email, data)
+
+                    if (validated) {
+                        problem.usersWhoSolved.add(email)
+                        Chili.getRedisInterface().client.getSet<String>("problem-${problem.slug}-solved").add(email)
+                    }
 
                     val headerAccessor = SimpMessageHeaderAccessor.create()
                     headerAccessor.setHeader("Authorization", "Bearer $token")
@@ -88,6 +96,7 @@ class WebSocketEventListener {
                         index,
                         email,
                         problem.slug,
+                        problem.name,
                         "/api/tests/$id",
                         progress,
                         retMap["timeElapsed"].toString(),
@@ -98,7 +107,7 @@ class WebSocketEventListener {
                     val data = Chili.getRedisInterface().getData(email, TestData::class.java)
                     data!!.testInProgress = testJson
 
-                    if(data.allTests.contains(testJson)) {
+                    if (data.allTests.contains(testJson)) {
                         // Looks like the test was already completed
                         testsInProgress.remove(testJson.email)
                     } else {

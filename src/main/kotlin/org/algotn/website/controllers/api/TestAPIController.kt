@@ -17,6 +17,8 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
+import java.util.*
+import kotlin.math.min
 
 @RestController
 @RequestMapping("/api/tests")
@@ -33,7 +35,11 @@ class TestAPIController {
 
     // User dependent
     @GetMapping("/all")
-    fun getProblems(): Map<String, Any> {
+    fun getProblems(
+        @RequestParam(required = false, defaultValue = "1", name = "page") page: Int,
+        @RequestParam(required = false, defaultValue = "10", name = "count") count: Int,
+        @RequestParam(required = false, defaultValue = "date.desc", name = "sort_by") sort: String
+    ): Map<String, Any> {
         // FIXME: this doesn't work if user has a secret
         val principal = SecurityContextHolder.getContext().authentication.principal
 
@@ -54,9 +60,37 @@ class TestAPIController {
         }
 
         val testData = Chili.getRedisInterface().getData(username, TestData::class.java)!!
-        testData.allTests
 
-        map["completed"] = testData.allTests
+        val maxPage = testData.allTests.size / count + 1
+
+        var page = page
+        if (page > maxPage) {
+            page = maxPage
+        } else if (page < 1) {
+            page = 1
+        }
+
+        val consideredTests = testData.allTests.toMutableList()
+        val sortParam = sort.split(".")[0]
+        val sortType = sort.split(".")[1]
+        when (sortParam) {
+            "date" -> {
+                if (sortType == "desc") {
+                    consideredTests.sortedByDescending { it.timestamp }
+                } else {
+                    consideredTests.sortedBy { it.timestamp }
+                }
+            }
+
+            "problem_name" -> {
+                if (sortType == "desc") {
+                    consideredTests.sortedByDescending { it.problemName }
+                } else {
+                    consideredTests.sortedBy { it.problemName }
+                }
+            }
+        }
+        map["completed"] = consideredTests.subList((page - 1) * count, min(page * count, consideredTests.size))
         return map
     }
 
@@ -73,6 +107,18 @@ class TestAPIController {
             }
         }
         return FileSystemResource("")
+    }
+
+    @PostMapping("/restricted/currentQueue")
+    @ResponseBody
+    fun getCurrentQueue(@RequestParam queueMap: Map<String, Int>): Map<String, Any> {
+        queueMap.entries.forEach {
+            val email = it.key
+            val position = it.value
+
+            // Send to websocket for user
+        }
+        return mapOf("error" to "Not implemented")
     }
 
     // Need secret to access url

@@ -17,7 +17,7 @@
                         <th>Problème</th>
                         <th>Thèmes</th>
                         <th>Difficulté</th>
-                        <th>Avancement</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -30,22 +30,13 @@
                                 </#list>
                             </td>
                             <td>
-                                <#if problems[key].difficulty gt 0>
-                                    <#list 1..problems[key].difficulty as _>
-                                        <span class="icon has-text-danger">
-                                            🟐
-                                        </span>
-                                    </#list>
-                                </#if>
-                                <#if 5 - problems[key].difficulty gt 0>
-                                    <#list 1..(5 - problems[key].difficulty) as _>
-                                        <span class="icon has-text-grey-light">
-                                            🟐
-                                        </span>
-                                    </#list>
+                                ${problems[key].difficulty}
+                            </td>
+                            <td>${problems[key].getUsersWhoSolvedCount()} résolution
+                                <#if problems[key].getUsersWhoSolvedCount() gt 1>
+                                    s
                                 </#if>
                             </td>
-                            <td>✗</td>
                         </tr>
                     </#list>
                     </tbody>

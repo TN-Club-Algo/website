@@ -24,6 +24,8 @@ class ProfileController {
         return "profiles/parameter"
     }
 
+    // TODO: si l'utilisateur doit attendre une VM, lui dire qu'il est en file d'attente et envoyer via le websocket à chaque fois qu'il y a un changement
+
     @GetMapping("/profile/test")
     fun viewOwnTests(model: Model): String {
         val principal = SecurityContextHolder.getContext().authentication.principal
