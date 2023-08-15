@@ -50,6 +50,9 @@
                                 Tests
                             </b-navbar-item>
                         </#if>
+                        <a class="navbar-item" href="/contest">
+                            Compétitions
+                        </a>
                         <b-navbar-item href="/scoreboard">
                             Classement
                         </b-navbar-item>

@@ -25,22 +25,22 @@ class ContestController {
     @GetMapping("/contest")
     fun contestIndex(model: Model): ModelAndView {
         println("coucou")
-        val gson = Gson()
-        val mydata = Chili.getRedisInterface().getAllUUIDData(Contest().javaClass).map {
+        val allContest = Chili.getRedisInterface().getAllUUIDData(Contest()::class.java).map {
             val curMap = HashMap<String, Any>();
-            curMap.put("uuid", it.uuid)
-            curMap.put("contestName", it.name);
-            curMap.put("beginning", it.beginning);
-            curMap.put("end", it.end)
-            curMap.put("nbUser", it.registeredUser.size)
+            curMap["uuid"] = it.uuid
+            curMap["contestName"] = it.name;
+            curMap["beginning"] = it.beginning;
+            curMap["end"] = it.end
+            curMap["nbUser"] = it.registeredUser.size
             curMap
         }
-        println("please")
-        println(mydata)
-        println(mydata[0])
-        print("yeah")
-
-        model.addAttribute("contests", mydata)
+        if (!allContest.isNullOrEmpty()) {
+            println("please")
+            println(allContest)
+            println(allContest[0])
+            print("yeah")
+        }
+        model.addAttribute("contests", allContest)
 
         return ModelAndView("contest/contestIndex")
     }
