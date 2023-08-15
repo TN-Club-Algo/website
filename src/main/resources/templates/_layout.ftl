@@ -2,7 +2,7 @@
     <#assign known = SPRING_SECURITY_CONTEXT??>
     <!DOCTYPE html>
     <html lang="en">
-<#--    <html xmlns:th="http://www.thymeleaf.org">-->
+    <#--    <html xmlns:th="http://www.thymeleaf.org">-->
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -64,7 +64,7 @@
             <#nested>
         </div>
 
-<#--        <script src="https://unpkg.com/vue@2"></script>-->
+        <#--        <script src="https://unpkg.com/vue@2"></script>-->
         <!-- Full bundle -->
         <script>
             const app = new Vue()
@@ -74,11 +74,11 @@
         <script src="https://unpkg.com/buefy/dist/components/table"></script>
         <script src="https://unpkg.com/buefy/dist/components/input"></script>
 
-<#--        <script>-->
-<#--            new Vue({-->
-<#--                el: '#app'-->
-<#--            })-->
-<#--        </script>-->
+        <#--        <script>-->
+        <#--            new Vue({-->
+        <#--                el: '#app'-->
+        <#--            })-->
+        <#--        </script>-->
     </div>
     </body>
     </html>
