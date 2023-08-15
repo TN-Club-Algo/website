@@ -35,7 +35,7 @@
                         <#-- todo edit the front for the contest-->
                         <#list contests as contest>
                             <tr>
-                                <td><a href="/contest/${contest.uuid}">${contest.contestName}</a></td>
+                                <td><a href="/contest/seeContest/${contest.uuid}">${contest.contestName}</a></td>
                                 <td>
                                     <div>${contest.beginning}</div>
                                 </td>

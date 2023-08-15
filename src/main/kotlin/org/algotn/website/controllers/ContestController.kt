@@ -45,6 +45,48 @@ class ContestController {
         return ModelAndView("contest/contestIndex")
     }
 
+    @GetMapping("/contest/seeContest/{uuid}")
+    fun seeContest(
+        @PathVariable("uuid") uuid: String,
+        model: Model
+    ): ModelAndView {
+        println("begining the contest show")
+        println(uuid)
+        val theContest = Chili.getRedisInterface().getData(uuid,Contest()::class.java)
+
+        println(theContest)
+
+        val listProblems = Chili.getProblems().sortedProblems//.forEach {
+
+        val contestProblems = mutableListOf<HashMap<String,Any>>()
+        for (problem in listProblems){
+            if (theContest != null && theContest.problems.containsKey(problem.slug)){
+                val mapProblem = HashMap<String, Any>();
+                val scoreProblem = theContest.problems[problem.slug]
+                mapProblem["name"] = problem.name;
+                mapProblem["slug"] = problem.slug
+                mapProblem["difficulty"] = problem.difficulty;
+                mapProblem["keywords"] = problem.keywords
+                mapProblem["author"] = problem.author
+                mapProblem["type"] = problem.type
+                if (scoreProblem != null){
+                    mapProblem["score"] = scoreProblem
+                }else{
+                    mapProblem["score"] = "undefined"
+                }
+                contestProblems.add(mapProblem)
+                println(mapProblem.toString())
+            }
+        }
+
+
+//        model.addAttribute("allProblemNames", listProblems.map { it.slug })
+        model.addAttribute("allProblem",contestProblems)
+        model.addAttribute("contest",theContest)
+
+        return ModelAndView("contest/viewContest")
+    }
+
     @PostMapping("contestRegister/{uuid}")
     fun register(
         @PathVariable("uuid") uuid: String
