@@ -2,83 +2,85 @@
     <#assign known = SPRING_SECURITY_CONTEXT??>
     <!DOCTYPE html>
     <html lang="en">
-    <#--    <html xmlns:th="http://www.thymeleaf.org">-->
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Bladur</title>
-
+        <title>AlgoTN</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://kit.fontawesome.com/701effbac8.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-        <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
-        <script src="../../static/js/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
         <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
-        <#--<link rel="icon" type="image/png" href=""/>-->
-    </head>
-    <body>
-    <div class="container">
+        <link rel="icon" type="image/x-icon" href="/api/image/algotn.ico">
 
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item" href="/">Home</a>
-                    <a class="navbar-item" href="/blog">Blog</a>
-                    <a class="navbar-item" href="/problem">Problèmes</a>
-                    <#if known>
-                        <a class="navbar-item" href="/profile/test">Test</a>
-                    </#if>
-                    <a class="navbar-item" href="/contest">Compétitions</a>
-                    <a class="navbar-item" href="/scoreboard">Classement</a>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">Plus</a>
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item" href="@{/contact}">Contact</a>
-                            <a class="navbar-item" href="@{/legalNotice}">Legals</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="navbar-end">
-                    <#if known>
-                        <a class="navbar-item" href="/profile">Profil</a>
-                        <a class="navbar-item" href="/logout">Déconnexion</a>
-                    <#else>
-                        <a class="navbar-item" href="/login">Se connecter</a>
-                    </#if>
-                </div>
-            </div>
-        </nav>
-
-        <style>
-            .navbar-menu {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-        </style>
-
-        <div>
-            <#nested>
-        </div>
-
-        <#--        <script src="https://unpkg.com/vue@2"></script>-->
+        <script src="https://unpkg.com/vue@2"></script>
         <!-- Full bundle -->
-        <script>
-            const app = new Vue()
-            app.$mount('#app')
-        </script>
+        <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+
         <!-- Individual components -->
         <script src="https://unpkg.com/buefy/dist/components/table"></script>
         <script src="https://unpkg.com/buefy/dist/components/input"></script>
+    </head>
+    <body>
+    <div class="container">
+        <div id="app">
+            <template class="mb-3">
+                <b-navbar>
+                    <template #brand>
+                        <b-navbar-item tag="router-link" :to="{ path: '/' }">
+                            <img
+                                    src="/api/image/algotn.webp"
+                                    alt="AlgoTN"
+                            >
+                        </b-navbar-item>
+                    </template>
+                    <template #start>
+                        <b-navbar-item href="/">
+                            Accueil
+                        </b-navbar-item>
+                        <b-navbar-item href="/blog">
+                            Blog
+                        </b-navbar-item>
+                        <b-navbar-item href="/problem">
+                            Problèmes
+                        </b-navbar-item>
+                        <#if known>
+                            <b-navbar-item href="/profile/test">
+                                Tests
+                            </b-navbar-item>
+                        </#if>
+                        <b-navbar-item href="/scoreboard">
+                            Classement
+                        </b-navbar-item>
+                    </template>
 
-        <#--        <script>-->
-        <#--            new Vue({-->
-        <#--                el: '#app'-->
-        <#--            })-->
-        <#--        </script>-->
+                    <template #end>
+                        <#if known>
+                            <b-navbar-item href="/profile">
+                                Profil
+                            </b-navbar-item>
+                            <b-navbar-item href="/logout">
+                                Déconnexion
+                            </b-navbar-item>
+                        <#else>
+                            <b-navbar-item href="/login">
+                                Se connecter
+                            </b-navbar-item>
+                        </#if>
+
+                    </template>
+                </b-navbar>
+            </template>
+        </div>
+
+        <#nested>
+
+        <script>
+            new Vue({
+                el: '#app'
+            })
+        </script>
     </div>
     </body>
     </html>
