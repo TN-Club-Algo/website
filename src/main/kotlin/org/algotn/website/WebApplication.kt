@@ -17,7 +17,7 @@ class WebApplicationKt {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            Chili.getRedisInterface().registerData(User(), TestData())
+            Chili.getRedisInterface().registerData(User(), TestData(), Contest())
             SpringApplication.run(WebApplication::class.java, *args)
         }
     }
