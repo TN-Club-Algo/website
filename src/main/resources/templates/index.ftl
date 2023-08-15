@@ -7,7 +7,9 @@
         <b-carousel :indicator-inside="true">
             <#list keys as key>
                 <b-carousel-item>
-                    <b-image class="image" src="${key.first}"></b-image>
+                    <a href="${key.second}">
+                        <b-image class="image" src="${key.first}"></b-image>
+                    </a>
                 </b-carousel-item>
             </#list>
         </b-carousel>

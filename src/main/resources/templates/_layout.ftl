@@ -27,14 +27,12 @@
         <div id="app">
             <template class="mb-3">
                 <b-navbar>
-<#--                    <template #brand>-->
-<#--                        <b-navbar-item tag="router-link" :to="{ path: '/' }">-->
-<#--                            <img-->
-<#--                                    src="/api/image/algotn.webp"-->
-<#--                                    alt="AlgoTN"-->
-<#--                            >-->
-<#--                        </b-navbar-item>-->
-<#--                    </template>-->
+                    <template #brand>
+                        <b-navbar-item href="/">
+                            <img src="/api/image/algotn.webp"
+                                 alt="AlgoTN">
+                        </b-navbar-item>
+                    </template>
                     <template #start>
                         <b-navbar-item href="/">
                             Accueil
@@ -81,7 +79,7 @@
 
         <script>
             new Vue({
-                el: '#app'
+                el: '#app',
             })
         </script>
     </div>
