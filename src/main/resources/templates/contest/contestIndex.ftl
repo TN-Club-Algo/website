@@ -1,13 +1,11 @@
 <#import "../_layout.ftl" as layout />
 
 <title>Liste des Compétitions</title>
-<script src="../../static/js/jquery.min.js"></script>
 <script src="../../static/js/stomp.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<meta charset="UTF-8">
-<script src="../../static/js/app.js"></script>
 <@layout.header>
-    <div id="app" class="card">
+
+    <div id="appIndex" class="card">
         <header class="card-header" style="position: relative;height: 54px;">
             <p class="subtitle is-4 p-3">
                 Compétitons en cours
@@ -132,5 +130,10 @@
             //     });
             // });
         });
+    </script>
+    <script>
+        new Vue({
+            el: '#appIndex'
+        })
     </script>
 </@layout.header>

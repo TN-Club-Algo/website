@@ -1,8 +1,6 @@
 <#import "../_layout.ftl" as layout />
 
 <meta charset="UTF-8">
-<link rel="stylesheet" href="../static/css/new_problem.css">
-<script type="module" src="../static/js/problem_selection.js"
 <@layout.header>
     <div id="container">
         <div class="card">
@@ -194,4 +192,7 @@
             </div>
         </div>
     </div>
+
+    <link rel="stylesheet" href="../static/css/new_problem.css">
+    <script type="text/javascript" src="../static/js/problemSelection.js"></script>
 </@layout.header>
