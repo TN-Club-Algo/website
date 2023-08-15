@@ -1,6 +1,7 @@
 package org.algotn.website
 
 import org.algotn.api.Chili
+import org.algotn.api.contest.Contest
 import org.algotn.website.auth.User
 import org.algotn.website.data.TestData
 import org.springframework.boot.SpringApplication

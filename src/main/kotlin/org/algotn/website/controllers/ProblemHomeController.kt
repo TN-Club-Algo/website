@@ -33,7 +33,6 @@ class ProblemHomeController {
         subList.forEach {
             problems[it.slug] = it
         }
-
         model.addAttribute("problems", problems)
         return ModelAndView("problemHome")
     }
