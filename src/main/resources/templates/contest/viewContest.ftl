@@ -2,52 +2,58 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
 <@layout.header>
-    <div style="width: 75%; margin: auto">
+    <div style="width: 90%; margin: auto">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
             <h2 class="subtitle is-2">
-                ${contest.name}
+                Compétition: ${contest.name}
             </h2>
         </div>
     </div>
     <div>
         <div class="card">
-            <div class="card-header">
-                <div>
-                    ${contest.description}
-                </div>
-            </div>
             <div class="card-content">
-                <#list allProblem as problem>
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-left">
-                                    <figure class="image is-48x48">
-                                        <img src="https://bulma.io/images/placeholders/96x96.png"
-                                             alt="Placeholder image">
-                                    </figure>
-                                </div>
-                                <div class="media-content">
-                                    <p class="title is-4"><a href="http://localhost:8080/problem/${problem.slug}">${problem.name}</a></p>
-                                    <p class="subtitle is-6">${problem.slug}</p>
-                                </div>
-                            </div>
-
-                            <div class="content">
-                                <div>
-                                    Difficulté : ${problem.difficulty}
-                                </div>
-                                <br>
-                                <#list problem.keywords as tag>
-                                    <div>tag</div>
-                                </#list>
-                                <br>
-                                <div>${problem.author}</div>
-                                <#--                            <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>-->
-                            </div>
-                        </div>
-                    </div>
-                </#list>
+                <div style="padding: 0em 0em 2em 1em;" id="description">${contest.description}</div>
+                <div rounded class="box">
+<#--                    <div class="container">Problems :</div>-->
+                    <table class="table is-fullwidth is-striped">
+                        <thead>
+                        <tr>
+                            <th>Problème</th>
+                            <th>Thèmes</th>
+                            <th>Difficulté</th>
+                            <th></th>
+                            <th>Score</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <#list allProblem as problem>
+                            <tr>
+                                <td><a href="/problem/${problem["problem"].slug}">${problem["problem"].name}</a>
+                                    <#if email??>
+                                        <#if problem["problem"].usersWhoSolved?seq_contains(email)>
+                                            <span class="tag is-success">RÉUSSI</span>
+                                        </#if>
+                                    </#if>
+                                </td>
+                                <td>
+                                    <#list problem["problem"].keywords as tag>
+                                        <span class="tag">${tag}</span>
+                                    </#list>
+                                </td>
+                                <td>
+                                    ${problem["problem"].difficulty}
+                                </td>
+                                <td>${problem["problem"].getUsersWhoSolvedCount()} résolution
+                                    <#if problem["problem"].getUsersWhoSolvedCount() gt 1>
+                                        s
+                                    </#if>
+                                </td>
+                                <td>${problem["score"]}</td>
+                            </tr>
+                        </#list>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@ package org.algotn.website.controllers
 import org.algotn.api.Chili
 import org.algotn.api.contest.Contest
 import org.algotn.api.contest.ContestProblem
+import org.algotn.api.problem.Problem
 import org.algotn.api.utils.DateUtils
 import org.algotn.website.auth.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -79,6 +80,10 @@ class ContestController {
 
         val theContest = Chili.getRedisInterface().getData(uuid, Contest::class.java)!!
 
+//        println(theContest.description)
+//        theContest.description?.replace("(\r\n|\n)", "<br />")
+//        println(theContest.description)
+
         // Contest must be started
         if (DateUtils.dateToLong(theContest.beginning) > System.currentTimeMillis()) {
             redirectAttributes.addFlashAttribute("errorMessage", "La compétition n'a pas encore commencé !")
@@ -88,16 +93,13 @@ class ContestController {
         val listProblems = Chili.getProblems().sortedProblems
 
         val contestProblems = mutableListOf<HashMap<String, Any>>()
+//            hashMapOf<String, Problem>()
+//
         for (problem in listProblems) {
             if (theContest.problems.containsKey(problem.slug)) {
                 val mapProblem = HashMap<String, Any>();
                 val scoreProblem = theContest.problems[problem.slug]
-                mapProblem["name"] = problem.name;
-                mapProblem["slug"] = problem.slug
-                mapProblem["difficulty"] = problem.difficulty;
-                mapProblem["keywords"] = problem.keywords
-                mapProblem["author"] = problem.author
-                mapProblem["type"] = problem.type
+                mapProblem["problem"] = problem
                 if (scoreProblem != null) {
                     mapProblem["score"] = scoreProblem
                 } else {

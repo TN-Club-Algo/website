@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
 <@layout.header>
-    <div style="width: 75%; margin: auto">
+    <div style="width: 90%; margin: auto">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
             <h2 class="subtitle is-2">
                 ${problem.name}
