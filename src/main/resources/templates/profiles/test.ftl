@@ -20,7 +20,7 @@
             code, celui-ci devrait bientôt s'afficher ici et vous donner des informations en direct.</h2>
     </div>
 
-    <div id="testApp">
+    <div id="testApp" class="mt-4">
         <template>
             <section>
                 <b-table

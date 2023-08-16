@@ -2,6 +2,10 @@ package org.algotn.website.controllers
 
 import org.algotn.api.Chili
 import org.algotn.api.problem.Problem
+import org.algotn.website.auth.UserRepository
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -11,6 +15,9 @@ import kotlin.math.ceil
 
 @Controller
 class ProblemHomeController {
+
+    @Autowired
+    val userRepository: UserRepository? = null
 
     private val problemsPerPage = 3
 
@@ -34,6 +41,20 @@ class ProblemHomeController {
             problems[it.slug] = it
         }
         model.addAttribute("problems", problems)
+
+        val principal = SecurityContextHolder.getContext().authentication.principal
+
+        val username = if (principal is UserDetails) {
+            principal.username
+        } else {
+            principal.toString()
+        }
+
+        val user = userRepository!!.findByUsername(username)
+        if (user.isPresent) {
+            model.addAttribute("email", username)
+        }
+
         return ModelAndView("problemHome")
     }
 }

@@ -1,10 +1,11 @@
 package org.algotn.website.controllers
 
-import com.google.gson.Gson
 import org.algotn.api.Chili
 import org.algotn.api.contest.Contest
 import org.algotn.api.contest.ContestProblem
-import org.algotn.api.users.UserGroup
+import org.algotn.api.utils.DateUtils
+import org.algotn.website.auth.UserRepository
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Controller
@@ -14,53 +15,81 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.ModelAndView
-import java.time.ZonedDateTime
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.util.*
-import kotlin.collections.HashMap
 
 
 @Controller
 class ContestController {
 
+    @Autowired
+    val userRepository: UserRepository? = null
+
     @GetMapping("/contest")
     fun contestIndex(model: Model): ModelAndView {
-        println("coucou")
-        val allContest = Chili.getRedisInterface().getAllUUIDData(Contest()::class.java).map {
-            val curMap = HashMap<String, Any>();
-            curMap["uuid"] = it.uuid
-            curMap["contestName"] = it.name;
-            curMap["beginning"] = it.beginning;
-            curMap["end"] = it.end
-            curMap["nbUser"] = it.registeredUser.size
-            curMap
+        val contests = Chili.getRedisInterface().getAllUUIDData(Contest::class.java).toMutableList()
+        val currentContests = contests.filter {
+            DateUtils.dateToLong(it.beginning) < System.currentTimeMillis()
+                    && DateUtils.dateToLong(it.end) > System.currentTimeMillis()
+        }.toMutableList()
+
+        // Remove past contests
+        contests.removeIf {
+            DateUtils.dateToLong(it.end) < System.currentTimeMillis()
         }
-        if (!allContest.isNullOrEmpty()) {
-            println("please")
-            println(allContest)
-            println(allContest[0])
-            print("yeah")
+        currentContests.removeIf {
+            DateUtils.dateToLong(it.end) < System.currentTimeMillis()
         }
-        model.addAttribute("contests", allContest)
+
+        // Sort contests
+        contests.toMutableList().sortBy { it.beginning }
+        currentContests.toMutableList().sortBy { it.beginning }
+
+        val principal = SecurityContextHolder.getContext().authentication.principal
+
+        val username = if (principal is UserDetails) {
+            principal.username
+        } else {
+            principal.toString()
+        }
+
+        val user = userRepository!!.findByUsername(username)
+
+        if (user.isPresent) {
+            val userContests = contests.filter { it.registeredUser.contains(username) }
+            model.addAttribute("userContests", userContests)
+        }
+
+        model.addAttribute("currentContests", currentContests)
+        model.addAttribute("contests", contests)
 
         return ModelAndView("contest/contestIndex")
     }
 
-    @GetMapping("/contest/seeContest/{uuid}")
+    @GetMapping("/contest/{uuid}")
     fun seeContest(
         @PathVariable("uuid") uuid: String,
+        redirectAttributes: RedirectAttributes,
         model: Model
     ): ModelAndView {
-        println("begining the contest show")
-        println(uuid)
-        val theContest = Chili.getRedisInterface().getData(uuid,Contest()::class.java)
+        if (!Chili.getRedisInterface().hasData(uuid, Contest::class.java)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Compétition introuvable")
+            return ModelAndView("redirect:/contest")
+        }
 
-        println(theContest)
+        val theContest = Chili.getRedisInterface().getData(uuid, Contest::class.java)!!
 
-        val listProblems = Chili.getProblems().sortedProblems//.forEach {
+        // Contest must be started
+        if (DateUtils.dateToLong(theContest.beginning) > System.currentTimeMillis()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "La compétition n'a pas encore commencé !")
+            return ModelAndView("redirect:/contest")
+        }
 
-        val contestProblems = mutableListOf<HashMap<String,Any>>()
-        for (problem in listProblems){
-            if (theContest != null && theContest.problems.containsKey(problem.slug)){
+        val listProblems = Chili.getProblems().sortedProblems
+
+        val contestProblems = mutableListOf<HashMap<String, Any>>()
+        for (problem in listProblems) {
+            if (theContest.problems.containsKey(problem.slug)) {
                 val mapProblem = HashMap<String, Any>();
                 val scoreProblem = theContest.problems[problem.slug]
                 mapProblem["name"] = problem.name;
@@ -69,20 +98,18 @@ class ContestController {
                 mapProblem["keywords"] = problem.keywords
                 mapProblem["author"] = problem.author
                 mapProblem["type"] = problem.type
-                if (scoreProblem != null){
+                if (scoreProblem != null) {
                     mapProblem["score"] = scoreProblem
-                }else{
+                } else {
                     mapProblem["score"] = "undefined"
                 }
                 contestProblems.add(mapProblem)
-                println(mapProblem.toString())
             }
         }
 
 
-//        model.addAttribute("allProblemNames", listProblems.map { it.slug })
-        model.addAttribute("allProblem",contestProblems)
-        model.addAttribute("contest",theContest)
+        model.addAttribute("allProblem", contestProblems)
+        model.addAttribute("contest", theContest)
 
         return ModelAndView("contest/viewContest")
     }
@@ -118,13 +145,6 @@ class ContestController {
         return "/contest"
     }
 
-
-    @GetMapping("/contest/test")
-    fun index(model: Model): String {
-        model.addAttribute("eventName", "FIFA 2018")
-        return "contest/test"
-    }
-
     @GetMapping("/contest/submit")
     fun submit(model: Model): ModelAndView {
 
@@ -142,18 +162,7 @@ class ContestController {
         @RequestParam("contestName") contestName: String,
         @RequestParam("creator") creator: String,
         @RequestParam("description") desc: String,
-
-        ): String {
-        println("form in submit")
-        println(selectedProblems)
-
-        println(beginningDate)
-        println(endDate)
-        println(contestName)
-        println(creator)
-        println(desc)
-
-
+    ): String {
         val newContest = Contest()
 
         newContest.name = contestName
@@ -162,14 +171,12 @@ class ContestController {
         newContest.end = endDate
         newContest.description = desc
 
-        for (ind in 0..(selectedProblems.size - 1) step 2) {
-            println(selectedProblems[ind])
+        for (ind in selectedProblems.indices step 2) {
             val pbContest = ContestProblem(selectedProblems[ind], selectedProblems[ind + 1].toInt())
             newContest.addProblem(pbContest)
         }
-        println(newContest.problems)
         val chili = Chili.getRedisInterface()
-        chili.saveData(newContest.uuid.toString(), newContest)
+        chili.saveData(newContest.uuid, newContest)
 
         return "/contest/submit";
     }
@@ -178,11 +185,6 @@ class ContestController {
     @GetMapping("/contest/createIssue")
     fun issue(): String {
         return "contest/createIssue"
-    }
-
-    @GetMapping("/contest/{contestNumber}")
-    fun contest(): String {
-        return "contest/contest"
     }
 
     @GetMapping("contest/{contestNumber}/scoreboard")

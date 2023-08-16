@@ -23,7 +23,13 @@
                     <tbody>
                     <#list keys as key>
                         <tr>
-                            <td><a href="/problem/${problems[key].slug}">${problems[key].name}</a></td>
+                            <td><a href="/problem/${problems[key].slug}">${problems[key].name}</a>
+                                <#if email??>
+                                    <#if problems[key].usersWhoSolved?seq_contains(email)>
+                                        <span class="tag is-success">RÉUSSI</span>
+                                    </#if>
+                                </#if>
+                            </td>
                             <td>
                                 <#list problems[key].keywords as tag>
                                     <span class="tag">${tag}</span>
