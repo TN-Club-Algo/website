@@ -25,10 +25,13 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector
 @EnableWebSecurity
 open class WebSecurityConfig {
 
+    private val gson = Gson()
+
     private var requestHeaderAuthenticationProvider: RequestHeaderAuthenticationProvider =
         RequestHeaderAuthenticationProvider()
 
-    fun authenticationManager(): AuthenticationManager {
+    @Bean
+    open fun authenticationManager(): AuthenticationManager {
         return AuthenticationManager { authentication ->
             if (UserRepositoryImpl.doesUserMatchPassword(
                     authentication.name,
@@ -111,7 +114,7 @@ open class WebSecurityConfig {
 
                         // write the response
                         response.contentType = "application/json"
-                        response.writer.write(Gson().toJson(responseMap))
+                        response.writer.write(gson.toJson(responseMap))
                     }
                     .successHandler { request, response, authentication ->
                         val responseMap = mutableMapOf<String, Any>()
@@ -119,7 +122,7 @@ open class WebSecurityConfig {
                         responseMap["redirect"] = "/"
 
                         response.contentType = "application/json"
-                        response.writer.write(Gson().toJson(responseMap))
+                        response.writer.write(gson.toJson(responseMap))
                     }
                     .permitAll(false)
             }

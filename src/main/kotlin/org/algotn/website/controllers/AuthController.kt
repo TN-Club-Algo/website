@@ -1,8 +1,12 @@
 package org.algotn.website.controllers
 
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.algotn.api.Chili
 import org.algotn.website.auth.User
 import org.algotn.website.auth.UserRepository
 import org.algotn.website.auth.WebSecurityConfig
+import org.algotn.website.services.email.EmailService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -12,6 +16,8 @@ import org.springframework.stereotype.Controller
 import org.springframework.util.MultiValueMap
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 @Controller
@@ -22,35 +28,47 @@ class AuthController(private val userRepository: UserRepository) {
     @Autowired
     private var webSecurityConfig: WebSecurityConfig? = null
 
+    @Autowired
+    private var emailService: EmailService? = null
+
     @PostMapping("/password-reset/{token}")
     fun passwordResetToken(
         @PathVariable("token") token: String,
         @RequestParam allParams: Map<String, String>,
         redirectAttributes: RedirectAttributes
     ): String {
-        // token exists?
-
-        if (!allParams.containsKey("confirm-password") || allParams["confirm-password"] != allParams["password"]) {
+        if (!allParams.containsKey("password-confirm") || allParams["password-confirm"] != allParams["password"]) {
             redirectAttributes.addFlashAttribute("errorMessage", "Les mots de passe ne correspondent pas.")
             return "redirect:/password-reset/$token"
         }
 
-        /*        val user = userRepository.findByUsername(token)
+        // Check if token exists and is linked to this user
+        if (!Chili.getRedisInterface().client.getMapCache<String, String>("password-reset-tokens").containsKey(token)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Le token n'est pas valide.")
+            return "redirect:/password-reset/$token"
+        }
 
-                user.password = passwordEncoder.encode(allParams["password"]!!)
+        val email = Chili.getRedisInterface().client.getMapCache<String, String>("password-reset-tokens")[token]!!
+        Chili.getRedisInterface().client.getMapCache<String, String>("password-reset-tokens").remove(token)
 
-                userRepository.save(user)
+        val user = userRepository.findByEmail(email).get()
 
-                authWithAuthManager(user.userName, user.password)
+        user.password = passwordEncoder.encode(allParams["password"]!!)
 
-                redirectAttributes.addFlashAttribute("successMessage", "Mot de passe modifié avec succès.")*/
+        userRepository.save(user)
 
-        return "redirect:/"
+        authWithAuthManager(user.email, user.password)
+
+        redirectAttributes.addFlashAttribute("successMessage", "Mot de passe modifié avec succès.")
+
+        return "redirect:/login"
     }
 
     @GetMapping("/password-reset/{token}")
     fun passwordResetToken(@PathVariable("token") token: String): String {
-        // token exists?
+        if (!Chili.getRedisInterface().client.getMapCache<String, String>("password-reset-tokens").containsKey(token)) {
+            return "redirect:/"
+        }
         return "auth/password-reset-form"
     }
 
@@ -76,6 +94,22 @@ class AuthController(private val userRepository: UserRepository) {
             "successMessage",
             "Vous allez recevoir un mail contenant la demande de réinitialisation du mot de passe."
         )
+
+        var token = UUID.randomUUID()
+        while (Chili.getRedisInterface().client.getMapCache<String, String>("password-reset-tokens")
+                .containsKey(token.toString())
+        )
+            token = UUID.randomUUID()
+
+        Chili.getRedisInterface().client.getMapCache<String, String>("password-reset-tokens")[token.toString()] =
+            allParams["userName"]!!
+        // Remove after 10 minutes
+        Chili.getRedisInterface().client.getMapCache<String, String>("password-reset-tokens")
+            .updateEntryExpiration(token.toString(), 10, TimeUnit.MINUTES, 0, TimeUnit.MINUTES)
+
+        GlobalScope.launch {
+            emailService!!.sendPasswordResetEmail(allParams["userName"]!!, token.toString())
+        }
 
         return "redirect:/password-reset"
     }

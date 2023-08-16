@@ -10,7 +10,8 @@ class UserRepositoryImpl : UserRepository {
     companion object {
 
         fun doesUserMatchPassword(userName: String, password: String): Boolean {
-            return true
+            val user = Chili.getRedisInterface().getData(userName, User::class.java)
+            return user!!.password == password
         }
     }
 

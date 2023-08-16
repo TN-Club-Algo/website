@@ -36,7 +36,7 @@
                         <h2 class="title has-text-centered">Modification de votre mot de passe</h2>
                         <div class="field">
                             <p class="control has-icons-left">
-                                <input id="password" class="input" type="text" placeholder="Mot de passe"
+                                <input id="password" class="input" type="password" placeholder="Mot de passe"
                                        name="password" required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
@@ -45,7 +45,7 @@
                         </div>
                         <div class="field">
                             <p class="control has-icons-left">
-                                <input id="password-confirm" class="input" type="text"
+                                <input id="password-confirm" class="input" type="password"
                                        placeholder="Confirmer le mot de passe" name="password-confirm" required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
