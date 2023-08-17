@@ -3,6 +3,7 @@ package org.algotn.website.controllers
 import org.algotn.api.Chili
 import org.algotn.api.contest.Contest
 import org.algotn.api.contest.ContestProblem
+import org.algotn.api.leaderboard.contestLead
 import org.algotn.api.problem.Problem
 import org.algotn.api.utils.DateUtils
 import org.algotn.website.auth.UserRepository
@@ -184,6 +185,32 @@ class ContestController {
 
         return "/contest/submit";
     }
+
+    @GetMapping("/contest/leaderboard/{slug}")
+    fun lookResult(
+        @PathVariable("slug") id: String, model: Model
+    ): ModelAndView {
+    if (Chili.getRedisInterface().getData(id,Contest::class.java) == null) {
+        return ModelAndView("redirect:/")
+    }
+
+    val principal = SecurityContextHolder.getContext().authentication.principal
+
+    val username = if (principal is UserDetails) {
+        principal.username
+    } else {
+        principal.toString()
+    }
+
+
+    contestLead().addLead(id,username)
+
+    model.addAttribute("slug",id)
+    model.addAttribute("contestLead",Chili.getRedisInterface().client.getScoredSortedSet<String>(id))
+    model.addAttribute("users",Chili.getRedisInterface().client.getScoredSortedSet<String>(id).toArray())
+
+    return ModelAndView("contestLead")
+}
 
 
     @GetMapping("/contest/createIssue")

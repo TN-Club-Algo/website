@@ -7,6 +7,11 @@
             <h2 class="subtitle is-2">
                 Compétition: ${contest.name}
             </h2>
+            <a href="/contest/leaderboard/${contest.uuid}">
+                <div class="button">
+                    CLassement
+                </div>
+            </a>
         </div>
     </div>
     <div>

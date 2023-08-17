@@ -59,9 +59,6 @@ class ProblemController {
             return ModelAndView("redirect:/")
         }
 
-        val problem = Chili.getProblems().getProblem(id)
-        model.addAttribute("problem", problem)
-
         val principal = SecurityContextHolder.getContext().authentication.principal
 
         val username = if (principal is UserDetails) {
@@ -72,8 +69,6 @@ class ProblemController {
 
 
         problemLead().addLead(id,username,700)
-
-        Chili.getRedisInterface()
 
         model.addAttribute("slug",id)
         model.addAttribute("problemLead",Chili.getRedisInterface().client.getScoredSortedSet<String>(id))

@@ -6,14 +6,14 @@
     <div style="width: 90%; margin: auto">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
             <h2 class="subtitle is-2">
-                Classement du Problème: ${slug}
+                Classement de la Compétition: ${slug}
             </h2>
         </div>
     </div>
     <div>
         <div class="card">
             <div class="card-content">
-<#--                <div style="padding: 0em 0em 2em 1em;" id="description">${contest.description}</div>-->
+                <#--                <div style="padding: 0em 0em 2em 1em;" id="description">${contest.description}</div>-->
                 <div rounded class="box">
                     <#--                    <div class="container">Problems :</div>-->
                     <table class="table is-fullwidth is-striped">
@@ -30,17 +30,8 @@
                                     ${user}
                                 </td>
                                 <td>
-                                    ${problemLead.getScore(user)}
+                                    ${contestLead.getScore(user)}
                                 </td>
-<#--                                <td>-->
-<#--                                    ${problem["problem"].difficulty}-->
-<#--                                </td>-->
-<#--                                <td>${problem["problem"].getUsersWhoSolvedCount()} résolution-->
-<#--                                    <#if problem["problem"].getUsersWhoSolvedCount() gt 1>-->
-<#--                                        s-->
-<#--                                    </#if>-->
-<#--                                </td>-->
-<#--                                <td>${problem["score"]}</td>-->
                             </tr>
                         </#list>
                         </tbody>
@@ -49,8 +40,4 @@
             </div>
         </div>
     </div>
-<#--    <#list users as user>-->
-<#--        <div>${user}</div>-->
-
-<#--    </#list>-->
 </@layout.header>
