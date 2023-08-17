@@ -1,6 +1,9 @@
 package org.algotn.website.controllers
 
 import org.algotn.api.Chili
+import org.algotn.api.leaderboard.problemLead
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -47,5 +50,35 @@ class ProblemController {
         }
         model.addAttribute("problemStatement", problemStatement)
         return ModelAndView("problem")
+    }
+    @GetMapping("/problem/leaderboard/{slug}")
+    fun lookResult(
+        @PathVariable("slug") id: String, model: Model
+    ): ModelAndView {
+        if (Chili.getProblems().getProblem(id) == null) {
+            return ModelAndView("redirect:/")
+        }
+
+        val problem = Chili.getProblems().getProblem(id)
+        model.addAttribute("problem", problem)
+
+        val principal = SecurityContextHolder.getContext().authentication.principal
+
+        val username = if (principal is UserDetails) {
+            principal.username
+        } else {
+            principal.toString()
+        }
+
+
+        problemLead().addLead(id,username,700)
+
+        Chili.getRedisInterface()
+
+        model.addAttribute("slug",id)
+        model.addAttribute("problemLead",Chili.getRedisInterface().client.getScoredSortedSet<String>(id))
+        model.addAttribute("users",Chili.getRedisInterface().client.getScoredSortedSet<String>(id).toArray())
+
+        return ModelAndView("problemLead")
     }
 }

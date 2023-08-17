@@ -6,6 +6,7 @@ import org.algotn.api.contest.ContestProblem
 import org.algotn.api.problem.Problem
 import org.algotn.api.utils.DateUtils
 import org.algotn.website.auth.UserRepository
+import org.algotn.website.data.TestData
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
@@ -79,6 +80,7 @@ class ContestController {
         }
 
         val theContest = Chili.getRedisInterface().getData(uuid, Contest::class.java)!!
+
 
 //        println(theContest.description)
 //        theContest.description?.replace("(\r\n|\n)", "<br />")
