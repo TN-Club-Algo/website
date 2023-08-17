@@ -6,6 +6,7 @@ import org.algotn.api.contest.ContestProblem
 import org.algotn.api.utils.DateUtils
 import org.algotn.website.auth.User
 import org.algotn.website.auth.UserRepository
+import org.algotn.website.data.TestData
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
@@ -140,6 +141,16 @@ class ContestController {
         contest.registeredUser.add(username)
 
         contest.addUserToLeaderboard(username)
+
+        // Look if the user hasn't already solved a problem
+        val testData = Chili.getRedisInterface().getData(username, TestData::class.java)!!
+        contest.problems.keys.forEach {
+            if (testData.solvedProblems.contains(it)) {
+                val score = contest.computeProblemScore(it)
+                contest.updateUserScore(it, score, username)
+            }
+        }
+
 
         chili.saveData(uuid, contest)
 //@todo edit this after merge

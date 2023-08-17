@@ -3,6 +3,12 @@
 <meta charset="UTF-8">
 <@layout.header>
     <div style="width: 90%; margin: auto">
+        <div>
+            Attention ce problème fait partie de la compétition AVGBHUDFZAHY, si vous souhaitez soumettre le problème
+            dans le cadre de la compétition, vous devez vous enregistrer pour la compétition.<br>
+            S'enregistrer après la soumission décalera votre date de soumission à la date d'enregistrement.
+        </div>
+
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
             <h2 class="subtitle is-2">
                 ${problem.name}

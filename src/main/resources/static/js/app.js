@@ -120,23 +120,16 @@ function handleMessage(messageData) {
 
     const testAppData = testApp.data;
 
-    if (messageData.currentIndex === -1) {
-        if (testAppData.length > 0) {
-            // check if last test has the same uuid
-            if (testAppData[testAppData.length - 1].your_code === newData.your_code) {
-                // Edit the last test
-                testAppData[testAppData.length - 1] = newData;
-                return;
-            } else {
-                // Add the new test
-                testAppData.unshift(newData);
-            }
+    if (testAppData.length > 0) {
+        let index = testAppData.length - 1
+        while (index >= 0 && testAppData[index].your_code !== newData.your_code) {
+            index--
         }
-        // Edit the previous test and move on
-        testAppData[testAppData.length - 1] = newData;
-    } else if (messageData.currentIndex > 0 && testAppData.length > 0) {
-        const indexToEdit = Math.min(messageData.currentIndex - 1, testAppData.length - 1);
-        testAppData[indexToEdit] = newData; // Edit the previous test
+        if(index <= 0) {
+            testAppData.unshift(newData)
+        } else {
+            testAppData[index] = newData
+        }
     } else {
         testAppData.unshift(newData); // Treat as the first index or no previous test
     }

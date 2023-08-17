@@ -5,7 +5,8 @@ import org.algotn.website.api.TestJSON
 
 class TestData : Data {
 
-    // TODO: add test id on submit
+    val solvedProblems = hashSetOf<String>()
+
     val testsIds = hashSetOf<String>()
     val allTests = mutableListOf<TestJSON>()
     var testInProgress: TestJSON? = null
