@@ -13,7 +13,9 @@ class UserRepositoryImpl : UserRepository {
             if (!Chili.getRedisInterface().hasData(userName, User::class.java)) return Pair(false, listOf())
             val user = Chili.getRedisInterface().getData(userName, User::class.java, true)
             val ok = user!!.password == password
-            if (ok) return Pair(true, user.authorities.toList())
+            if (ok) {
+                return Pair(true, user.authorities.toList())
+            }
             return Pair(false, listOf())
         }
     }

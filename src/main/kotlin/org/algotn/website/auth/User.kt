@@ -11,7 +11,7 @@ class User : Data {
     var preferNickname: Boolean = true
     var password: String = ""
 
-    val authorities = mutableListOf<String>()
+    var authorities: ArrayList<String> = ArrayList()
 
     fun getPreferredName(): String {
         if(preferNickname) {
@@ -19,8 +19,8 @@ class User : Data {
         }
         return "$firstName $lastName"
     }
-    
+
     override fun toString(): String {
-        return "User(email='$email', nickname='$nickname', password='$password')"
+        return "User(email='$email', nickname='$nickname', firstName='$firstName', lastName='$lastName', preferNickname=$preferNickname, password='$password', authorities=$authorities)"
     }
 }

@@ -3,11 +3,9 @@ package org.algotn.website.controllers
 import org.algotn.api.Chili
 import org.algotn.api.contest.Contest
 import org.algotn.api.contest.ContestProblem
-import org.algotn.api.leaderboard.contestLead
-import org.algotn.api.problem.Problem
 import org.algotn.api.utils.DateUtils
+import org.algotn.website.auth.User
 import org.algotn.website.auth.UserRepository
-import org.algotn.website.data.TestData
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
@@ -134,13 +132,16 @@ class ContestController {
         }
 
         val chili = Chili.getRedisInterface()
-        val contest = chili.getData(uuid, Contest().javaClass)
-
-        contest?.registeredUser?.add(username)
-
-        if (contest != null) {
-            chili.saveData(uuid, contest)
+        if (!chili.hasData(uuid, Contest::class.java)) {
+            return "redirect:/contest"
         }
+        val contest = chili.getData(uuid, Contest::class.java)!!
+
+        contest.registeredUser.add(username)
+
+        contest.addUserToLeaderboard(username)
+
+        chili.saveData(uuid, contest)
 //@todo edit this after merge
 //        val user = UserGroup!!.findByUsername(username)
 //        if (!user.isPresent) {
@@ -152,6 +153,16 @@ class ContestController {
 
     @GetMapping("/contest/submit")
     fun submit(model: Model): ModelAndView {
+        val principal = SecurityContextHolder.getContext().authentication.principal
+
+        val username = if (principal is UserDetails) {
+            principal.username
+        } else {
+            principal.toString()
+        }
+
+        val user = Chili.getRedisInterface().getData(username, User::class.java)
+        if (!user!!.authorities.contains("CONTEST")) return ModelAndView("redirect:/")
 
         val listProblems = Chili.getProblems().sortedProblems//.forEach {
         model.addAttribute("keys", listProblems.map { it.slug })
@@ -168,6 +179,18 @@ class ContestController {
         @RequestParam("creator") creator: String,
         @RequestParam("description") desc: String,
     ): String {
+        val principal = SecurityContextHolder.getContext().authentication.principal
+
+        val username = if (principal is UserDetails) {
+            principal.username
+        } else {
+            principal.toString()
+        }
+
+        val user = Chili.getRedisInterface().getData(username, User::class.java)!!
+        print(user.authorities.contains("CONTEST"))
+        if (!user.authorities.contains("CONTEST")) return "redirect:/"
+
         val newContest = Contest()
 
         newContest.name = contestName
@@ -183,34 +206,42 @@ class ContestController {
         val chili = Chili.getRedisInterface()
         chili.saveData(newContest.uuid, newContest)
 
-        return "/contest/submit";
+        return "redirect:/contest";
     }
 
-    @GetMapping("/contest/leaderboard/{slug}")
+    @GetMapping("/contest/leaderboard/{uuid}")
     fun lookResult(
-        @PathVariable("slug") id: String, model: Model
+        @PathVariable("uuid") id: String, model: Model
     ): ModelAndView {
-    if (Chili.getRedisInterface().getData(id,Contest::class.java) == null) {
-        return ModelAndView("redirect:/")
+        if (Chili.getRedisInterface().getData(id, Contest::class.java) == null) {
+            return ModelAndView("redirect:/")
+        }
+
+        val principal = SecurityContextHolder.getContext().authentication.principal
+
+        val username = if (principal is UserDetails) {
+            principal.username
+        } else {
+            principal.toString()
+        }
+
+        if (!Chili.getRedisInterface().hasData(id, Contest::class.java)) {
+            return ModelAndView("redirect:/contest")
+        }
+        val contest = Chili.getRedisInterface().getData(id, Contest::class.java)!!
+        val emailMap = Chili.getRedisInterface().client.getMap<String, String>("user-emails")
+        val leaderboard = mutableMapOf<String, Double>()
+        contest.registeredUser.forEach {
+            leaderboard[it] = contest.getUserScore(it)
+        }
+
+        model.addAttribute("slug", id)
+        model.addAttribute("users", contest.registeredUser)
+        model.addAttribute("leaderboard", leaderboard)
+        model.addAttribute("nicknames", contest.registeredUser.map { emailMap[it] })
+
+        return ModelAndView("contestLead")
     }
-
-    val principal = SecurityContextHolder.getContext().authentication.principal
-
-    val username = if (principal is UserDetails) {
-        principal.username
-    } else {
-        principal.toString()
-    }
-
-
-    contestLead().addLead(id,username)
-
-    model.addAttribute("slug",id)
-    model.addAttribute("contestLead",Chili.getRedisInterface().client.getScoredSortedSet<String>(id))
-    model.addAttribute("users",Chili.getRedisInterface().client.getScoredSortedSet<String>(id).toArray())
-
-    return ModelAndView("contestLead")
-}
 
 
     @GetMapping("/contest/createIssue")

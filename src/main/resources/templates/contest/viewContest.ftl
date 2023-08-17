@@ -9,7 +9,7 @@
             </h2>
             <a href="/contest/leaderboard/${contest.uuid}">
                 <div class="button">
-                    CLassement
+                    Classement
                 </div>
             </a>
         </div>

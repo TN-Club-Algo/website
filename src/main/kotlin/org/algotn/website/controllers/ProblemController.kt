@@ -1,9 +1,6 @@
 package org.algotn.website.controllers
 
 import org.algotn.api.Chili
-import org.algotn.api.leaderboard.problemLead
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -32,11 +29,16 @@ class ProblemController {
             problem.sampleFiles.samples.forEachIndexed { index, sample ->
                 problemStatement += "### Exemple ${index + 1}\n"
 
-                if(sample.first.split("\n").maxOf { it.length } < 60) {
+                if (sample.first.split("\n").maxOf { it.length } < 60) {
                     // 1 table
                     problemStatement += "| Entrée | Sortie |\n"
                     problemStatement += "| --- | --- |\n"
-                    problemStatement += "| ${sample.first.replace("\n", "<br>")} |  ${sample.second.replace("\n", "<br>")}  |\n"
+                    problemStatement += "| ${sample.first.replace("\n", "<br>")} |  ${
+                        sample.second.replace(
+                            "\n",
+                            "<br>"
+                        )
+                    }  |\n"
                 } else {
                     // 2 tables
                     problemStatement += "| Entrée |\n"
@@ -50,30 +52,5 @@ class ProblemController {
         }
         model.addAttribute("problemStatement", problemStatement)
         return ModelAndView("problem")
-    }
-    @GetMapping("/problem/leaderboard/{slug}")
-    fun lookResult(
-        @PathVariable("slug") id: String, model: Model
-    ): ModelAndView {
-        if (Chili.getProblems().getProblem(id) == null) {
-            return ModelAndView("redirect:/")
-        }
-
-        val principal = SecurityContextHolder.getContext().authentication.principal
-
-        val username = if (principal is UserDetails) {
-            principal.username
-        } else {
-            principal.toString()
-        }
-
-
-        problemLead().addLead(id,username,700)
-
-        model.addAttribute("slug",id)
-        model.addAttribute("problemLead",Chili.getRedisInterface().client.getScoredSortedSet<String>(id))
-        model.addAttribute("users",Chili.getRedisInterface().client.getScoredSortedSet<String>(id).toArray())
-
-        return ModelAndView("problemLead")
     }
 }

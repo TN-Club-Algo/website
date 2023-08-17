@@ -69,7 +69,6 @@ open class WebSecurityConfig {
                 requests
                     .requestMatchers("/", "/error", "/blog", "/problem", "/scoreboard", "/problem/{slug}", "/contest")
                     .permitAll()
-                    .requestMatchers("/contest/submit", "contestRegister/**").hasAuthority("CONTEST")
                     .requestMatchers("/api/image/**").permitAll()
                     .requestMatchers("/register", "/login", "/password-reset", "/password-reset/{token}").anonymous()
                     .requestMatchers("/api/tests/restricted/**").hasAuthority("SECRET")

@@ -14,9 +14,24 @@
             </#list>
         </b-carousel>
 
-        <b-message type="is-info mt-6">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce id fermentum quam. Proin sagittis, nibh id hendrerit imperdiet, elit sapien laoreet elit
+        <b-message type="is-info mt-2">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce id fermentum quam. Proin sagittis, nibh id
+            hendrerit imperdiet, elit sapien laoreet elit
         </b-message>
+
+        <div class="columns">
+            <div class="column is-two-fifths">
+                Bienvenue sur la plateforme de problèmes d'AlgoTN ! <br>
+                Vous pourrez ici découvrir des problèmes d'algorithmique de niveaux diversifiés, qui pourront être
+                corrigés en séance de club. <br><br>
+                Notre objectif est de permettre à tous de découvrir l'algorithmique et l'importance de la bonne
+                structure de donnée ou du bon algorithme face à certains problèmes
+            </div>
+            <div class="column is-one-fifth"></div>
+            <div class="column is-two-fifths">
+                Je sais pas
+            </div>
+        </div>
 
     </div>
 

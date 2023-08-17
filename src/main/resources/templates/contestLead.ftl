@@ -30,7 +30,7 @@
                                     ${user}
                                 </td>
                                 <td>
-                                    ${contestLead.getScore(user)}
+                                    ${leaderboard[user]}
                                 </td>
                             </tr>
                         </#list>
