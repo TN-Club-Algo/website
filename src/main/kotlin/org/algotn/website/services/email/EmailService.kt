@@ -15,8 +15,8 @@ class EmailService {
         mailSender.host = "smtp.gmail.com"
         mailSender.port = 587
 
-        mailSender.username = "duchesnealexandre51200@gmail.com"
-        mailSender.password = "bxjdcyeucmmcmwdz"
+        mailSender.username = "alexandre.duchesne@telecomnancy.net"
+        mailSender.password = "vvbnmdwvcxghnoxq"
 
         val props = mailSender.javaMailProperties
         props["mail.transport.protocol"] = "smtp"
@@ -37,7 +37,7 @@ class EmailService {
 
     private fun sendEmail(emailTo: String, emailType: EmailType, subject: String, text: String) {
         val mailMessage = SimpleMailMessage()
-        mailMessage.from = emailType.email
+        mailMessage.from = "club-algo@telecomnancy.net"
         mailMessage.setTo(emailTo)
         mailMessage.subject = subject
         mailMessage.text = text

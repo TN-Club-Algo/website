@@ -37,9 +37,6 @@
                         <b-navbar-item href="/">
                             Accueil
                         </b-navbar-item>
-                        <b-navbar-item href="/blog">
-                            Blog
-                        </b-navbar-item>
                         <b-navbar-item href="/problem">
                             Problèmes
                         </b-navbar-item>
@@ -51,9 +48,6 @@
                         <a class="navbar-item" href="/contest">
                             Compétitions
                         </a>
-                        <b-navbar-item href="/scoreboard">
-                            Classement
-                        </b-navbar-item>
                     </template>
 
                     <template #end>

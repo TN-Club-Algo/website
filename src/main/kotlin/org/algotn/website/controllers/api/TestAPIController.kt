@@ -59,7 +59,7 @@ class TestAPIController {
             map["inProgress"] = WebSocketEventListener.testsInProgress[username]!!
         }
 
-        val testData = Chili.getRedisInterface().getData(username, TestData::class.java)!!
+        val testData = Chili.getRedisInterface().getData(username, TestData::class.java, false)!!
 
         val maxPage = testData.allTests.size / count + 1
 

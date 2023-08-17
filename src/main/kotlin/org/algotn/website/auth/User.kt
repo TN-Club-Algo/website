@@ -11,6 +11,8 @@ class User : Data {
     var preferNickname: Boolean = true
     var password: String = ""
 
+    val authorities = mutableListOf<String>()
+
     fun getPreferredName(): String {
         if(preferNickname) {
             return nickname

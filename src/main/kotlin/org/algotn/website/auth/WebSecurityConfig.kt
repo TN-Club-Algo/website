@@ -8,6 +8,7 @@ import org.springframework.security.authentication.*
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
@@ -33,15 +34,15 @@ open class WebSecurityConfig {
     @Bean
     open fun authenticationManager(): AuthenticationManager {
         return AuthenticationManager { authentication ->
-            if (UserRepositoryImpl.doesUserMatchPassword(
-                    authentication.name,
-                    authentication.credentials.toString()
-                )
-            ) {
+            val pair = UserRepositoryImpl.doesUserMatchPassword(
+                authentication.name,
+                authentication.credentials.toString()
+            )
+            if (pair.first) {
                 UsernamePasswordAuthenticationToken(
                     authentication.name,
                     authentication.credentials,
-                    emptyList()
+                    pair.second.map { SimpleGrantedAuthority(it) }
                 )
             } else {
                 null
@@ -66,7 +67,9 @@ open class WebSecurityConfig {
             .csrf { it.disable() }
             .authorizeHttpRequests { requests ->
                 requests
-                    .requestMatchers("/", "/error", "/blog", "/problem", "/scoreboard", "/problem/{slug}", "/contest").permitAll()
+                    .requestMatchers("/", "/error", "/blog", "/problem", "/scoreboard", "/problem/{slug}", "/contest")
+                    .permitAll()
+                    .requestMatchers("/contest/submit", "contestRegister/**").hasAuthority("CONTEST")
                     .requestMatchers("/api/image/**").permitAll()
                     .requestMatchers("/register", "/login", "/password-reset", "/password-reset/{token}").anonymous()
                     .requestMatchers("/api/tests/restricted/**").hasAuthority("SECRET")

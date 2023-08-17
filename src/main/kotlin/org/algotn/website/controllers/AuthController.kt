@@ -140,6 +140,11 @@ class AuthController(private val userRepository: UserRepository) {
         }
 
         // TODO: dynamic check in js
+        val emailMap = Chili.getRedisInterface().client.getMap<String, String>("user-emails")
+        if (emailMap.containsKey(allParams.getFirst("userName")!!)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "L'email renseignée est déjà liée un compte.")
+            return "redirect:/register"
+        }
         val nicknameMap = Chili.getRedisInterface().client.getMap<String, String>("user-nicknames")
         if (nicknameMap.containsKey(allParams.getFirst("nickname")!!)) {
             redirectAttributes.addFlashAttribute("errorMessage", "Le surnom désiré n'est pas disponible.")
@@ -157,6 +162,7 @@ class AuthController(private val userRepository: UserRepository) {
         }
 
         nicknameMap[user.nickname] = user.email
+        emailMap[user.email] = user.nickname
 
         user.password = passwordEncoder.encode(user.password)
 
