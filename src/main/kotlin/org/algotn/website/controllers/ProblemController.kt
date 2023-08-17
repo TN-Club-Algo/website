@@ -33,9 +33,9 @@ class ProblemController {
                     // 1 table
                     problemStatement += "| Entrée | Sortie |\n"
                     problemStatement += "| --- | --- |\n"
-                    problemStatement += "| ${sample.first.replace("\n", "<br>")} |  ${
+                    problemStatement += "| ${sample.first.replace(Regex("\r\n|\n"), "<br>")} |  ${
                         sample.second.replace(
-                            "\n",
+                            "\n",   
                             "<br>"
                         )
                     }  |\n"
@@ -43,10 +43,10 @@ class ProblemController {
                     // 2 tables
                     problemStatement += "| Entrée |\n"
                     problemStatement += "| --- |\n"
-                    problemStatement += "| ${sample.first.replace("\n", "<br>")} |\n\n"
+                    problemStatement += "| ${sample.first.replace(Regex("\r\n|\n"), "<br>")} |\n\n"
                     problemStatement += "| Sortie |\n"
                     problemStatement += "| --- |\n"
-                    problemStatement += "| ${sample.second.replace("\n", "<br>")} |\n"
+                    problemStatement += "| ${sample.second.replace(Regex("\r\n|\n"), "<br>")} |\n"
                 }
             }
         }
