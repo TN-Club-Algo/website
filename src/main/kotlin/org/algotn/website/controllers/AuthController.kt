@@ -129,7 +129,7 @@ class AuthController(private val userRepository: UserRepository) {
         @RequestBody allParams: MultiValueMap<String, String>,
         redirectAttributes: RedirectAttributes
     ): String {
-        if (allParams.getFirst("userName") == null || allParams.getFirst("password") == null) {
+        if (allParams.getFirst("userName") == null || allParams.getFirst("password") == null || allParams.getFirst("nickname") == null) {
             redirectAttributes.addFlashAttribute("errorMessage", "Veuillez renseigner tous les champs.")
             return "redirect:/register"
         }
@@ -139,14 +139,24 @@ class AuthController(private val userRepository: UserRepository) {
             return "redirect:/register"
         }
 
+        // TODO: dynamic check in js
+        val nicknameMap = Chili.getRedisInterface().client.getMap<String, String>("user-nicknames")
+        if (nicknameMap.containsKey(allParams.getFirst("nickname")!!)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Le surnom désiré n'est pas disponible.")
+            return "redirect:/register"
+        }
+
         val user = User()
         user.email = allParams.getFirst("userName")!!
         user.password = allParams.getFirst("password")!!
+        user.nickname = allParams.getFirst("nickname")!!
 
         if (!allParams.containsKey("confirm-password") || allParams.getFirst("confirm-password") != user.password) {
             redirectAttributes.addFlashAttribute("errorMessage", "Les mots de passe ne correspondent pas.")
             return "redirect:/register"
         }
+
+        nicknameMap[user.nickname] = user.email
 
         user.password = passwordEncoder.encode(user.password)
 

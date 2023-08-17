@@ -48,6 +48,16 @@
                         </div>
                         <div class="field">
                             <p class="control has-icons-left">
+                                <input id="nickname" class="input" type="text" placeholder="Surnom" name="nickname"
+                                       autocomplete="nickname"
+                                       required>
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <p class="control has-icons-left">
                                 <input id="password" class="input" type="password" placeholder="Mot de passe"
                                        autocomplete="new-password"
                                        name="password" required>
