@@ -8,8 +8,6 @@ import org.algotn.website.listeners.WebSocketEventListener
 import org.algotn.website.services.problem.ProblemLocationService
 import org.algotn.website.services.tests.TestLocationService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.actuate.web.exchanges.HttpExchange.Principal
-import org.springframework.core.io.FileSystemResource
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -97,16 +95,32 @@ class TestAPIController {
     // User dependent
     @GetMapping("/{id}")
     @ResponseBody
-    fun getTestCode(principal: Principal, @PathVariable id: String): FileSystemResource {
-        val user = userRepository!!.findByUsername(principal.name)
-        if (user.isPresent) {
-            val testData = Chili.getRedisInterface().getData(principal.name, TestData::class.java)!!
+    fun getTestCode(@PathVariable id: String): ResponseEntity<*> {
+        val principal = SecurityContextHolder.getContext().authentication.principal
+
+        val username = if (principal is UserDetails) {
+            principal.username
+        } else {
+            principal.toString()
+        }
+
+        val user = userRepository!!.findByUsername(username)
+        if (!user.isPresent) {
+            val testData = Chili.getRedisInterface().getData(username, TestData::class.java)!!
             if (testData.testsIds.contains(id)) {
-                // TODO: might want to change file name to match the language
-                return fileLocationService!!.findInFileSystem(id)
+                val resource = fileLocationService!!.findInFileSystem(id)
+
+                if (!resource.exists()) {
+                    throw ResponseStatusException(HttpStatus.NOT_FOUND)
+                }
+
+                val headers = org.springframework.http.HttpHeaders()
+                headers.contentType = MediaType.APPLICATION_OCTET_STREAM
+
+                return ResponseEntity(resource, headers, HttpStatus.OK)
             }
         }
-        return FileSystemResource("")
+        throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
     }
 
     @PostMapping("/restricted/currentQueue")

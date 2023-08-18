@@ -39,7 +39,7 @@ const datum = {
                 if (inProgressTest.validated) {
                     progress = "Validé"
                 } else {
-                    progress = `${inProgressTest.progress} Mémoire : ${inProgressTest.memoryUsed} Temps : ${inProgressTest.timeElapsed}`
+                    progress = `${inProgressTest.progress}`
                 }
 
                 finalData.push({
@@ -57,7 +57,7 @@ const datum = {
                     if (completedTest.validated) {
                         progress = "Validé"
                     } else {
-                        progress = `${completedTest.progress} Mémoire : ${completedTest.memoryUsed} Temps : ${completedTest.timeElapsed}`
+                        progress = `${completedTest.progress}`
                     }
 
                     finalData.push({
@@ -111,10 +111,10 @@ function handleMessage(messageData) {
 
     // Test result
     const newData = {
-        problem_name: messageData.problemSlug,
+        problem_name: messageData.problemName,
         your_code: messageData.codeURL,
-        limits: `RAM: ${messageData.memoryUsed}, Temps: ${messageData.timeElapsed}`,
-        progress: messageData.progress,
+        progress: messageData.validated ? "Validé" : `${messageData.progress}`,
+        date: messageData.timestamp,
         validated: messageData.validated
     };
 

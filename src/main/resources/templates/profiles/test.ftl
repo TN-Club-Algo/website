@@ -57,7 +57,9 @@
                     </b-table-column>
 
                     <b-table-column field="date" label="Date" sortable centered v-slot="props">
-                        {{ props.row.date ? new Date(props.row.date).toLocaleDateString() : 'unknown' }}
+                        {{
+                            props.row.date ? new Date(props.row.date).toLocaleDateString() + " à " + new Date(props.row.date).toLocaleTimeString().split(":").slice(0, 2).join(":") : 'unknown'
+                        }}
                     </b-table-column>
 
                 </b-table>

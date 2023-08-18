@@ -29,7 +29,7 @@ class EmailService {
 
     fun sendPasswordResetEmail(emailTo: String, token: String) {
         val subject = "AlgoTN | Réinitialisation de votre mot de passe."
-        val text = "Réinitialisez votre mot de passe à l'adresse suivante : http://localhost:8080/password-reset/$token\n" +
+        val text = "Réinitialisez votre mot de passe à l'adresse suivante : https://algo.telecomnancy.net/password-reset/$token\n" +
                 "Ce lien est valide pendant 10 minutes."
 
         sendEmail(emailTo, EmailType.NO_REPLY, subject, text)

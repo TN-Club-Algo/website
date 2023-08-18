@@ -101,11 +101,15 @@ class AuthController(private val userRepository: UserRepository) {
         )
             token = UUID.randomUUID()
 
-        Chili.getRedisInterface().client.getMapCache<String, String>("password-reset-tokens")[token.toString()] =
-            allParams["userName"]!!
+        val map = Chili.getRedisInterface().client.getMapCache<String, String>("password-reset-tokens")
+
+        // Remove previous token if exists
+        map.entries.filter { it.value == allParams["userName"]!! }.forEach { map.remove(it.key) }
+
+        map[token.toString()] = allParams["userName"]!!
         // Remove after 10 minutes
-        Chili.getRedisInterface().client.getMapCache<String, String>("password-reset-tokens")
-            .updateEntryExpiration(token.toString(), 10, TimeUnit.MINUTES, 0, TimeUnit.MINUTES)
+        map.updateEntryExpiration(token.toString(), 10, TimeUnit.MINUTES, 0, TimeUnit.MINUTES)
+
 
         GlobalScope.launch {
             emailService!!.sendPasswordResetEmail(allParams["userName"]!!, token.toString())

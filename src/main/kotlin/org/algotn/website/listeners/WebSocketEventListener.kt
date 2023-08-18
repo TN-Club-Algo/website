@@ -12,6 +12,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.stereotype.Component
 import org.springframework.web.socket.messaging.SessionConnectEvent
+import java.util.*
 
 
 @Component
@@ -51,13 +52,14 @@ class WebSocketEventListener {
                         "none",
                         "none",
                         ended = true,
-                        validated = validated
+                        validated = validated,
+                        timestamp = Date().time
                     )
 
                     testsInProgress.remove(testJson.email)
 
                     // save for user
-                    val data = Chili.getRedisInterface().getData(email, TestData::class.java)
+                    val data = Chili.getRedisInterface().getData(email, TestData::class.java, true)
                     data!!.testInProgress = null
 
                     data.allTests.add(testJson)
@@ -99,12 +101,14 @@ class WebSocketEventListener {
                         problem.name,
                         "/api/tests/$id",
                         progress,
-                        retMap["timeElapsed"].toString(),
-                        retMap["memoryUsed"].toString()
+                        "none",
+                        "none"
+                        //retMap["timeElapsed"].toString(),
+                        //retMap["memoryUsed"].toString()
                     )
 
                     // save for user
-                    val data = Chili.getRedisInterface().getData(email, TestData::class.java)
+                    val data = Chili.getRedisInterface().getData(email, TestData::class.java, true)
                     data!!.testInProgress = testJson
 
                     if (data.allTests.contains(testJson)) {
