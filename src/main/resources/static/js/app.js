@@ -57,7 +57,7 @@ const datum = {
                     if (completedTest.validated) {
                         progress = "Validé"
                     } else {
-                        progress = `${completedTest.progress}`
+                        progress = `${completedTest.info}`
                     }
 
                     finalData.push({

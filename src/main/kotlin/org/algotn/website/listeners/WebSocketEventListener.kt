@@ -38,8 +38,8 @@ class WebSocketEventListener {
                     Chili.getRedisInterface().client.getMap<String, String>("test-to-user")[retMap["testID"] as String]!!
                 val id = retMap["testID"].toString()
                 val problem = Chili.getProblems().getProblem(retMap["problemSlug"].toString())
-                val testResult = retMap["result"].toString()
                 val validated = retMap["result"] == "true"
+                val info = retMap["info"].toString()
                 if (problem != null) {
                     val testJson = TestJSON(
                         retMap["testID"].toString(),
@@ -48,7 +48,7 @@ class WebSocketEventListener {
                         problem.slug,
                         problem.name,
                         "/api/tests/$id",
-                        testResult,
+                        info,
                         "none",
                         "none",
                         ended = true,
