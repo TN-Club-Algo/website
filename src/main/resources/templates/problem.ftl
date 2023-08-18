@@ -2,52 +2,76 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
 <@layout.header>
-    <div style="width: 90%; margin: auto">
-        <div>
-            Attention ce problème fait partie de la compétition AVGBHUDFZAHY, si vous souhaitez soumettre le problème
-            dans le cadre de la compétition, vous devez vous enregistrer pour la compétition.<br>
-            S'enregistrer après la soumission décalera votre date de soumission à la date d'enregistrement.
-        </div>
+    <div id="problemApp" style="width: 90%; margin: auto">
+        <#if linkedContestsNames??>
+            <template>
+                <section>
+                    <b-message type="is-warning">
+                        Attention ce problème fait partie de la ou les compétition(s) ${linkedContestsNames}.<br>
+                        Si vous souhaitez soumettre le problème dans le cadre de la compétition, vous devez vous
+                        enregistrer pour la compétition.<br>
+                        S'enregistrer après la soumission décalera votre date de soumission à la date d'enregistrement.
+                    </b-message>
+                </section>
+            </template>
+        </#if>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-            <h2 class="subtitle is-2">
-                ${problem.name}
-            </h2>
+        <#if not_available?? && !not_available>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <h2 class="subtitle is-2">
+                    ${problem.name}
+                </h2>
+            </div>
 
-            <a href="/submit/${problem.slug}">
-                <div class="button">
-                    Soumettre
-                </div>
-            </a>
-        </div>
+            <div>
+                Ce problème n'est pas disponible pour le moment.
+            </div>
+        <#else>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <h2 class="subtitle is-2">
+                    ${problem.name}
+                </h2>
 
-        <div class="subtitle is-5" id="limits" style="text-align: right;">
-            TEMPS LIMITE : ${problem.validationTimeLimit} s<br>
-            MÉMOIRE LIMITE : ${problem.validationMemoryLimit} Mo<br>
-            <a href="/problem/leaderboard/${problem.slug}">
-                <div class="button">
-                    Classement
-                </div>
-            </a>
-        </div>
+                <a href="/submit/${problem.slug}">
+                    <div class="button">
+                        Soumettre
+                    </div>
+                </a>
+            </div>
 
-        <span class="m-3"></span>
+            <div class="subtitle is-5" id="limits" style="text-align: right;">
+                TEMPS LIMITE : ${problem.validationTimeLimit} s<br>
+                MÉMOIRE LIMITE : ${problem.validationMemoryLimit} Mo<br>
+                <a href="/problem/leaderboard/${problem.slug}">
+                    <div class="button">
+                        Classement
+                    </div>
+                </a>
+            </div>
 
-        <div id="statement" class="content"></div>
+            <span class="m-3"></span>
+
+            <div id="statement" class="content"></div>
+            <script type="application/javascript">
+                window.texme = {
+                    renderOnLoad: false,
+                    style: 'none',
+                }
+            </script>
+            <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+            <script type="application/javascript">
+                $(window).on('load', function () {
+                    var body = document.body.innerHTML
+                    document.body.innerHTML = `<div id="statement" class="content">${problemStatement}</div>`
+                    texme.renderPage()
+                    document.body.innerHTML = body.replace(`<div id="statement" class="content"></div>`, document.body.innerHTML)
+                });
+            </script>
+        </#if>
     </div>
-    <script type="application/javascript">
-        window.texme = {
-            renderOnLoad: false,
-            style: 'none',
-        }
-    </script>
-    <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
-    <script type="application/javascript">
-        $(window).on('load', function () {
-            var body = document.body.innerHTML
-            document.body.innerHTML = `<div id="statement" class="content">${problemStatement}</div>`
-            texme.renderPage()
-            document.body.innerHTML = body.replace(`<div id="statement" class="content"></div>`, document.body.innerHTML)
-        });
+    <script>
+        let vue = new Vue({
+            el: '#problemApp',
+        })
     </script>
 </@layout.header>

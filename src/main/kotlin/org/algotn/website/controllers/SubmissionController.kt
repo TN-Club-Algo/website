@@ -4,6 +4,8 @@ import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.algotn.api.Chili
+import org.algotn.api.contest.Contest
+import org.algotn.api.utils.DateUtils
 import org.algotn.website.api.TestJSON
 import org.algotn.website.auth.UserRepository
 import org.algotn.website.data.TestData
@@ -66,6 +68,16 @@ class SubmissionController {
     fun viewSubmit(@PathVariable problemSlug: String, model: Model): String {
         val problem = Chili.getProblems().getProblem(problemSlug) ?: return "redirect:/problem"
 
+        val contests = Chili.getRedisInterface().getAllUUIDData(Contest::class.java).toMutableList()
+        val upcomingContests = contests.filter {
+            DateUtils.dateToLong(it.beginning) > System.currentTimeMillis()
+        }.toMutableList()
+
+        if (upcomingContests.isNotEmpty()) {
+            model.addAttribute("not_available", true)
+            return "redirect:/problem"
+        }
+
         model.addAttribute("problem", problem)
         return "submit"
     }
@@ -119,6 +131,15 @@ class SubmissionController {
             "error" to "Problem not found",
             "success" to false
         )
+
+        val contests = Chili.getRedisInterface().getAllUUIDData(Contest::class.java).toMutableList()
+        val upcomingContests = contests.filter {
+            DateUtils.dateToLong(it.beginning) > System.currentTimeMillis()
+        }.toMutableList()
+
+        if (upcomingContests.isNotEmpty()) {
+            return mapOf("error" to "Problem not available", "success" to false)
+        }
 
         var name = testUUID
 

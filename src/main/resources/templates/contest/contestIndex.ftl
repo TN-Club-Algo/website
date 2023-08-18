@@ -20,14 +20,16 @@
                 <p class="subtitle is-4 p-3">
                     Compétitions en cours
                 </p>
-                <div class="container">
-                    <b-button id="head_centered" tag="a"
-                              href="/contest/submit"
-                              target="_blank"
-                              style="position: absolute;top: 50%;transform: translateY(-50%);right: 20px;">
-                        Créer une Compétition
-                    </b-button>
-                </div>
+                <#if hasAuthority?? && hasAuthority>
+                    <div class="container">
+                        <b-button id="head_centered" tag="a"
+                                  href="/contest/submit"
+                                  target="_blank"
+                                  style="position: absolute;top: 50%;transform: translateY(-50%);right: 20px;">
+                            Créer une Compétition
+                        </b-button>
+                    </div>
+                </#if>
             </header>
             <div>
                 <div class="card-content">

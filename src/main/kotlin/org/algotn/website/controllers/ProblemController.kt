@@ -1,6 +1,8 @@
 package org.algotn.website.controllers
 
 import org.algotn.api.Chili
+import org.algotn.api.contest.Contest
+import org.algotn.api.utils.DateUtils
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -23,6 +25,27 @@ class ProblemController {
         val problem = Chili.getProblems().getProblem(id)
         model.addAttribute("problem", problem)
 
+        val contests = Chili.getRedisInterface().getAllUUIDData(Contest::class.java).toMutableList()
+            .filter { it.problems.containsKey(id) }
+        val currentContests = contests.filter {
+            DateUtils.dateToLong(it.beginning) < System.currentTimeMillis()
+                    && DateUtils.dateToLong(it.end) > System.currentTimeMillis()
+        }.toMutableList()
+
+        val upcomingContests = contests.filter {
+            DateUtils.dateToLong(it.beginning) > System.currentTimeMillis()
+        }.toMutableList()
+
+        if (upcomingContests.isNotEmpty()) {
+            model.addAttribute("not_available", true)
+            return ModelAndView("problem")
+        }
+
+        if (currentContests.any { it.problems.containsKey(id) }) {
+            println(currentContests.joinToString(", ") { it.name })
+            model.addAttribute("linkedContestsNames", currentContests.joinToString(", ") { it.name })
+        }
+
         var problemStatement = problem!!.fullStatement
         if (problem.sampleFiles.samples.isNotEmpty()) {
             problemStatement += "\n## Exemples\n"
@@ -35,7 +58,7 @@ class ProblemController {
                     problemStatement += "| --- | --- |\n"
                     problemStatement += "| ${sample.first.replace(Regex("\r\n|\n"), "<br>")} |  ${
                         sample.second.replace(
-                            "\n",   
+                            "\n",
                             "<br>"
                         )
                     }  |\n"

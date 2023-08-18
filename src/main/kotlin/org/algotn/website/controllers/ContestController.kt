@@ -62,6 +62,12 @@ class ContestController {
             model.addAttribute("userContests", userContests)
         }
 
+        if (user.isPresent) {
+            model.addAttribute(
+                "hasAuthority",
+                user.get().authorities.contains("CONTEST")
+            )
+        }
         model.addAttribute("currentContests", currentContests)
         model.addAttribute("contests", contests)
 

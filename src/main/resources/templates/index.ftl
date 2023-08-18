@@ -29,7 +29,9 @@
             </div>
             <div class="column is-one-fifth"></div>
             <div class="column is-two-fifths">
-                Je sais pas
+                Le site est en construction, des fonctionnalités ou des changements esthétiques pourront être ajoutées
+                au fur et à mesure. <br>
+                Nous nous efforcerons à résoudre tout bug dans les plus brefs délais.
             </div>
         </div>
 
