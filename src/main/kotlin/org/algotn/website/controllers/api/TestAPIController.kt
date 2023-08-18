@@ -175,7 +175,15 @@ class TestAPIController {
 
             tests.add(testMap)
         }
-        tests.sortBy { it["name"] as String }
+        // TODO: only useful for numbers
+        tests.sortBy {
+            if (it["name"] is Int)
+                it["name"] as Int
+            else if (it["name"] is String)
+                (it["name"] as String).toIntOrNull() ?: 0
+            else
+                0
+        }
         map["tests"] = tests
         return map
     }
