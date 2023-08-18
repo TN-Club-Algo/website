@@ -15,23 +15,39 @@
         </b-carousel>
 
         <b-message type="is-info mt-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce id fermentum quam. Proin sagittis, nibh id
-            hendrerit imperdiet, elit sapien laoreet elit
+            Alisé fête ses 30 ans et quoi de mieux comme célébration qu'une joute cérébrale sur notre discipline fétiche : l'algorithmie. 🎉<br><br>
+
+            L'ingénieux club Algo s'est mis à la tâche pour vous en faire voir de toutes les couleurs sur des défis de toutes difficultés.<br><br>
+
+            Affrontez-vous jusqu'au 8 septembre pour tenter de remporter des goodies. 🏆<br><br>
+
+            Rendez-vous le 9 septembre pour l'annonce des vainqueurs !
         </b-message>
 
         <div class="columns">
             <div class="column is-two-fifths">
-                Bienvenue sur la plateforme de problèmes d'AlgoTN ! <br>
-                Vous pourrez ici découvrir des problèmes d'algorithmique de niveaux diversifiés, qui pourront être
-                corrigés en séance de club. <br><br>
-                Notre objectif est de permettre à tous de découvrir l'algorithmique et l'importance de la bonne
-                structure de donnée ou du bon algorithme face à certains problèmes
+                <div class="card">
+                    <div class="card-content">
+                        Bienvenue sur la plateforme de problèmes d'AlgoTN ! <br>
+                        Vous pourrez ici découvrir des problèmes d'algorithmique de niveaux diversifiés, qui pourront
+                        être
+                        corrigés en séance de club. <br><br>
+                        Notre objectif est de permettre à tous de découvrir l'algorithmique et l'importance de la bonne
+                        structure de donnée ou du bon algorithme face à certains problèmes
+                    </div>
+                </div>
             </div>
             <div class="column is-one-fifth"></div>
             <div class="column is-two-fifths">
-                Le site est en construction, des fonctionnalités ou des changements esthétiques pourront être ajoutées
-                au fur et à mesure. <br>
-                Nous nous efforcerons à résoudre tout bug dans les plus brefs délais.
+                <div class="card">
+                    <div class="card-content">
+                        Le site est en construction, des fonctionnalités ou des changements esthétiques pourront être
+                        ajoutées
+                        au fur et à mesure. <br>
+                        Nous nous efforcerons à résoudre tout bug dans les plus brefs délais. N'hésitez pas à en
+                        signaler sur Discord ou à suggérer des améliorations !
+                    </div>
+                </div>
             </div>
         </div>
 

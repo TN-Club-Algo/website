@@ -26,10 +26,10 @@
         <div class="select mb-2">
             <select id="language" name="language">
                 <option value="python">Python 3</option>
-                <option value="kotlin">Kotlin</option>
-                <option value="c_cpp">C++</option>
-                <option value="c">C</option>
-                <option value="java">Java</option>
+                <option disabled value="kotlin">Kotlin</option>
+                <option disabled value="c_cpp">C++</option>
+                <option disabled value="c">C</option>
+                <option disabled value="java">Java</option>
             </select>
         </div>
 

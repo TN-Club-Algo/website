@@ -69,26 +69,33 @@ class TestAPIController {
         }
 
         val consideredTests = testData.allTests.toMutableList()
+        val total = consideredTests.size
         val sortParam = sort.split(".")[0]
         val sortType = sort.split(".")[1]
-        when (sortParam) {
-            "date" -> {
-                if (sortType == "desc") {
-                    consideredTests.sortedByDescending { it.timestamp }
-                } else {
-                    consideredTests.sortedBy { it.timestamp }
+        val l =
+            when (sortParam) {
+                "date" -> {
+                    if (sortType == "desc") {
+                        consideredTests.sortedByDescending { it.timestamp }
+                    } else {
+                        consideredTests.sortedBy { it.timestamp }
+                    }
                 }
-            }
 
-            "problem_name" -> {
-                if (sortType == "desc") {
-                    consideredTests.sortedByDescending { it.problemName }
-                } else {
-                    consideredTests.sortedBy { it.problemName }
+                "problem_name" -> {
+                    if (sortType == "desc") {
+                        consideredTests.sortedByDescending { it.problemName }
+                    } else {
+                        consideredTests.sortedBy { it.problemName }
+                    }
+                }
+
+                else -> {
+                    consideredTests
                 }
             }
-        }
-        map["completed"] = consideredTests.subList((page - 1) * count, min(page * count, consideredTests.size))
+        map["completed"] = l.subList((page - 1) * count, min(page * count, l.size))
+        map["total"] = total
         return map
     }
 
@@ -105,7 +112,7 @@ class TestAPIController {
         }
 
         val user = userRepository!!.findByUsername(username)
-        if (!user.isPresent) {
+        if (user.isPresent) {
             val testData = Chili.getRedisInterface().getData(username, TestData::class.java)!!
             if (testData.testsIds.contains(id)) {
                 val resource = fileLocationService!!.findInFileSystem(id)

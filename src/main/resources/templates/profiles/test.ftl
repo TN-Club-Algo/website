@@ -47,7 +47,7 @@
                     </b-table-column>
 
                     <b-table-column field="your_code" label="Votre code" v-slot="props">
-                        <a class="is-link" :href="props.row.your_code">
+                        <a disabled class="is-link" :href="props.row.your_code">
                             Télécharger
                         </a>
                     </b-table-column>

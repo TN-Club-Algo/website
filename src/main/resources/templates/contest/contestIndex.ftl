@@ -62,7 +62,7 @@
                                         <#elseif userContests?? && userContests?seq_contains(contest)>
                                             <span class="tag is-success ml-2">
                                         ENREGISTRÉ
-                                    </span>
+                                            </span>
                                         </#if>
                                     </td>
                                 </tr>
@@ -136,8 +136,10 @@
                     data: formData,
                     dataType: "json",
                     success: function (data) {
+                        location.reload();
                     },
                     error: function (error) {
+                        location.reload();
                     }
                 })
             })

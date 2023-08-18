@@ -2,6 +2,7 @@ package org.algotn.website.listeners
 
 import com.google.gson.Gson
 import org.algotn.api.Chili
+import org.algotn.api.contest.Contest
 import org.algotn.website.api.TestJSON
 import org.algotn.website.data.TestData
 import org.redisson.client.codec.StringCodec
@@ -28,7 +29,7 @@ class WebSocketEventListener {
     private val template: SimpMessagingTemplate? = null
     private val gson = Gson()
 
-    private val token = "token"
+    private val token = "vXPaWRWCQaUtiwvorvVt2mttD3vGo1rLyWZVprxgDmwZjcqALqq7h32cyF6G4tQq"
 
     init {
         Chili.getRedisInterface().client.getTopic("pepper-test-results", StringCodec())
@@ -63,12 +64,24 @@ class WebSocketEventListener {
                     data!!.testInProgress = null
 
                     data.allTests.add(testJson)
-                    Chili.getRedisInterface().saveData(email, data)
 
-                    if (validated) {
+                    if (validated && !problem.usersWhoSolved.contains(email)) {
                         problem.usersWhoSolved.add(email)
                         Chili.getRedisInterface().client.getSet<String>("problem-${problem.slug}-solved").add(email)
+
+                        data.solvedProblems.add(problem.slug)
+
+                        // List contests with this problem
+                        val contests = Chili.getRedisInterface().getAllUUIDData(Contest::class.java).toMutableList()
+                            .filter { it.problems.containsKey(problem.slug) }
+                        contests.forEach {
+                            it.updateUserScore(problem.slug, it.computeProblemScore(problem.slug), email)
+                            it.problemSuccessCount[problem.slug] = (it.problemSuccessCount[problem.slug] ?: 0) + 1
+                            Chili.getRedisInterface().client.getMap<String, Int>(it.successCountKey)[problem.slug] = Chili.getRedisInterface().client.getMap<String, Int>(it.successCountKey).getOrDefault(problem.slug, 0) + 1
+                            Chili.getRedisInterface().saveData(it.uuid, it)
+                        }
                     }
+                    Chili.getRedisInterface().saveData(email, data)
 
                     val headerAccessor = SimpMessageHeaderAccessor.create()
                     headerAccessor.setHeader("Authorization", "Bearer $token")
@@ -114,6 +127,7 @@ class WebSocketEventListener {
                     if (data.allTests.contains(testJson)) {
                         // Looks like the test was already completed
                         testsInProgress.remove(testJson.email)
+                        data.testInProgress = null
                     } else {
                         testsInProgress[testJson.email] = testJson
                     }

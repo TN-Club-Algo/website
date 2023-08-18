@@ -19,7 +19,7 @@ class ProblemHomeController {
     @Autowired
     val userRepository: UserRepository? = null
 
-    private val problemsPerPage = 3
+    private val problemsPerPage = 10
 
     @GetMapping("/problem")
     fun seeForm(model: Model, @RequestParam("page", defaultValue = "1") page: Int): ModelAndView {

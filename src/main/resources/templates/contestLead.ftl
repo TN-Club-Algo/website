@@ -1,13 +1,15 @@
 <#import "./_layout.ftl" as layout /><#-- not an error -->
 
-<title>CLassement</title>
+<title>Classement</title>
 <meta charset="UTF-8">
 <@layout.header>
     <div style="width: 90%; margin: auto">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-            <h2 class="subtitle is-2">
-                Classement de la Compétition: ${slug}
-            </h2>
+            <a href="/contest/${slug}">
+                <h2 class="subtitle is-2">
+                    Classement de la compétition : ${name}
+                </h2>
+            </a>
         </div>
     </div>
     <div>
@@ -24,10 +26,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <#list  users as user>
+                        <#list users as user>
                             <tr>
                                 <td>
-                                    ${user}
+                                    ${nicknames[user]}
                                 </td>
                                 <td>
                                     ${leaderboard[user]}

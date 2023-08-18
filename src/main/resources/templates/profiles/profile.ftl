@@ -1,6 +1,13 @@
 <#import "../_layout.ftl" as layout />
 
 <@layout.header>
+    <script>
+        <#if user.preferNickname>
+        preferNickname = true;
+        <#else>
+        preferNickname = false;
+        </#if>
+    </script>
     <div id="profileApp" class="columns" style="width: 90%; margin: auto">
         <div class="column is-one-fifth">
             <template>
@@ -90,13 +97,16 @@
 
                     <form id="passwordForm" action="/profile/password" method="POST">
                         <label for="oldPassword">Ancien mot de passe</label>
-                        <input class="input mt-2 mb-2" type="password" name="oldPassword" placeholder="Votre ancien mot de passe">
+                        <input class="input mt-2 mb-2" type="password" name="oldPassword"
+                               placeholder="Votre ancien mot de passe">
 
                         <label for="newPassword">Nouveau mot de passe</label>
-                        <input class="input mt-2 mb-2" type="password" name="newPassword" placeholder="Votre nouveau mot de passe">
+                        <input class="input mt-2 mb-2" type="password" name="newPassword"
+                               placeholder="Votre nouveau mot de passe">
 
                         <label for="newPasswordConfirm">Confirmer le nouveau mot de passe</label>
-                        <input class="input mt-2 mb-2" type="password" name="newPasswordConfirm" placeholder="Confirmer ce nouveau mot de passe">
+                        <input class="input mt-2 mb-2" type="password" name="newPasswordConfirm"
+                               placeholder="Confirmer ce nouveau mot de passe">
 
                         <button class="button is-primary">Modifier</button>
                     </form>
@@ -142,7 +152,7 @@
                 contentType: false, // Let the browser set the Content-Type header
                 dataType: "json",
                 success: function (data) {
-                    if(data.success) {
+                    if (data.success) {
                         indexApp.isActive = true;
                     } else {
                         indexApp.isErrorActive = true;
@@ -168,7 +178,7 @@
                 contentType: false, // Let the browser set the Content-Type header
                 dataType: "json",
                 success: function (data) {
-                    if(data.success) {
+                    if (data.success) {
                         indexApp.isActive2 = true;
                     } else {
                         indexApp.isErrorActive2 = true;

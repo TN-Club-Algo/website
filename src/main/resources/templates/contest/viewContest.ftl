@@ -48,10 +48,7 @@
                                 <td>
                                     ${problem["problem"].difficulty}
                                 </td>
-                                <td>${problem["problem"].getUsersWhoSolvedCount()} résolution
-                                    <#if problem["problem"].getUsersWhoSolvedCount() gt 1>
-                                        s
-                                    </#if>
+                                <td>${problem["problem"].getUsersWhoSolvedCount()} résolution<#if problem["problem"].getUsersWhoSolvedCount() gt 1>s</#if>
                                 </td>
                                 <td>${problem["score"]}</td>
                             </tr>

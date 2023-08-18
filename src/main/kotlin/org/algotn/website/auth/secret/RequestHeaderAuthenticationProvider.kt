@@ -8,7 +8,7 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 
 class RequestHeaderAuthenticationProvider : AuthenticationProvider {
 
-    private val secret = "secret"
+    private val secret = "4oPqFAgEK3ssM2CymfDsdjlTD8A7C0hHTYxWCQ9e3gey1mwIa6aTJ4fr48mbACDY"
 
     override fun authenticate(authentication: Authentication?): Authentication {
         if (authentication == null) throw BadCredentialsException("No authentication object provided")

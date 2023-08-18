@@ -121,6 +121,21 @@ class ContestController {
         model.addAttribute("allProblem", contestProblems)
         model.addAttribute("contest", theContest)
 
+
+
+        val principal = SecurityContextHolder.getContext().authentication.principal
+
+        val username = if (principal is UserDetails) {
+            principal.username
+        } else {
+            principal.toString()
+        }
+
+        val user = userRepository!!.findByUsername(username)
+        if (user.isPresent) {
+            model.addAttribute("email", username)
+        }
+
         return ModelAndView("contest/viewContest")
     }
 
@@ -234,28 +249,37 @@ class ContestController {
             return ModelAndView("redirect:/")
         }
 
-        val principal = SecurityContextHolder.getContext().authentication.principal
+        /*val principal = SecurityContextHolder.getContext().authentication.principal
 
         val username = if (principal is UserDetails) {
             principal.username
         } else {
             principal.toString()
-        }
+        }*/
 
         if (!Chili.getRedisInterface().hasData(id, Contest::class.java)) {
             return ModelAndView("redirect:/contest")
         }
         val contest = Chili.getRedisInterface().getData(id, Contest::class.java)!!
         val emailMap = Chili.getRedisInterface().client.getMap<String, String>("user-emails")
-        val leaderboard = mutableMapOf<String, Double>()
+        val leaderboard = LinkedHashMap<String, Double>()
         contest.registeredUser.forEach {
             leaderboard[it] = contest.getUserScore(it)
         }
 
+        val nicknameMap = mutableMapOf<String, String>()
+        contest.registeredUser.forEach {
+            nicknameMap[it] = emailMap[it] ?: it
+        }
+
+        // FIXME: don't do that!
+        val sortedLeaderboard = leaderboard.toList().sortedByDescending { (_, value) -> value }.toMap()
+
         model.addAttribute("slug", id)
-        model.addAttribute("users", contest.registeredUser)
-        model.addAttribute("leaderboard", leaderboard)
-        model.addAttribute("nicknames", contest.registeredUser.map { emailMap[it] })
+        model.addAttribute("name", contest.name)
+        model.addAttribute("users", sortedLeaderboard.keys)
+        model.addAttribute("leaderboard", sortedLeaderboard)
+        model.addAttribute("nicknames", nicknameMap)
 
         return ModelAndView("contestLead")
     }

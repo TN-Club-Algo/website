@@ -58,7 +58,7 @@ class SubmissionController {
         println("Authorization header: $authorizationHeader")
 
         val isApp = accessor.user == null
-        if (isApp && authorizationHeader == "token") {
+        if (isApp && authorizationHeader == "vXPaWRWCQaUtiwvorvVt2mttD3vGo1rLyWZVprxgDmwZjcqALqq7h32cyF6G4tQq") {
             return message;
         }
         throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
@@ -141,6 +141,12 @@ class SubmissionController {
             return mapOf("error" to "Problem not available", "success" to false)
         }
 
+        val testData = Chili.getRedisInterface().getData(username, TestData::class.java)!!
+        if (testData.testInProgress != null) {
+            return mapOf("error" to "You already have a test in progress", "success" to false)
+        }
+
+
         var name = testUUID
 
         if (files.size == 0) {
@@ -156,8 +162,8 @@ class SubmissionController {
 
         // The rest can be done in the background
         GlobalScope.launch {
-            val testData = Chili.getRedisInterface().getData(username, TestData::class.java)!!
             testData.testsIds.add(testUUID)
+            Chili.getRedisInterface().saveData(username, testData)
 
             Chili.getRedisInterface().client.getMap<String, String>("test-to-user")[testUUID] = username
 
@@ -194,6 +200,7 @@ class SubmissionController {
             jsonMap["userProgram"] = name
             jsonMap["language"] = lang
             jsonMap["extension"] = extension
+            jsonMap["timeLimit"] = problem.getValidationTimeLimit()
 
             val json = gson.toJson(jsonMap).toString()
             Chili.getRedisInterface().client.getTopic("pepper-tests", stringCodec).publish(json)

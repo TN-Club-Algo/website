@@ -69,7 +69,7 @@ const datum = {
                 });
             }
 
-            this.total = finalData.length
+            this.total = responseData.total
             this.data = finalData;
             this.loading = false
         },

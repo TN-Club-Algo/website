@@ -42,11 +42,6 @@
             <div class="subtitle is-5" id="limits" style="text-align: right;">
                 TEMPS LIMITE : ${problem.validationTimeLimit} s<br>
                 MÉMOIRE LIMITE : ${problem.validationMemoryLimit} Mo<br>
-                <a href="/problem/leaderboard/${problem.slug}">
-                    <div class="button">
-                        Classement
-                    </div>
-                </a>
             </div>
 
             <span class="m-3"></span>
