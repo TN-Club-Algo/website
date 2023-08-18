@@ -160,10 +160,10 @@ class TestAPIController {
         map["problemSlug"] = problemSlug
         map["problemName"] = problem.name
 
-        val tests = arrayListOf<Map<String, Any>>()
+        val tests = arrayListOf<LinkedHashMap<String, Any>>()
 
         problem.secretFiles.secretFiles.forEach {
-            val testMap = mutableMapOf<String, Any>()
+            val testMap = LinkedHashMap<String, Any>()
             testMap["name"] = it
             val type = problem.secretFiles.secretTestsTypes[it]!!
             testMap["type"] = type.name
@@ -175,6 +175,7 @@ class TestAPIController {
 
             tests.add(testMap)
         }
+        tests.sortBy { it["name"] as String }
         map["tests"] = tests
         return map
     }
