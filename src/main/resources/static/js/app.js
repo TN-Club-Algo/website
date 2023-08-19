@@ -44,6 +44,8 @@ const datum = {
 
                 finalData.push({
                     problem_name: inProgressTest.problemName,
+                    problem_slug: inProgressTest.problemSlug,
+                    problem_url: "/problem/" + inProgressTest.problemSlug,
                     your_code: inProgressTest.codeURL,
                     progress: progress,
                     date: inProgressTest.timestamp
@@ -57,11 +59,13 @@ const datum = {
                     if (completedTest.validated) {
                         progress = "Validé"
                     } else {
-                        progress = `${completedTest.info}`
+                        progress = `${completedTest.progress}`
                     }
 
                     finalData.push({
                         problem_name: completedTest.problemName,
+                        problem_slug: completedTest.problemSlug,
+                        problem_url: "/problem/" + completedTest.problemSlug,
                         your_code: completedTest.codeURL,
                         progress: progress,
                         date: completedTest.timestamp
@@ -106,12 +110,13 @@ stompClient.connect({}, () => {
 });
 
 function handleMessage(messageData) {
-    // TODO: handle messageData if it is to tell the place in the queue
     // Queue position
 
     // Test result
     const newData = {
         problem_name: messageData.problemName,
+        problem_slug: messageData.problemSlug,
+        problem_url: "/problem/" + messageData.problemSlug,
         your_code: messageData.codeURL,
         progress: messageData.validated ? "Validé" : `${messageData.progress}`,
         date: messageData.timestamp,
@@ -131,7 +136,7 @@ function handleMessage(messageData) {
             testAppData[index] = newData
         }
     } else {
-        testAppData.unshift(newData); // Treat as the first index or no previous test
+        testAppData.unshift(newData);
     }
 
     testApp.data = [...testAppData]; // Update the data property to trigger reactivity

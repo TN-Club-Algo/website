@@ -87,7 +87,7 @@ class SubmissionController {
     fun submitTest(
         @PathVariable("problemSlug") problemSlug: String,
         @RequestParam("language") lang: String,
-        @RequestParam("code") prog: String,
+        @RequestParam("code") code: String,
         @RequestParam("files") files: ArrayList<MultipartFile>,
         @RequestParam("cf-turnstile-response") token: String
     ): Map<String, Any> {
@@ -142,18 +142,26 @@ class SubmissionController {
         }
 
         val testData = Chili.getRedisInterface().getData(username, TestData::class.java)!!
-        if (testData.testInProgress != null) {
+        if (testData.shouldPreventTest()) {
             return mapOf("error" to "You already have a test in progress", "success" to false)
         }
 
-
         var name = testUUID
 
-        if (files.size == 0) {
+        if (files.size == 0 || files[0].isEmpty) {
+            if (code.isEmpty()) {
+                return mapOf("error" to "No file or code provided", "success" to false)
+            }
             // No file, use the program input
-            testLocationService!!.save(prog.toByteArray(), testUUID)
+            testLocationService!!.save(code.toByteArray(), testUUID)
         } else {
             if (files.size == 1) {
+                if (code.isNotEmpty()) {
+                    return mapOf("error" to "You can't submit both a file and code", "success" to false)
+                }
+                if (files[0].isEmpty) {
+                    return mapOf("error" to "File is empty", "success" to false)
+                }
                 testLocationService!!.save(files[0].inputStream.readBytes(), testUUID)
             } else {
                 // TODO: multiple files, maybe zip it
@@ -163,10 +171,10 @@ class SubmissionController {
         // The rest can be done in the background
         GlobalScope.launch {
             testData.testsIds.add(testUUID)
+            testData.lastTestTimestamp = System.currentTimeMillis()
             Chili.getRedisInterface().saveData(username, testData)
 
             Chili.getRedisInterface().client.getMap<String, String>("test-to-user")[testUUID] = username
-
 
             var extension = ""
             when (lang) {
@@ -188,6 +196,10 @@ class SubmissionController {
 
                 "c" -> {
                     extension = ".c"
+                }
+
+                "golang" -> {
+                    extension = ".go"
                 }
             }
             name += extension

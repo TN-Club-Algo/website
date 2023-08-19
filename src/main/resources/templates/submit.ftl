@@ -8,6 +8,7 @@
 <script src="../static/js/ace/mode-c_cpp.js" type="text/c" charset="utf-8"></script>
 <script src="../static/js/ace/mode-kotlin.js" type="text/kotlin" charset="utf-8"></script>
 <script src="../static/js/ace/mode-java.js" type="text/java" charset="utf-8"></script>
+<script src="../static/js/ace/mode-golang.js" type="text/java" charset="utf-8"></script>
 <script src="../static/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 <meta charset="UTF-8">
 <style>
@@ -27,13 +28,18 @@
             <select id="language" name="language">
                 <option value="python">Python 3</option>
                 <option disabled value="kotlin">Kotlin</option>
-                <option disabled value="c_cpp">C++</option>
-                <option disabled value="c">C</option>
+                <option value="golang">Golang</option>
+                <option value="c_cpp">C++</option>
+                <option value="c">C</option>
                 <option disabled value="java">Java</option>
             </select>
         </div>
 
         <div id="editor" class="mb-6"></div>
+
+        <div id="notification" class="is-hidden notification is-danger">
+
+        </div>
 
         <div style="width: 100%; margin: auto;">
             <form id="submitForm" enctype="multipart/form-data">
@@ -99,7 +105,8 @@
                     if (data.success) {
                         window.location.href = data.redirectURL;
                     } else {
-
+                        $("#notification").removeClass("is-hidden");
+                        $("#notification").html(data.message);
                     }
                 },
                 error: function (error) {

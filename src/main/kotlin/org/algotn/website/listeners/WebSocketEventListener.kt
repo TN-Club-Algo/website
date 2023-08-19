@@ -137,12 +137,13 @@ class WebSocketEventListener {
                     val headerAccessor = SimpMessageHeaderAccessor.create()
                     headerAccessor.setHeader("Authorization", "Bearer $token")
 
-                    this.template!!.convertAndSendToUser(
+                    // FIXME
+                    /*this.template!!.convertAndSendToUser(
                         email,
                         "/queue/return/tests",
                         testJson,
                         headerAccessor.messageHeaders
-                    )
+                    )*/
                 }
             }
     }

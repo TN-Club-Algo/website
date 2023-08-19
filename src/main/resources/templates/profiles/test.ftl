@@ -43,11 +43,13 @@
                         @sort="onSort">
 
                     <b-table-column field="problem_name" label="Nom du problème" sortable v-slot="props">
-                        {{ props.row.problem_name }}
+                        <a class="is-link" :href="props.row.problem_url">
+                            {{ props.row.problem_name }}
+                        </a>
                     </b-table-column>
 
                     <b-table-column field="your_code" label="Votre code" v-slot="props">
-                        <a disabled class="is-link" :href="props.row.your_code">
+                        <a class="is-link" :href="props.row.your_code">
                             Télécharger
                         </a>
                     </b-table-column>

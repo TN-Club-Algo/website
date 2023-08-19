@@ -42,7 +42,6 @@ class ProblemController {
         }
 
         if (currentContests.any { it.problems.containsKey(id) }) {
-            println(currentContests.joinToString(", ") { it.name })
             model.addAttribute("linkedContestsNames", currentContests.joinToString(", ") { it.name })
         }
 

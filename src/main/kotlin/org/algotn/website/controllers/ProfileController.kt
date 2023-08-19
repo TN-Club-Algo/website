@@ -53,7 +53,8 @@ class ProfileController {
     fun changeUserInformation(
         @RequestParam("firstName", defaultValue = "") firstName: String,
         @RequestParam("lastName", defaultValue = "") lastName: String,
-        @RequestParam("nickname", defaultValue = "") nickname: String
+        @RequestParam("nickname", defaultValue = "") nickname: String,
+        @RequestParam("preferNickname", defaultValue = "true") preferNickname: String
     ): Map<String, Any> {
         val principal = SecurityContextHolder.getContext().authentication.principal
         val username = if (principal is UserDetails) {
@@ -76,6 +77,9 @@ class ProfileController {
             return mapOf("error" to "Le surnom choisi est déjà pris", "success" to false)
         }
         u.nickname = nickname
+
+        u.preferNickname = preferNickname == "true"
+
         userRepository.save(u)
         return mapOf("success" to true)
     }

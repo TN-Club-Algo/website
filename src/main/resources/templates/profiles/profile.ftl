@@ -61,6 +61,12 @@
                         <label for="nickname">Surnom</label>
                         <input class="input mt-2 mb-2" type="text" name="nickname" value="${user.nickname}">
 
+                        <b-field>
+                            <b-checkbox disabled v-model="preferNickname" oninput="preferNickname = !preferNickname">
+                                Préférer l'utilisation du surnom
+                            </b-checkbox>
+                        </b-field>
+
                         <label for="email">Email</label>
                         <input class="input mt-2 mb-2" type="email" name="email" value="${user.email}" disabled>
 
@@ -123,6 +129,8 @@
                     isErrorActive: false,
                     isActive2: false,
                     isErrorActive2: false,
+
+                    preferNickname: true,
                 }
             }
         }
@@ -143,6 +151,8 @@
             event.preventDefault(); // Prevent form submission
 
             const formData = new FormData(this);
+
+            formData.append("preferNickname", preferNickname);
 
             $.ajax({
                 type: "POST",
