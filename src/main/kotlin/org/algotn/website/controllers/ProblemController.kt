@@ -8,6 +8,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.servlet.ModelAndView
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.util.*
 
 
@@ -16,7 +17,8 @@ class ProblemController {
 
     @GetMapping("/problem/{slug}")
     fun lookProblem(
-        @PathVariable("slug") id: String, model: Model
+        @PathVariable("slug") id: String, model: Model,
+        redirectAttributes: RedirectAttributes
     ): ModelAndView {
         if (Chili.getProblems().getProblem(id) == null) {
             return ModelAndView("redirect:/")
@@ -37,8 +39,10 @@ class ProblemController {
         }.toMutableList()
 
         if (upcomingContests.isNotEmpty()) {
-            model.addAttribute("not_available", true)
-            return ModelAndView("problem")
+            /*model.addAttribute("not_available", true)
+            return ModelAndView("problem")*/
+            redirectAttributes.addFlashAttribute("not_available", "Ce problème n'est pas encore disponible !")
+            return ModelAndView("redirect:/problem")
         }
 
         if (currentContests.any { it.problems.containsKey(id) }) {

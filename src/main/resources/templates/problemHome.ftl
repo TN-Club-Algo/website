@@ -3,6 +3,13 @@
 <title>Liste des Problèmes</title>
 <meta charset="UTF-8">
 <@layout.header>
+
+    <#if not_available??>
+        <div class="notification is-danger">
+            ${not_available}
+        </div>
+    </#if>
+
     <div class="card mt-6">
         <header class="card-header">
             <p class="subtitle is-4 p-3">
