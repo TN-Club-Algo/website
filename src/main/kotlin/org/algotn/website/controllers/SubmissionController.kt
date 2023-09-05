@@ -43,6 +43,8 @@ class SubmissionController {
     private val stringCodec = StringCodec()
     private val gson = Gson()
 
+    private val webSocketToken = System.getenv("WEBSOCKET_SECRET_TOKEN") ?: "secret_token"
+
     @MessageMapping("/return/tests") // Listen to /app/return/tests
     @SendTo("/return/tests") // Send to /return/tests
     fun sendTest(
@@ -58,7 +60,7 @@ class SubmissionController {
         println("Authorization header: $authorizationHeader")
 
         val isApp = accessor.user == null
-        if (isApp && authorizationHeader == "vXPaWRWCQaUtiwvorvVt2mttD3vGo1rLyWZVprxgDmwZjcqALqq7h32cyF6G4tQq") {
+        if (isApp && authorizationHeader == webSocketToken) {
             return message;
         }
         throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
@@ -98,7 +100,7 @@ class SubmissionController {
 
         val restTemplate = RestTemplate()
         val formData = LinkedMultiValueMap<String, String>()
-        formData.add("secret", "0x4AAAAAAAIoSE7qkZhMWusd6ot2RLTIpKc")
+        formData.add("secret", System.getenv("CLOUDFLARE_SECRET"))
         formData.add("response", token)
         formData.add("remoteip", ip)
 
