@@ -24,13 +24,6 @@ publishing {
 
 repositories {
     mavenCentral()
-    maven {
-        url = uri("https://maven.pkg.jetbrains.space/algo-tn/p/main/maven")
-        credentials {
-            username = extra["spaceUsername"].toString()
-            password = extra["spacePassword"].toString()
-        }
-    }
 }
 
 dependencies {
