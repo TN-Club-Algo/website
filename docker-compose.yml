@@ -1,7 +1,7 @@
 services:
   web:
     container_name: "algotn-website"
-    build: .
+    image: "ghcr.io/tn-club-algo/website:main"
     restart: always
     environment:
       REDIS_HOST: "redis"
@@ -12,6 +12,18 @@ services:
       - "8080:8080"
     volumes:
       - ./config.yml:/config.yml
+  pepper:
+    container_name: "pepper"
+    image: "ghcr.io/tn-club-algo/pepper:main"
+    restart: always
+    environment:
+      MAX_RAM: "16384"
+      WEBSITE_URL: "localhost"
+      API_SECRET: "secret_token"
+      REDIS_ADDRESS_PORT: "redis:6379"
+      REDIS_PASS: ""
+    depends_on:
+      - redis
   redis:
     image: "redis:latest"
     command: redis-server --port 6379
