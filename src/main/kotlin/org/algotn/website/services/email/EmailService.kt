@@ -33,10 +33,10 @@ class EmailService {
             "Réinitialisez votre mot de passe à l'adresse suivante : https://algo.telecomnancy.net/password-reset/$token\n" +
                     "Ce lien est valide pendant 10 minutes."
 
-        sendEmail(emailTo, EmailType.NO_REPLY, subject, text)
+        sendEmail(emailTo, subject, text)
     }
 
-    private fun sendEmail(emailTo: String, emailType: EmailType, subject: String, text: String) {
+    private fun sendEmail(emailTo: String, subject: String, text: String) {
         val mailMessage = SimpleMailMessage()
         mailMessage.from = "club-algo@telecomnancy.net"
         mailMessage.setTo(emailTo)
@@ -44,9 +44,5 @@ class EmailService {
         mailMessage.text = text
 
         emailSender.send(mailMessage)
-    }
-
-    enum class EmailType(val email: String) {
-        NO_REPLY("noreply@limpou.fr")
     }
 }
