@@ -33,7 +33,6 @@ publishing {
 }
 
 repositories {
-    //mavenLocal()
     mavenCentral()
     maven {
         url = uri("https://maven.pkg.jetbrains.space/algo-tn/p/main/maven")
@@ -45,7 +44,6 @@ repositories {
 }
 
 dependencies {
-    implementation("org.algotn:api:1.0.9-SNAPSHOT")
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.0.4")
     implementation("org.springframework:spring-messaging:6.0.9")
 
@@ -57,6 +55,8 @@ dependencies {
     implementation ("org.webjars:bootstrap:5.2.3")
     implementation ("org.webjars:jquery:3.6.4")
     implementation("org.springframework:spring-websocket:6.0.9")
+    implementation("org.apache.commons:commons-lang3:3.12.0")
+    implementation("org.bspfsystems:yamlconfiguration:1.3.3")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")

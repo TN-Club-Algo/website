@@ -29,7 +29,7 @@ class WebSocketEventListener {
     private val template: SimpMessagingTemplate? = null
     private val gson = Gson()
 
-    private val token = "vXPaWRWCQaUtiwvorvVt2mttD3vGo1rLyWZVprxgDmwZjcqALqq7h32cyF6G4tQq"
+    private val token = System.getenv("WEBSOCKET_SECRET_TOKEN") ?: "secret_token"
 
     init {
         Chili.getRedisInterface().client.getTopic("pepper-test-results", StringCodec())
