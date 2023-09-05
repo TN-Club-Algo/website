@@ -15,8 +15,8 @@ class EmailService {
         mailSender.host = "smtp.gmail.com"
         mailSender.port = 587
 
-        mailSender.username = "alexandre.duchesne@telecomnancy.net"
-        mailSender.password = "vvbnmdwvcxghnoxq"
+        mailSender.username = System.getenv("EMAIL_USERNAME")
+        mailSender.password = System.getenv("EMAIL_PASSWORD")
 
         val props = mailSender.javaMailProperties
         props["mail.transport.protocol"] = "smtp"
@@ -29,8 +29,9 @@ class EmailService {
 
     fun sendPasswordResetEmail(emailTo: String, token: String) {
         val subject = "AlgoTN | Réinitialisation de votre mot de passe."
-        val text = "Réinitialisez votre mot de passe à l'adresse suivante : https://algo.telecomnancy.net/password-reset/$token\n" +
-                "Ce lien est valide pendant 10 minutes."
+        val text =
+            "Réinitialisez votre mot de passe à l'adresse suivante : https://algo.telecomnancy.net/password-reset/$token\n" +
+                    "Ce lien est valide pendant 10 minutes."
 
         sendEmail(emailTo, EmailType.NO_REPLY, subject, text)
     }
