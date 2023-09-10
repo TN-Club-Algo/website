@@ -17,6 +17,7 @@ services:
       - "8080:8080"
     volumes:
       - ./config.yml:/config.yml
+      - /etc/algotn:/etc/algotn
   pepper:
     container_name: "pepper"
     image: "ghcr.io/tn-club-algo/pepper:main"
