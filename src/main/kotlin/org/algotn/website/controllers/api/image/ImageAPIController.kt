@@ -23,6 +23,13 @@ class ImageAPIController {
             return ResponseEntity.notFound().build()
         }
 
+        // MediaType includes jpeg, png, gif
+        if (!fileSystemResource.filename.endsWith(".png") && !fileSystemResource.filename.endsWith(".jpg")
+            && !fileSystemResource.filename.endsWith(".jpeg") && !fileSystemResource.filename.endsWith(".gif")
+        ) {
+            return ResponseEntity.ok().body(InputStreamResource(fileSystemResource.inputStream))
+        }
+
         val contentType = MediaType.parseMediaType(Files.probeContentType(fileSystemResource.file.toPath()))
 
         return ResponseEntity.ok().contentType(contentType).body(InputStreamResource(fileSystemResource.inputStream))
