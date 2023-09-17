@@ -30,6 +30,8 @@ services:
       REDIS_PASS: ""
     depends_on:
       - redis
+    volumes:
+      - /etc/algotn:/etc/algotn
   redis:
     image: "redis:latest"
     command: redis-server --port 6379
