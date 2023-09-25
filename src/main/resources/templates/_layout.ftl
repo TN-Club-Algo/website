@@ -16,11 +16,11 @@
 
         <script src="https://unpkg.com/vue@2"></script>
         <!-- Full bundle -->
-        <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/buefy/0.9.22/buefy.min.js"></script>
 
         <!-- Individual components -->
-        <script src="https://unpkg.com/buefy/dist/components/table"></script>
-        <script src="https://unpkg.com/buefy/dist/components/input"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/buefy/0.9.22/components/table/index.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/buefy/0.9.22/components/input/index.min.js"></script>
     </head>
     <body>
     <div class="container">
