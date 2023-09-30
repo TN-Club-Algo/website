@@ -3,8 +3,11 @@ package org.algotn.api.contest;
 import org.algotn.api.Chili
 import org.algotn.api.database.data.Data
 import org.algotn.api.problem.Problem
+import org.algotn.api.problem.awards.ProblemAward
 import org.algotn.api.utils.DateUtils
 import org.algotn.api.utils.slugify
+import org.springframework.util.LinkedMultiValueMap
+import org.springframework.util.MultiValueMap
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.max
@@ -15,6 +18,9 @@ class Contest : Data {
     val problems = HashMap<String, Int>()
     val problemSuccessCount = HashMap<String, Int>()
     val registeredUser = HashSet<String>()
+
+    // Problem awards linked to the given problem slug
+    val problemAwards: MultiValueMap<String, ProblemAward> = LinkedMultiValueMap()
 
     var uuid: String = UUID.randomUUID().toString()
     var name: String = "No Name"
