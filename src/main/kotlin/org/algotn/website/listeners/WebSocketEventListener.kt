@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import org.algotn.api.Chili
 import org.algotn.api.contest.Contest
 import org.algotn.website.api.TestJSON
+import org.algotn.website.auth.UserRepository
 import org.algotn.website.data.TestData
 import org.redisson.client.codec.StringCodec
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,6 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.stereotype.Component
 import org.springframework.web.socket.messaging.SessionConnectEvent
 import java.util.*
+import kotlin.jvm.optionals.getOrNull
 
 
 @Component
@@ -27,6 +29,9 @@ class WebSocketEventListener {
 
     @Autowired
     private val template: SimpMessagingTemplate? = null
+    @Autowired
+    val userRepository: UserRepository? = null
+
     private val gson = Gson()
 
     private val token = System.getenv("WEBSOCKET_SECRET_TOKEN") ?: "secret_token"
@@ -79,6 +84,17 @@ class WebSocketEventListener {
                             it.problemSuccessCount[problem.slug] = (it.problemSuccessCount[problem.slug] ?: 0) + 1
                             Chili.getRedisInterface().client.getMap<String, Int>(it.successCountKey)[problem.slug] = Chili.getRedisInterface().client.getMap<String, Int>(it.successCountKey).getOrDefault(problem.slug, 0) + 1
                             Chili.getRedisInterface().saveData(it.uuid, it)
+                        }
+
+                        // Add problem awards
+                        val user = userRepository!!.findByEmail(email).getOrNull()
+                        if (user == null) {
+                            Chili.logger.error("User with email=$email not found while adding awards")
+                        } else {
+                            problem.awards.values.forEach {
+                                user.awards.add(it.clone())
+                            }
+                            userRepository.save(user)
                         }
                     }
                     Chili.getRedisInterface().saveData(email, data)

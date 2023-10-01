@@ -14,6 +14,10 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css">
         <link rel="icon" type="image/x-icon" href="/api/image/algotn.ico">
 
+        <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+        <script src="../static/js/jquery.min.js"></script>
+        <script src="../static/js/stomp.js"></script>
+
         <script src="https://unpkg.com/vue@2"></script>
         <!-- Full bundle -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/buefy/0.9.22/buefy.min.js"></script>
@@ -21,6 +25,8 @@
         <!-- Individual components -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/buefy/0.9.22/components/table/index.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/buefy/0.9.22/components/input/index.min.js"></script>
+
+        <script defer src="../static/js/index.js"></script>
     </head>
     <body>
     <div class="container">
@@ -70,14 +76,6 @@
         </div>
 
         <#nested>
-
-        <script>
-            new Vue({
-                el: '#app',
-            })
-        </script>
-
-        <script src="../static/js/index.js"></script>
     </div>
     </body>
     </html>

@@ -8,6 +8,12 @@ class StringProblemAward(problemSlug: String, date: Long) : ProblemAward(problem
         return award != null
     }
 
+    override fun clone(): ProblemAward {
+        val award = StringProblemAward(problemSlug, System.currentTimeMillis())
+        award.award = this.award
+        return award
+    }
+
     override fun toString(): String {
         return "StringProblemAward(award=$award)"
     }
