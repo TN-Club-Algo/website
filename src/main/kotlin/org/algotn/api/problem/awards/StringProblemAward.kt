@@ -14,6 +14,10 @@ class StringProblemAward(problemSlug: String, date: Long) : ProblemAward(problem
         return award
     }
 
+    override fun display(): String {
+        return award ?: "null"
+    }
+
     override fun toString(): String {
         return "StringProblemAward(award=$award)"
     }

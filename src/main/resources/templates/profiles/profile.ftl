@@ -14,7 +14,7 @@
                 <b-menu>
                     <b-menu-list label="Mon compte">
                         <b-menu-item icon="information-outline" label="Info" active onclick="info()"></b-menu-item>
-                        <b-menu-item icon="gift" label="Récompenses" active onclick="awards()"></b-menu-item>
+                        <b-menu-item icon="gift" label="Récompenses" onclick="awards()"></b-menu-item>
                         <b-menu-item icon="account" label="Changer mon mot de passe"
                                      onclick="changePassword()"></b-menu-item>
                     </b-menu-list>
@@ -73,6 +73,29 @@
 
                         <button class="button is-primary">Modifier</button>
                     </form>
+                </div>
+            </div>
+            <div id="awards" class="card is-hidden">
+                <div class="card-content">
+                    <b-field>
+                        <b-input placeholder="Rechercher parmi vos récompenses..."
+                                 type="search"
+                                 icon-pack="fas"
+                                 icon="search">
+                        </b-input>
+                    </b-field>
+                    <div>
+                        <#if user.awards?size == 0>
+                            <p>Vous n'avez pas encore de récompenses</p>
+                        <#else>
+                            <#list user.awards as award>
+                                <div class="award">
+                                    <p class="awardDate">${award.date}</p>
+                                    <p class="awardDisplay">${award.display()}</p>
+                                </div>
+                            </#list>
+                        </#if>
+                    </div>
                 </div>
             </div>
             <div id="changePass" class="card is-hidden">
