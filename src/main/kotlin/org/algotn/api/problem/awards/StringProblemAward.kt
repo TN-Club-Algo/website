@@ -7,4 +7,8 @@ class StringProblemAward(problemSlug: String, date: Long) : ProblemAward(problem
     override fun isValid(): Boolean {
         return award != null
     }
+
+    override fun toString(): String {
+        return "StringProblemAward(award=$award)"
+    }
 }

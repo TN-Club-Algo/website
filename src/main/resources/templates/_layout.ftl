@@ -76,6 +76,8 @@
                 el: '#app',
             })
         </script>
+
+        <script src="../static/js/index.js"></script>
     </div>
     </body>
     </html>

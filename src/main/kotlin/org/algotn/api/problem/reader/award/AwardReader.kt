@@ -16,12 +16,12 @@ class AwardReader {
                 val yamlConfig = YamlConfiguration.loadConfiguration(awardsFile)
                 yamlConfig.getKeys(false).forEach { awardKey ->
                     val typeString = yamlConfig.getString("$awardKey.type")
-                    val problemSlug = yamlConfig.getString("$awardKey.problem_slug") ?: return@forEach
                     val name = yamlConfig.getString("$awardKey.name") ?: return@forEach
 
                     when (typeString) {
                         "string" -> {
-                            val award = StringProblemAward(problemSlug, -1)
+                            val award = StringProblemAward(problem.slug, -1)
+                            award.award = yamlConfig.getString("$awardKey.award")
                             problem.awards[name] = award
                         }
 

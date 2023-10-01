@@ -14,6 +14,7 @@
                 <b-menu>
                     <b-menu-list label="Mon compte">
                         <b-menu-item icon="information-outline" label="Info" active onclick="info()"></b-menu-item>
+                        <b-menu-item icon="gift" label="Récompenses" active onclick="awards()"></b-menu-item>
                         <b-menu-item icon="account" label="Changer mon mot de passe"
                                      onclick="changePassword()"></b-menu-item>
                     </b-menu-list>
@@ -140,11 +141,19 @@
         let info = function () {
             $('#info').removeClass('is-hidden');
             $('#changePass').addClass('is-hidden');
+            $('#awards').addClass('is-hidden');
+        }
+
+        let awards = function () {
+            $('#awards').removeClass('is-hidden');
+            $('#info').addClass('is-hidden');
+            $('#changePass').addClass('is-hidden');
         }
 
         let changePassword = function () {
             $('#info').addClass('is-hidden');
             $('#changePass').removeClass('is-hidden');
+            $('#awards').addClass('is-hidden');
         }
 
         $("#infoForm").submit(function (event) {
