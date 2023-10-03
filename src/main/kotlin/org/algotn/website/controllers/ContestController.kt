@@ -33,18 +33,17 @@ class ContestController {
         val currentContests = contests.filter {
             DateUtils.dateToLong(it.beginning) < System.currentTimeMillis()
                     && DateUtils.dateToLong(it.end) > System.currentTimeMillis()
+                    || DateUtils.dateToLong(it.beginning) > System.currentTimeMillis()
         }.toMutableList()
 
-        // Remove past contests
-        contests.removeIf {
+        val pastContests = contests.filter {
             DateUtils.dateToLong(it.end) < System.currentTimeMillis()
-        }
-        currentContests.removeIf {
-            DateUtils.dateToLong(it.end) < System.currentTimeMillis()
-        }
+//                    && DateUtils.dateToLong(it.end) > System.currentTimeMillis()
+        }.toMutableList()
 
-        // Sort contests
-        contests.toMutableList().sortBy { it.beginning }
+
+        // Sort pastContests
+        pastContests.toMutableList().sortBy { it.beginning }
         currentContests.toMutableList().sortBy { it.beginning }
 
         val principal = SecurityContextHolder.getContext().authentication.principal
@@ -69,7 +68,7 @@ class ContestController {
             )
         }
         model.addAttribute("currentContests", currentContests)
-        model.addAttribute("contests", contests)
+        model.addAttribute("pastContests", pastContests)
 
         return ModelAndView("contest/contestIndex")
     }

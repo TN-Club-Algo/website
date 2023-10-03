@@ -18,7 +18,7 @@
         <div class="card">
             <header class="card-header" style="position: relative;height: 54px;">
                 <p class="subtitle is-4 p-3">
-                    Compétitions en cours
+                    Compétitions en cour et future
                 </p>
                 <#if hasAuthority?? && hasAuthority>
                     <div class="container">
@@ -77,7 +77,7 @@
         <div class="card mt-6">
             <header class="card-header">
                 <p class="subtitle is-4 p-3">
-                    Toutes les compétitions
+                    Compétitions passée
                 </p>
             </header>
             <div class="card-content">
@@ -92,7 +92,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <#list contests as contest>
+                        <#list pastContests as contest>
                             <tr>
                                 <td><a href="/contest/${contest.uuid}">${contest.name}</a></td>
                                 <td>
