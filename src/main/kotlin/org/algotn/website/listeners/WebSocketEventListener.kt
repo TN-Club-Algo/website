@@ -6,6 +6,7 @@ import org.algotn.api.contest.Contest
 import org.algotn.website.api.TestJSON
 import org.algotn.website.auth.UserRepository
 import org.algotn.website.data.TestData
+import org.algotn.website.utils.NotificationUtils
 import org.redisson.client.codec.StringCodec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.event.EventListener
@@ -94,6 +95,11 @@ class WebSocketEventListener {
                             problem.awards.values.forEach {
                                 user.awards.add(it.clone())
                             }
+                            NotificationUtils.sendNotificationToUser(
+                                template,
+                                email,
+                                "Vous avez reçu des récompenses pour avoir résolu le problème ${problem.name} !\nDirection votre profil pour les consulter.",
+                            )
                             userRepository.save(user)
                         }
                     }
