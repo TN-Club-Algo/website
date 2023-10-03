@@ -15,6 +15,7 @@ class User : Data {
     var authorities: ArrayList<String> = ArrayList()
 
     var awards: ArrayList<ProblemAward> = ArrayList()
+    var provider: Provider = Provider.LOCAL
 
     fun getPreferredName(): String {
         if(preferNickname) {
