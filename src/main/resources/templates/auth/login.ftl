@@ -61,6 +61,12 @@
                         Se connecter
                     </button>
 
+                    <a href="/oauth2/authorization/google">
+                        <button class="button" id="google-login">
+                            Se connecter avec TN.net
+                        </button>
+                    </a>
+
                     <!-- fail notification -->
                     <div id="errorNotification" class="notification is-danger is-small is-invisible"></div>
 

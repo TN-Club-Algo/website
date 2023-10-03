@@ -2,6 +2,7 @@ package org.algotn.website.controllers
 
 import org.algotn.api.Chili
 import org.algotn.website.auth.UserRepository
+import org.algotn.website.auth.user.TNOAuth2User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.ModelAndView
-import java.util.*
 
 @Controller
 class ProfileController {
@@ -32,17 +32,20 @@ class ProfileController {
     fun profile(model: Model): ModelAndView {
         val principal = SecurityContextHolder.getContext().authentication.principal
 
-        val username = if (principal is UserDetails) {
+        var username = if (principal is UserDetails) {
             principal.username
         } else {
             principal.toString()
+        }
+
+        if (principal is TNOAuth2User) {
+            username = principal.getEmail()
         }
 
         val user = userRepository!!.findByUsername(username)
         if (!user.isPresent) {
             return ModelAndView("redirect:/login")
         }
-
         model.addAttribute("user", user.get())
 
         return ModelAndView("profiles/profile")
@@ -96,6 +99,10 @@ class ProfileController {
             principal.username
         } else {
             principal.toString()
+        }
+
+        if (principal is TNOAuth2User) {
+            return mapOf("error" to "Vous ne pouvez pas changer votre mot de passe car vous êtes connecté via un compte Google", "success" to false)
         }
 
         val user = userRepository!!.findByUsername(username)

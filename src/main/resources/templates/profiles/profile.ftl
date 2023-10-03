@@ -14,8 +14,11 @@
                 <b-menu>
                     <b-menu-list label="Mon compte">
                         <b-menu-item icon="information-outline" label="Info" active onclick="info()"></b-menu-item>
-                        <b-menu-item icon="account" label="Changer mon mot de passe"
-                                     onclick="changePassword()"></b-menu-item>
+                        <!-- Disable if the user is not concerned -->
+                        <#if user.provider.name() == "LOCAL">
+                            <b-menu-item icon="account" label="Changer mon mot de passe"
+                                         onclick="changePassword()"></b-menu-item>
+                        </#if>
                     </b-menu-list>
                     <b-menu-list label="Actions">
                         <b-menu-item label="Se déconnecter" href="/logout"></b-menu-item>
@@ -74,50 +77,52 @@
                     </form>
                 </div>
             </div>
-            <div id="changePass" class="card is-hidden">
-                <div class="card-content">
-                    <template class="mb-3">
-                        <section>
-                            <b-notification
-                                    auto-close
-                                    type="is-success"
-                                    duration=10000
-                                    v-model="isActive2"
-                                    aria-close-label="Close notification">
-                                Le changement a bien été pris en compte
-                            </b-notification>
-                        </section>
-                    </template>
-                    <template class="mb-3">
-                        <section>
-                            <b-notification
-                                    id="errorNotification2"
-                                    auto-close
-                                    type="is-danger"
-                                    duration=10000
-                                    v-model="isErrorActive2"
-                                    aria-close-label="Close notification">
-                            </b-notification>
-                        </section>
-                    </template>
+            <#if user.provider.name() == "LOCAL">
+                <div id="changePass" class="card is-hidden">
+                    <div class="card-content">
+                        <template class="mb-3">
+                            <section>
+                                <b-notification
+                                        auto-close
+                                        type="is-success"
+                                        duration=10000
+                                        v-model="isActive2"
+                                        aria-close-label="Close notification">
+                                    Le changement a bien été pris en compte
+                                </b-notification>
+                            </section>
+                        </template>
+                        <template class="mb-3">
+                            <section>
+                                <b-notification
+                                        id="errorNotification2"
+                                        auto-close
+                                        type="is-danger"
+                                        duration=10000
+                                        v-model="isErrorActive2"
+                                        aria-close-label="Close notification">
+                                </b-notification>
+                            </section>
+                        </template>
 
-                    <form id="passwordForm" action="/profile/password" method="POST">
-                        <label for="oldPassword">Ancien mot de passe</label>
-                        <input class="input mt-2 mb-2" type="password" name="oldPassword"
-                               placeholder="Votre ancien mot de passe">
+                        <form id="passwordForm" action="/profile/password" method="POST">
+                            <label for="oldPassword">Ancien mot de passe</label>
+                            <input class="input mt-2 mb-2" type="password" name="oldPassword"
+                                   placeholder="Votre ancien mot de passe">
 
-                        <label for="newPassword">Nouveau mot de passe</label>
-                        <input class="input mt-2 mb-2" type="password" name="newPassword"
-                               placeholder="Votre nouveau mot de passe">
+                            <label for="newPassword">Nouveau mot de passe</label>
+                            <input class="input mt-2 mb-2" type="password" name="newPassword"
+                                   placeholder="Votre nouveau mot de passe">
 
-                        <label for="newPasswordConfirm">Confirmer le nouveau mot de passe</label>
-                        <input class="input mt-2 mb-2" type="password" name="newPasswordConfirm"
-                               placeholder="Confirmer ce nouveau mot de passe">
+                            <label for="newPasswordConfirm">Confirmer le nouveau mot de passe</label>
+                            <input class="input mt-2 mb-2" type="password" name="newPasswordConfirm"
+                                   placeholder="Confirmer ce nouveau mot de passe">
 
-                        <button class="button is-primary">Modifier</button>
-                    </form>
+                            <button class="button is-primary">Modifier</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            </#if>
         </div>
     </div>
 

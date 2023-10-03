@@ -1,9 +1,15 @@
 package org.algotn.website.auth
 
 import com.google.gson.Gson
+import org.algotn.api.Chili
 import org.algotn.website.auth.secret.RequestHeaderAuthenticationProvider
+import org.algotn.website.auth.user.TNOAuth2User
+import org.algotn.website.services.auth.TNOAuth2UserService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.security.SecurityProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.annotation.Order
 import org.springframework.security.authentication.*
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -24,12 +30,16 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector
 
 @Configuration
 @EnableWebSecurity
+@Order(SecurityProperties.BASIC_AUTH_ORDER)
 open class WebSecurityConfig {
 
     private val gson = Gson()
 
     private var requestHeaderAuthenticationProvider: RequestHeaderAuthenticationProvider =
         RequestHeaderAuthenticationProvider()
+
+    @Autowired
+    private val oauthUserService: TNOAuth2UserService? = null
 
     @Bean
     open fun authenticationManager(): AuthenticationManager {
@@ -76,7 +86,8 @@ open class WebSecurityConfig {
                         "/problem/{slug}",
                         "/contest",
                         "/contest/{uuid}",
-                        "/contest/leaderboard/{uuid}"
+                        "/contest/leaderboard/{uuid}",
+                        "/oauth2/**",
                     )
                     .permitAll()
                     .requestMatchers("/api/image/**").permitAll()
@@ -137,6 +148,20 @@ open class WebSecurityConfig {
                         response.writer.write(gson.toJson(responseMap))
                     }
                     .permitAll(false)
+            }
+            .oauth2Login { oauth2 ->
+                oauth2.loginPage("/login")
+                oauth2.userInfoEndpoint {
+                    it.userService(oauthUserService)
+                }
+                oauth2.successHandler { request, response, authentication ->
+                    val oauthUser = authentication.principal as TNOAuth2User
+                    oauthUserService!!.processOAuthPostLogin(oauthUser)
+                    response.sendRedirect("/")
+                }
+                oauth2.failureHandler { request, response, exception ->
+                    Chili.logger.error("OAuth2 login failed", exception)
+                }
             }
             .logout { logout ->
                 logout.permitAll()

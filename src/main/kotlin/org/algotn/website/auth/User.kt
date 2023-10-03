@@ -13,6 +13,8 @@ class User : Data {
 
     var authorities: ArrayList<String> = ArrayList()
 
+    var provider: Provider = Provider.LOCAL
+
     fun getPreferredName(): String {
         if(preferNickname) {
             return nickname

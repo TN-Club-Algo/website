@@ -3,6 +3,7 @@ package org.algotn.website.controllers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.algotn.api.Chili
+import org.algotn.website.auth.Provider
 import org.algotn.website.auth.User
 import org.algotn.website.auth.UserRepository
 import org.algotn.website.auth.WebSecurityConfig
@@ -90,6 +91,15 @@ class AuthController(private val userRepository: UserRepository) {
             return "redirect:/password-reset"
         }
 
+        val user = userRepository.findByEmail(allParams["userName"]!!).get()
+        if (user.provider == Provider.GOOGLE_TN) {
+            redirectAttributes.addFlashAttribute(
+                "errorMessage",
+                "Vous êtes connecté avec Google, vous ne pouvez pas réinitialiser votre mot de passe."
+            )
+            return "redirect:/password-reset"
+        }
+
         redirectAttributes.addFlashAttribute(
             "successMessage",
             "Vous allez recevoir un mail contenant la demande de réinitialisation du mot de passe."
@@ -145,7 +155,7 @@ class AuthController(private val userRepository: UserRepository) {
 
         // TODO: dynamic check in js
         val emailMap = Chili.getRedisInterface().client.getMap<String, String>("user-emails")
-        if (emailMap.containsKey(allParams.getFirst("userName")!!)) {
+        if (emailMap.containsKey(allParams.getFirst("userName")!!) || userRepository.userExists(allParams.getFirst("userName")!!)) {
             redirectAttributes.addFlashAttribute("errorMessage", "L'email renseignée est déjà liée un compte.")
             return "redirect:/register"
         }

@@ -12,7 +12,8 @@ class UserRepositoryImpl : UserRepository {
         fun doesUserMatchPassword(userName: String, password: String): Pair<Boolean, List<String>> {
             if (!Chili.getRedisInterface().hasData(userName, User::class.java)) return Pair(false, listOf())
             val user = Chili.getRedisInterface().getData(userName, User::class.java, true)
-            val ok = user!!.password == password
+            if (user!!.provider == Provider.GOOGLE_TN) return Pair(false, listOf())
+            val ok = user.password == password
             if (ok) {
                 return Pair(true, user.authorities.toList())
             }

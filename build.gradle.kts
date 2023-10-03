@@ -56,6 +56,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mail:3.0.4")
 
     implementation("org.springframework.boot:spring-boot-starter-security:3.1.0")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client:3.1.0")
     testImplementation("org.springframework.security:spring-security-test:6.1.0")
 
     testImplementation("org.testcontainers:testcontainers:1.17.6")
