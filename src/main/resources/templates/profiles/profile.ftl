@@ -8,6 +8,34 @@
         preferNickname = false;
         </#if>
     </script>
+    <style>
+        .award {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 1px;
+        }
+
+        .awardDate {
+            font-size: 0.8rem;
+            color: #a0a0a0;
+        }
+
+        .awardProblem {
+            font-size: 0.8rem;
+        }
+
+        .even {
+            background-color: #f2f2f2;
+        }
+
+        .odd {
+            background-color: #e0e0e0;
+        }
+    </style>
     <div id="profileApp" class="columns" style="width: 90%; margin: auto">
         <div class="column is-one-fifth">
             <template>
@@ -81,18 +109,26 @@
                         <b-input placeholder="Rechercher parmi vos récompenses..."
                                  type="search"
                                  icon-pack="fas"
-                                 icon="search">
+                                 icon="search"
+                                 disabled>
                         </b-input>
                     </b-field>
                     <div>
                         <#if user.awards?size == 0>
                             <p>Vous n'avez pas encore de récompenses</p>
                         <#else>
-                            <#list user.awards as award>
-                                <div class="award">
-                                    <p class="awardDate">${award.date}</p>
+                            <#assign isEven = true>
+                            <#list user.awards?reverse as award>
+                                <div class="award ${isEven?then('even', 'odd')}">
+                                    <div>
+                                        <p class="awardDate">Le ${award.getDateFormatted()}</p>
+                                        <a class="awardProblem" href="/problem/${award.problemSlug}">
+                                            Aller au problème
+                                        </a>
+                                    </div>
                                     <p class="awardDisplay">${award.display()}</p>
                                 </div>
+                                <#assign isEven = !isEven>
                             </#list>
                         </#if>
                     </div>

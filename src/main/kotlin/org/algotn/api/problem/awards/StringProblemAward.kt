@@ -2,6 +2,12 @@ package org.algotn.api.problem.awards
 
 class StringProblemAward(problemSlug: String, date: Long) : ProblemAward(problemSlug, date) {
 
+    constructor() : this("", 0)
+
+    constructor(problemSlug: String, date: Long, award: String?) : this(problemSlug, date) {
+        this.award = award
+    }
+
     var award: String? = null
 
     override fun isValid(): Boolean {
