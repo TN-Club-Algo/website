@@ -16,7 +16,7 @@ class NotificationUtils {
             template!!.convertAndSendToUser(
                 username,
                 "/queue/return/notifications",
-                "yo",
+                message,
                 headerAccessor.messageHeaders
             )
         }
