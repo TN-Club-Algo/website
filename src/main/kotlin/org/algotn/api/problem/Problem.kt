@@ -1,8 +1,10 @@
 package org.algotn.api.problem
 
 import org.algotn.api.Chili
+import org.algotn.api.problem.awards.ProblemAward
 import org.algotn.api.problem.data.SampleFiles
 import org.algotn.api.problem.data.SecretFiles
+import org.algotn.api.problem.reader.award.AwardReader
 import org.algotn.api.problem.validator.ProblemValidator
 import org.algotn.api.utils.slugify
 import java.io.File
@@ -25,6 +27,7 @@ class Problem(
         val DEFAULT_TYPE = ProblemType.PASS_FAIL
 
         val PROBLEM_STATEMENT_FILE_NAME = "problem.md"
+        val PROBLEM_AWARDS_FILE_NAME = "awards.yml"
     }
 
     val limits = HashMap<String, Any>()
@@ -41,6 +44,9 @@ class Problem(
     // List of users emails
     val usersWhoSolved = HashSet<String>()
 
+    // Awards to be given when solving the problem
+    val awards: HashMap<String, ProblemAward> = HashMap()
+
     init {
         val statementFile = File("${getDirectory()}$PROBLEM_STATEMENT_FILE_NAME")
         fullStatement = if (statementFile.exists()) {
@@ -48,6 +54,10 @@ class Problem(
         } else {
             ""
         }
+
+        AwardReader.readAwards(this)
+
+        Chili.logger.debug("problem={} Found awards: {}", slug, awards)
 
         usersWhoSolved.addAll(Chili.getRedisInterface().client.getSet("problem-$slug-solved"))
     }

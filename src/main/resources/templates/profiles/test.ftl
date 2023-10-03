@@ -1,9 +1,6 @@
 <#import "../_layout.ftl" as layout />
 
 <title>Vos soumissions</title>
-<script src="../../static/js/jquery.min.js"></script>
-<script src="../../static/js/stomp.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../../static/bulma.min.css">
 <@layout.header>

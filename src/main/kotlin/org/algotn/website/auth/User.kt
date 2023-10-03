@@ -1,6 +1,7 @@
 package org.algotn.website.auth
 
 import org.algotn.api.database.data.Data
+import org.algotn.api.problem.awards.ProblemAward
 
 class User : Data {
 
@@ -13,6 +14,7 @@ class User : Data {
 
     var authorities: ArrayList<String> = ArrayList()
 
+    var awards: ArrayList<ProblemAward> = ArrayList()
     var provider: Provider = Provider.LOCAL
 
     fun getPreferredName(): String {
@@ -23,6 +25,6 @@ class User : Data {
     }
 
     override fun toString(): String {
-        return "User(email='$email', nickname='$nickname', firstName='$firstName', lastName='$lastName', preferNickname=$preferNickname, password='$password', authorities=$authorities)"
+        return "User(email='$email', nickname='$nickname', firstName='$firstName', lastName='$lastName', preferNickname=$preferNickname, password='$password', authorities=$authorities, awards=$awards)"
     }
 }

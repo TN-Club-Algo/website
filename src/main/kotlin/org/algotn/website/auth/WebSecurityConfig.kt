@@ -90,7 +90,7 @@ open class WebSecurityConfig {
                         "/oauth2/**",
                     )
                     .permitAll()
-                    .requestMatchers("/api/image/**").permitAll()
+                    .requestMatchers("/static/**", "/api/image/**").permitAll()
                     .requestMatchers("/register", "/login", "/password-reset", "/password-reset/{token}").anonymous()
                     .requestMatchers("/api/tests/restricted/**").hasAuthority("SECRET")
                     .anyRequest().authenticated()

@@ -11,7 +11,9 @@ interface Data {
                         // FIXME
                         if (true || !field.isAnnotationPresent(Internal::class.java)) {
                             field.isAccessible = true
-                            field.set(data, map[field.name])
+                            if (map.containsKey(field.name)) {
+                                field.set(data, map[field.name])
+                            }
                         }
                     }
                 }

@@ -8,13 +8,41 @@
         preferNickname = false;
         </#if>
     </script>
+    <style>
+        .award {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 1px;
+        }
+
+        .awardDate {
+            font-size: 0.8rem;
+            color: #a0a0a0;
+        }
+
+        .awardProblem {
+            font-size: 0.8rem;
+        }
+
+        .even {
+            background-color: #f2f2f2;
+        }
+
+        .odd {
+            background-color: #e0e0e0;
+        }
+    </style>
     <div id="profileApp" class="columns" style="width: 90%; margin: auto">
         <div class="column is-one-fifth">
             <template>
                 <b-menu>
                     <b-menu-list label="Mon compte">
                         <b-menu-item icon="information-outline" label="Info" active onclick="info()"></b-menu-item>
-                        <!-- Disable if the user is not concerned -->
+                        <b-menu-item icon="gift" label="Récompenses" onclick="awards()"></b-menu-item>
                         <#if user.provider.name() == "LOCAL">
                             <b-menu-item icon="account" label="Changer mon mot de passe"
                                          onclick="changePassword()"></b-menu-item>
@@ -75,6 +103,37 @@
 
                         <button class="button is-primary">Modifier</button>
                     </form>
+                </div>
+            </div>
+            <div id="awards" class="card is-hidden">
+                <div class="card-content">
+                    <b-field>
+                        <b-input placeholder="Rechercher parmi vos récompenses..."
+                                 type="search"
+                                 icon-pack="fas"
+                                 icon="search"
+                                 disabled>
+                        </b-input>
+                    </b-field>
+                    <div>
+                        <#if user.awards?size == 0>
+                            <p>Vous n'avez pas encore de récompenses</p>
+                        <#else>
+                            <#assign isEven = true>
+                            <#list user.awards?reverse as award>
+                                <div class="award ${isEven?then('even', 'odd')}">
+                                    <div>
+                                        <p class="awardDate">Le ${award.getDateFormatted()}</p>
+                                        <a class="awardProblem" href="/problem/${award.problemSlug}">
+                                            Aller au problème
+                                        </a>
+                                    </div>
+                                    <p class="awardDisplay">${award.display()}</p>
+                                </div>
+                                <#assign isEven = !isEven>
+                            </#list>
+                        </#if>
+                    </div>
                 </div>
             </div>
             <#if user.provider.name() == "LOCAL">
@@ -145,11 +204,19 @@
         let info = function () {
             $('#info').removeClass('is-hidden');
             $('#changePass').addClass('is-hidden');
+            $('#awards').addClass('is-hidden');
+        }
+
+        let awards = function () {
+            $('#awards').removeClass('is-hidden');
+            $('#info').addClass('is-hidden');
+            $('#changePass').addClass('is-hidden');
         }
 
         let changePassword = function () {
             $('#info').addClass('is-hidden');
             $('#changePass').removeClass('is-hidden');
+            $('#awards').addClass('is-hidden');
         }
 
         $("#infoForm").submit(function (event) {
