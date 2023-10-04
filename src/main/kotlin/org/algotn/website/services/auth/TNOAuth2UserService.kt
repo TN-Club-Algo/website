@@ -1,7 +1,6 @@
 package org.algotn.website.services.auth
 
 import org.algotn.api.Chili
-import org.algotn.api.utils.slugify
 import org.algotn.website.auth.Provider
 import org.algotn.website.auth.User
 import org.algotn.website.auth.UserRepository
@@ -41,6 +40,14 @@ class TNOAuth2UserService : DefaultOAuth2UserService() {
             emailMap[user.email] = user.nickname
 
             userRepository.save(user)
+        } else {
+            val user = userOpt.get()
+            if (user.provider != Provider.GOOGLE_TN) {
+                // User registered without Google but now wants to log in with Google
+                user.provider = Provider.GOOGLE_TN
+                user.id = tnOAuth2User.name
+                userRepository.save(user)
+            }
         }
     }
 }
