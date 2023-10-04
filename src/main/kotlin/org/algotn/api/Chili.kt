@@ -15,7 +15,7 @@ class Chili private constructor() {
     companion object {
         val logger = org.slf4j.LoggerFactory.getLogger(Chili::class.java)!!
 
-        var SAVE_LOCATION = if (SystemUtils.IS_OS_LINUX) "/etc/algotn" else "C:/algotn"
+        var SAVE_LOCATION = if (SystemUtils.IS_OS_LINUX || SystemUtils.IS_OS_MAC_OSX) "/etc/algotn" else "C:/algotn"
 
         private var chili: Chili? = null
         private var problems: Problems? = null
