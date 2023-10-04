@@ -31,6 +31,7 @@ class WebSocketEventListener {
 
     @Autowired
     private val template: SimpMessagingTemplate? = null
+
     @Autowired
     val userRepository: UserRepository? = null
 
@@ -84,7 +85,9 @@ class WebSocketEventListener {
                         contests.forEach {
                             it.updateUserScore(problem.slug, it.computeProblemScore(problem.slug), email)
                             it.problemSuccessCount[problem.slug] = (it.problemSuccessCount[problem.slug] ?: 0) + 1
-                            Chili.getRedisInterface().client.getMap<String, Int>(it.successCountKey)[problem.slug] = Chili.getRedisInterface().client.getMap<String, Int>(it.successCountKey).getOrDefault(problem.slug, 0) + 1
+                            Chili.getRedisInterface().client.getMap<String, Int>(it.successCountKey)[problem.slug] =
+                                Chili.getRedisInterface().client.getMap<String, Int>(it.successCountKey)
+                                    .getOrDefault(problem.slug, 0) + 1
                             Chili.getRedisInterface().saveData(it.uuid, it)
                         }
 
@@ -93,23 +96,25 @@ class WebSocketEventListener {
                         if (user == null) {
                             Chili.logger.error("User with email=$email not found while adding awards")
                         } else {
-                            problem.awards.values.forEach {
-                                user.awards.add(it.clone())
+                            if (problem.awards.isNotEmpty()) {
+                                problem.awards.values.forEach {
+                                    user.awards.add(it.clone())
+                                }
+                                if (user.provider == Provider.GOOGLE_TN) {
+                                    NotificationUtils.sendNotificationToUser(
+                                        template,
+                                        user.id,
+                                        "Vous avez reçu des récompenses pour avoir résolu le problème ${problem.name} !\nDirection votre profil pour les consulter.",
+                                    )
+                                } else {
+                                    NotificationUtils.sendNotificationToUser(
+                                        template,
+                                        email,
+                                        "Vous avez reçu des récompenses pour avoir résolu le problème ${problem.name} !\nDirection votre profil pour les consulter.",
+                                    )
+                                }
+                                userRepository.save(user)
                             }
-                            if (user.provider == Provider.GOOGLE_TN) {
-                                NotificationUtils.sendNotificationToUser(
-                                    template,
-                                    user.id,
-                                    "Vous avez reçu des récompenses pour avoir résolu le problème ${problem.name} !\nDirection votre profil pour les consulter.",
-                                )
-                            } else {
-                                NotificationUtils.sendNotificationToUser(
-                                    template,
-                                    email,
-                                    "Vous avez reçu des récompenses pour avoir résolu le problème ${problem.name} !\nDirection votre profil pour les consulter.",
-                                )
-                            }
-                            userRepository.save(user)
                         }
                     }
                     Chili.getRedisInterface().saveData(email, data)
