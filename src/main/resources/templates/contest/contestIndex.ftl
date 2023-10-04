@@ -99,20 +99,7 @@
                                     <div>${contest.getBeginningFormatted()}</div>
                                 </td>
                                 <td>${contest.getDurationFormatted()}</td>
-                                <td style="display: flex;align-items: center;">${contest.registeredUser?size}
-                                    <#if userContests?? && !userContests?seq_contains(contest)>
-                                        <form type="hidden" id="contestRegister/${contest.uuid}">
-                                        </form>
-                                        <button class="form button ml-2 is-small" id="contestRegister/${contest.uuid}">
-                                            S'y
-                                            inscrire
-                                        </button>
-                                    <#elseif userContests?? && userContests?seq_contains(contest)>
-                                        <span class="tag is-success ml-2">
-                                        ENREGISTRÉ
-                                    </span>
-                                    </#if>
-                                </td>
+                                <td style="display: flex;align-items: center;">${contest.registeredUser?size}</td>
                             </tr>
                         </#list>
                         </tbody>
