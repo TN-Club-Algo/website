@@ -60,10 +60,14 @@ class ProfileController {
         @RequestParam("preferNickname", defaultValue = "true") preferNickname: String
     ): Map<String, Any> {
         val principal = SecurityContextHolder.getContext().authentication.principal
-        val username = if (principal is UserDetails) {
+        var username = if (principal is UserDetails) {
             principal.username
         } else {
             principal.toString()
+        }
+
+        if (principal is TNOAuth2User) {
+            username = principal.getEmail()
         }
 
         val user = userRepository!!.findByUsername(username)
@@ -95,10 +99,14 @@ class ProfileController {
         @RequestParam("newPasswordConfirm", defaultValue = "") newPasswordConfirm: String
     ): Map<String, Any> {
         val principal = SecurityContextHolder.getContext().authentication.principal
-        val username = if (principal is UserDetails) {
+        var username = if (principal is UserDetails) {
             principal.username
         } else {
             principal.toString()
+        }
+
+        if (principal is TNOAuth2User) {
+            username = principal.getEmail()
         }
 
         if (principal is TNOAuth2User) {
@@ -135,10 +143,14 @@ class ProfileController {
     fun viewOwnTests(model: Model): String {
         val principal = SecurityContextHolder.getContext().authentication.principal
 
-        val username = if (principal is UserDetails) {
+        var username = if (principal is UserDetails) {
             principal.username
         } else {
             principal.toString()
+        }
+
+        if (principal is TNOAuth2User) {
+            username = principal.getEmail()
         }
 
         model.addAttribute("email", username)

@@ -3,6 +3,7 @@ package org.algotn.website.controllers
 import org.algotn.api.Chili
 import org.algotn.api.problem.Problem
 import org.algotn.website.auth.UserRepository
+import org.algotn.website.auth.user.TNOAuth2User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
@@ -44,10 +45,14 @@ class ProblemHomeController {
 
         val principal = SecurityContextHolder.getContext().authentication.principal
 
-        val username = if (principal is UserDetails) {
+        var username = if (principal is UserDetails) {
             principal.username
         } else {
             principal.toString()
+        }
+
+        if (principal is TNOAuth2User) {
+            username = principal.getEmail()
         }
 
         val user = userRepository!!.findByUsername(username)

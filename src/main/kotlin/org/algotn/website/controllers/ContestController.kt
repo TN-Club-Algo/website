@@ -6,6 +6,7 @@ import org.algotn.api.contest.ContestProblem
 import org.algotn.api.utils.DateUtils
 import org.algotn.website.auth.User
 import org.algotn.website.auth.UserRepository
+import org.algotn.website.auth.user.TNOAuth2User
 import org.algotn.website.data.TestData
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
-import java.util.*
 
 
 @Controller
@@ -48,10 +48,14 @@ class ContestController {
 
         val principal = SecurityContextHolder.getContext().authentication.principal
 
-        val username = if (principal is UserDetails) {
+        var username = if (principal is UserDetails) {
             principal.username
         } else {
             principal.toString()
+        }
+
+        if (principal is TNOAuth2User) {
+            username = principal.getEmail()
         }
 
         val user = userRepository!!.findByUsername(username)
@@ -124,10 +128,14 @@ class ContestController {
 
         val principal = SecurityContextHolder.getContext().authentication.principal
 
-        val username = if (principal is UserDetails) {
+        var username = if (principal is UserDetails) {
             principal.username
         } else {
             principal.toString()
+        }
+
+        if (principal is TNOAuth2User) {
+            username = principal.getEmail()
         }
 
         val user = userRepository!!.findByUsername(username)
@@ -146,10 +154,14 @@ class ContestController {
 
         val principal = SecurityContextHolder.getContext().authentication.principal
 
-        val username = if (principal is UserDetails) {
+        var username = if (principal is UserDetails) {
             principal.username
         } else {
             principal.toString()
+        }
+
+        if (principal is TNOAuth2User) {
+            username = principal.getEmail()
         }
 
         val chili = Chili.getRedisInterface()
@@ -186,10 +198,14 @@ class ContestController {
     fun submit(model: Model): ModelAndView {
         val principal = SecurityContextHolder.getContext().authentication.principal
 
-        val username = if (principal is UserDetails) {
+        var username = if (principal is UserDetails) {
             principal.username
         } else {
             principal.toString()
+        }
+
+        if (principal is TNOAuth2User) {
+            username = principal.getEmail()
         }
 
         val user = Chili.getRedisInterface().getData(username, User::class.java)
@@ -212,10 +228,14 @@ class ContestController {
     ): String {
         val principal = SecurityContextHolder.getContext().authentication.principal
 
-        val username = if (principal is UserDetails) {
+        var username = if (principal is UserDetails) {
             principal.username
         } else {
             principal.toString()
+        }
+
+        if (principal is TNOAuth2User) {
+            username = principal.getEmail()
         }
 
         val user = Chili.getRedisInterface().getData(username, User::class.java)!!

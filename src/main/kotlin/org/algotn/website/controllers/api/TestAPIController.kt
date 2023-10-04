@@ -3,6 +3,7 @@ package org.algotn.website.controllers.api
 import org.algotn.api.Chili
 import org.algotn.api.tests.TestType
 import org.algotn.website.auth.UserRepository
+import org.algotn.website.auth.user.TNOAuth2User
 import org.algotn.website.data.TestData
 import org.algotn.website.listeners.WebSocketEventListener
 import org.algotn.website.services.problem.ProblemLocationService
@@ -15,7 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
-import java.util.*
 import kotlin.math.min
 
 @RestController
@@ -41,10 +41,14 @@ class TestAPIController {
         // FIXME: this doesn't work if user has a secret
         val principal = SecurityContextHolder.getContext().authentication.principal
 
-        val username = if (principal is UserDetails) {
+        var username = if (principal is UserDetails) {
             principal.username
         } else {
             principal.toString()
+        }
+
+        if (principal is TNOAuth2User) {
+            username = principal.getEmail()
         }
 
         val user = userRepository!!.findByUsername(username)
@@ -105,10 +109,14 @@ class TestAPIController {
     fun getTestCode(@PathVariable id: String): ResponseEntity<*> {
         val principal = SecurityContextHolder.getContext().authentication.principal
 
-        val username = if (principal is UserDetails) {
+        var username = if (principal is UserDetails) {
             principal.username
         } else {
             principal.toString()
+        }
+
+        if (principal is TNOAuth2User) {
+            username = principal.getEmail()
         }
 
         val user = userRepository!!.findByUsername(username)
