@@ -1,9 +1,10 @@
 package org.algotn.website.auth.user
 
+import org.algotn.api.utils.slugify
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.oauth2.core.user.OAuth2User
 
-class TNOAuth2User(private val oauth2User: OAuth2User): OAuth2User {
+class TNOAuth2User(private val oauth2User: OAuth2User) : OAuth2User {
 
     fun getFirstName(): String {
         return oauth2User.getAttribute("given_name")!!
@@ -18,7 +19,7 @@ class TNOAuth2User(private val oauth2User: OAuth2User): OAuth2User {
     }
 
     override fun getName(): String {
-        return oauth2User.getAttribute("name")!!
+        return (oauth2User.getAttribute("name") as String).slugify()
     }
 
     override fun getAttributes(): MutableMap<String, Any> {

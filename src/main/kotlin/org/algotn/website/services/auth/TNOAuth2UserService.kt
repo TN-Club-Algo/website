@@ -1,6 +1,7 @@
 package org.algotn.website.services.auth
 
 import org.algotn.api.Chili
+import org.algotn.api.utils.slugify
 import org.algotn.website.auth.Provider
 import org.algotn.website.auth.User
 import org.algotn.website.auth.UserRepository
@@ -19,7 +20,7 @@ class TNOAuth2UserService : DefaultOAuth2UserService() {
 
     override fun loadUser(userRequest: OAuth2UserRequest): OAuth2User {
         val user: OAuth2User = super.loadUser(userRequest)
-            return TNOAuth2User(user)
+        return TNOAuth2User(user)
     }
 
     fun processOAuthPostLogin(tnOAuth2User: TNOAuth2User) {
@@ -31,6 +32,7 @@ class TNOAuth2UserService : DefaultOAuth2UserService() {
             user.email = tnOAuth2User.getEmail()
 
             user.provider = Provider.GOOGLE_TN
+            user.id = tnOAuth2User.name.slugify()
 
             val emailMap = Chili.getRedisInterface().client.getMap<String, String>("user-emails")
             val nicknameMap = Chili.getRedisInterface().client.getMap<String, String>("user-nicknames")

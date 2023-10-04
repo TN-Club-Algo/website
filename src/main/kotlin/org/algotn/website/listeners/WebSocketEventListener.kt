@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import org.algotn.api.Chili
 import org.algotn.api.contest.Contest
 import org.algotn.website.api.TestJSON
+import org.algotn.website.auth.Provider
 import org.algotn.website.auth.UserRepository
 import org.algotn.website.data.TestData
 import org.algotn.website.utils.NotificationUtils
@@ -95,11 +96,19 @@ class WebSocketEventListener {
                             problem.awards.values.forEach {
                                 user.awards.add(it.clone())
                             }
-                            NotificationUtils.sendNotificationToUser(
-                                template,
-                                email,
-                                "Vous avez reçu des récompenses pour avoir résolu le problème ${problem.name} !\nDirection votre profil pour les consulter.",
-                            )
+                            if (user.provider == Provider.GOOGLE_TN) {
+                                NotificationUtils.sendNotificationToUser(
+                                    template,
+                                    user.id,
+                                    "Vous avez reçu des récompenses pour avoir résolu le problème ${problem.name} !\nDirection votre profil pour les consulter.",
+                                )
+                            } else {
+                                NotificationUtils.sendNotificationToUser(
+                                    template,
+                                    email,
+                                    "Vous avez reçu des récompenses pour avoir résolu le problème ${problem.name} !\nDirection votre profil pour les consulter.",
+                                )
+                            }
                             userRepository.save(user)
                         }
                     }
@@ -108,12 +117,26 @@ class WebSocketEventListener {
                     val headerAccessor = SimpMessageHeaderAccessor.create()
                     headerAccessor.setHeader("Authorization", "Bearer $token")
 
-                    this.template!!.convertAndSendToUser(
-                        email,
-                        "/queue/return/tests",
-                        testJson,
-                        headerAccessor.messageHeaders
-                    )
+                    val user = userRepository!!.findByEmail(email).getOrNull()
+                    if (user == null) {
+                        Chili.logger.error("User with email=$email not found while sending test result")
+                    } else {
+                        if (user.provider == Provider.GOOGLE_TN) {
+                            this.template!!.convertAndSendToUser(
+                                user.id,
+                                "/queue/return/tests",
+                                testJson,
+                                headerAccessor.messageHeaders
+                            )
+                        } else {
+                            this.template!!.convertAndSendToUser(
+                                email,
+                                "/queue/return/tests",
+                                testJson,
+                                headerAccessor.messageHeaders
+                            )
+                        }
+                    }
                 }
             }
 
