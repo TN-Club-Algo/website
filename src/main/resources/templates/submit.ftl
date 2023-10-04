@@ -106,7 +106,7 @@
                         window.location.href = data.redirectURL;
                     } else {
                         $("#notification").removeClass("is-hidden");
-                        $("#notification").html(data.message);
+                        $("#notification").html(data.error);
                     }
                 },
                 error: function (error) {

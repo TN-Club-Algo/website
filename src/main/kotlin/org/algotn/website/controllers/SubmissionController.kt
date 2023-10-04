@@ -8,6 +8,7 @@ import org.algotn.api.contest.Contest
 import org.algotn.api.utils.DateUtils
 import org.algotn.website.api.TestJSON
 import org.algotn.website.auth.UserRepository
+import org.algotn.website.auth.user.TNOAuth2User
 import org.algotn.website.data.TestData
 import org.algotn.website.services.tests.TestLocationService
 import org.algotn.website.utils.IPUtils
@@ -116,10 +117,14 @@ class SubmissionController {
 
         val principal = SecurityContextHolder.getContext().authentication.principal
 
-        val username = if (principal is UserDetails) {
+        var username = if (principal is UserDetails) {
             principal.username
         } else {
             principal.toString()
+        }
+
+        if (principal is TNOAuth2User) {
+            username = principal.getEmail()
         }
 
         val testUUID = UUID.randomUUID().toString()
