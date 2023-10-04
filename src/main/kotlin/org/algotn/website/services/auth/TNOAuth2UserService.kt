@@ -32,7 +32,7 @@ class TNOAuth2UserService : DefaultOAuth2UserService() {
             user.email = tnOAuth2User.getEmail()
 
             user.provider = Provider.GOOGLE_TN
-            user.id = tnOAuth2User.name.slugify()
+            user.id = tnOAuth2User.name
 
             val emailMap = Chili.getRedisInterface().client.getMap<String, String>("user-emails")
             val nicknameMap = Chili.getRedisInterface().client.getMap<String, String>("user-nicknames")
