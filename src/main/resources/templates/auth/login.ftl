@@ -61,11 +61,14 @@
                         Se connecter
                     </button>
 
-                    <a href="/oauth2/authorization/google">
-                        <button class="button" id="google-login">
-                            Se connecter avec TN.net
-                        </button>
-                    </a>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <a href="/oauth2/authorization/google">
+                            <button class="button mt-5 has-text-white is-medium" id="google-login" style="display: flex; align-items: center; background-color: rgba(51,19,182,0.27)">
+                                <img src="/api/image/tn.png" style="max-width: 125%; max-height: 125%;">
+                                Se connecter avec TN.net
+                            </button>
+                        </a>
+                    </div>
 
                     <!-- fail notification -->
                     <div id="errorNotification" class="notification is-danger is-small is-invisible"></div>
