@@ -43,7 +43,7 @@
                     <b-menu-list label="Mon compte">
                         <b-menu-item icon="information-outline" label="Info" active onclick="info()"></b-menu-item>
                         <b-menu-item icon="gift" label="Récompenses" onclick="awards()"></b-menu-item>
-                        <#if user.provider.name() == "LOCAL">
+                        <#if user.canChangePassword()>
                             <b-menu-item icon="account" label="Changer mon mot de passe"
                                          onclick="changePassword()"></b-menu-item>
                         </#if>
@@ -136,7 +136,7 @@
                     </div>
                 </div>
             </div>
-            <#if user.provider.name() == "LOCAL">
+            <#if user.canChangePassword()>
                 <div id="changePass" class="card is-hidden">
                     <div class="card-content">
                         <template class="mb-3">

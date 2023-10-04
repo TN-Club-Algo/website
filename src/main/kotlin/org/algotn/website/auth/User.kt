@@ -20,10 +20,14 @@ class User : Data {
     var id: String = ""
 
     fun getPreferredName(): String {
-        if(preferNickname) {
+        if (preferNickname) {
             return nickname
         }
         return "$firstName $lastName"
+    }
+
+    fun canChangePassword(): Boolean {
+        return provider != Provider.GOOGLE_TN
     }
 
     override fun toString(): String {
