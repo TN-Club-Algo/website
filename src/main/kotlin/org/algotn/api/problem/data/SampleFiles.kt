@@ -6,7 +6,7 @@ import java.io.File
 
 class SampleFiles(problem: Problem) {
 
-    val samples = arrayListOf<Pair<String, String>>()
+    val samples = arrayListOf<Triple<String, String, String>>()
 
     init {
         val sampleFolder = "${problem.getDirectory()}data/sample/"
@@ -20,12 +20,29 @@ class SampleFiles(problem: Problem) {
                     ).exists()
                 ) {
                     Chili.logger.debug("Found sample file: ${it.name}")
-                    samples.add(
-                        Pair(
-                            it.readText(),
-                            File(it.parentFile, it.nameWithoutExtension + ".ans").readText()
+                    if (File(
+                            it.parentFile,
+                            it.nameWithoutExtension + ".exp"
+                        ).exists()
+                    ) {
+                        Chili.logger.debug("Found explanation file: ${it.name}")
+                        samples.add(
+                            Triple(
+                                it.readText(),
+                                File(it.parentFile, it.nameWithoutExtension + ".ans").readText(),
+                                File(it.parentFile, it.nameWithoutExtension + ".exp").readText()
+                            )
                         )
-                    )
+                    }else{
+                        Chili.logger.debug("Explanation file ${it.name} not found")
+                        samples.add(
+                            Triple(
+                                it.readText(),
+                                File(it.parentFile, it.nameWithoutExtension + ".ans").readText(),
+                                ""
+                            )
+                        )
+                    }
                 }
             }
         }

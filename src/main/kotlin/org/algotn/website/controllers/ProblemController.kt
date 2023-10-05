@@ -65,6 +65,12 @@ class ProblemController {
                             "<br>"
                         )
                     }  |\n"
+                    if (sample.third != "") {
+                        problemStatement += "\n"
+                        problemStatement += "<dl>\n" +
+                                "<dt><strong>Note</strong></dt>\n"
+                        problemStatement += "<dd>${sample.third.replace(Regex("\r\n|\n"), "<br>")}</dd>\n"
+                    }
                 } else {
                     // 2 tables
                     problemStatement += "| Entrée |\n"
@@ -77,6 +83,7 @@ class ProblemController {
             }
         }
         model.addAttribute("problemStatement", problemStatement)
+        println(problemStatement)
         return ModelAndView("problem")
     }
 }
