@@ -2,5 +2,5 @@
 <#import "./panelLayout.ftl" as panelLayout/>
 
 <@panelLayout.header>
-    <p>PANEL</p>
+    <p>USERS</p>
 </@panelLayout.header>
