@@ -17,4 +17,6 @@ interface UserRepository {
     fun findByUsername(userName: String): Optional<User>
 
     fun findByEmail(userName: String): Optional<User>
+
+    fun getAllUsers(): List<User>
 }

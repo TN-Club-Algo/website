@@ -94,6 +94,12 @@ class RedisInterface(val client: RedissonClient) {
         }
     }
 
+    fun getAllUsers(): List<org.algotn.website.auth.User> {
+        return client.keys.getKeysByPattern("users:*").map {
+            Data.fromMap(client.getMap(it), org.algotn.website.auth.User::class.java)
+        }
+    }
+
     fun registerData(vararg data: Data) {
         for (datum in data) {
             if (!datum.isUserData() && !datum.isUUIDData()) {

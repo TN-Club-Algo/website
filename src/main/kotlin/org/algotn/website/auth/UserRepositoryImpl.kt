@@ -43,4 +43,8 @@ class UserRepositoryImpl : UserRepository {
     override fun findByEmail(userName: String): Optional<User> {
         return findByUsername(userName)
     }
+
+    override fun getAllUsers(): List<User> {
+        return Chili.getRedisInterface().getAllUsers().toList()
+    }
 }
