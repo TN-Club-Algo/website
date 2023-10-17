@@ -1,6 +1,7 @@
 <#import "./_layout.ftl" as layout /><#-- not an error -->
 <!DOCTYPE html>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="../static/css/problem_display.css">
 <@layout.header>
     <div id="problemApp" style="width: 90%; margin: auto">
         <#if linkedContestsNames??>
@@ -47,6 +48,34 @@
             <span class="m-3"></span>
 
             <div id="statement" class="content"></div>
+            <br>
+            <div class = "sample">
+                <div class = "input1">
+                    <div class = "header">
+                        <span class="heading">Entrée</span>
+                        <span class="copyInput"></span>
+                        <span class="dlInput"></span>
+                    </div>
+                    <div class = "displayInput">
+            <pre>3
+2 2 1 1
+5 2 3 1
+4 4 3 3</pre>
+                    </div>
+                </div>
+                <div class = "output">
+                    <div class = "header">
+                        <span class="heading">Sortie</span>
+                        <span class="copyInput"></span>
+                        <span class="dlInput"></span>
+                    </div>
+                    <div class = "displayOutput">
+            <pre>Case #1: NO
+Case #2: YES
+Case #3: NO</pre>
+                    </div>
+                </div>
+            </div>
             <script type="application/javascript">
                 window.texme = {
                     renderOnLoad: false,

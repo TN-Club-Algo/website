@@ -1,0 +1,46 @@
+.smallHeader{
+    padding-left: 12px;
+}
+.textIndent{
+    margin-left: 12px !important;
+}
+tr{
+}
+td{
+    border: solid #e60d0d !important;
+    background-color: #eaeaea;
+    border-right-width:1px;
+    border-bottom-left-radius: 6px;
+    border-top-left-radius: 6px;
+}
+
+
+.sample{
+    display: flex;
+}
+
+.input1{
+    width: 48%;
+    display: block;
+}
+
+.output{
+    width: 48%;
+    display: block;
+    margin-left: 8px;
+}
+
+.heading{
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.25;
+    letter-spacing: normal;
+    font-weight: 700;
+    overflow-wrap: normal;
+    text-align: left;
+    color: rgba(0, 0, 0, 0.85);
+}
+
+pre{
+    border-radius: 10px;
+}

@@ -6,6 +6,8 @@ import java.io.File
 
 class SampleFiles(problem: Problem) {
 
+
+    //  Triple: (Input, Output, Explanation)
     val samples = arrayListOf<Triple<String, String, String>>()
 
     init {
@@ -33,7 +35,7 @@ class SampleFiles(problem: Problem) {
                                 File(it.parentFile, it.nameWithoutExtension + ".exp").readText()
                             )
                         )
-                    }else{
+                    } else {
                         Chili.logger.debug("Explanation file ${it.name} not found")
                         samples.add(
                             Triple(
