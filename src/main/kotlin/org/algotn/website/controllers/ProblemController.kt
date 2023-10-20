@@ -65,7 +65,7 @@ class ProblemController {
                                                 <span class="dlInput"></span>
                                             </div>
                                             <div class = "displayInput">
-                                    <pre>${sample.first}</pre>
+                                    <pre id="input${index + 1}">${sample.first}</pre>
                                             </div>
                                         </div>
                                         <div class = "output">
@@ -75,7 +75,7 @@ class ProblemController {
                                                 <span class="dlInput"></span>
                                             </div>
                                             <div class = "displayOutput">
-                                    <pre>${sample.second}</pre>
+                                    <pre id="output${index + 1}">${sample.second}</pre>
                                             </div>
                                         </div>
                                     </div>\n\n

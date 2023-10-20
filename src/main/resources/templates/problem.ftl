@@ -48,7 +48,7 @@
             <span class="m-3"></span>
 
             <div id="statement" class="content"></div>
-            <br>
+        <br>
             <script type="application/javascript">
                 window.texme = {
                     renderOnLoad: false,
@@ -62,6 +62,13 @@
                     document.body.innerHTML = `<div id="statement" class="content">${problemStatement}</div>`
                     texme.renderPage()
                     document.body.innerHTML = body.replace(`<div id="statement" class="content"></div>`, document.body.innerHTML)
+
+                    // making input and output height equal
+                    for (let i = 1; i <= document.getElementsByClassName("sample").length; i++) {
+                        var maxheight = Math.max(document.getElementById("input" + i).offsetHeight, document.getElementById("output" + i).offsetHeight)
+                        document.getElementById("input" + i).setAttribute('style', "height :" + maxheight + "px")
+                        document.getElementById("output" + i).setAttribute('style', "height :" + maxheight + "px")
+                    }
                 });
             </script>
         </#if>
