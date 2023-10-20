@@ -58,10 +58,10 @@ class ProblemController {
                 if (sample.first.split("\n").maxOf { it.length } < 60) {
                     // 1 table
                     problemStatement += """<div class = "sample">
-                                        <div class = "input1">
+                                        <div class = "input_">
                                             <div class = "header">
                                                 <span class="myHeading">Entrée</span>
-                                                <span class="copyInput"></span>
+                                                <span class="copyInput"><button id="inbtn${index + 1}" onclick="copy(this.id)"><span class="mdi mdi-content-copy"></span></button></span>
                                                 <span class="dlInput"></span>
                                             </div>
                                             <div class = "displayInput">
@@ -71,7 +71,7 @@ class ProblemController {
                                         <div class = "output">
                                             <div class = "header">
                                                 <span class="myHeading">Sortie</span>
-                                                <span class="copyInput"></span>
+                                                <span class="copyInput"><button id="outbtn${index + 1}" onclick="copy(this.id)"><span class="mdi mdi-content-copy"></span></button></span>
                                                 <span class="dlInput"></span>
                                             </div>
                                             <div class = "displayOutput">

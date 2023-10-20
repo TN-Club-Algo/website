@@ -71,6 +71,18 @@
                     }
                 });
             </script>
+            <script>
+                function copy(id) {
+                    if (id.slice(0,2) == "in"){
+                        var copyText = document.getElementById("input" + id.slice(5))
+                    }else{
+                        var copyText = document.getElementById("output" + id.slice(6))
+                    }
+                    console.log(copyText.innerText)
+                    navigator.clipboard.writeText(copyText.innerText);
+                }
+
+            </script>
         </#if>
     </div>
     <script>

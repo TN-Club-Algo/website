@@ -19,13 +19,13 @@ td{
     display: flex;
 }
 
-.input1{
+.input_{
     width: 48%;
     display: block;
 }
 
 /* Add a light border to the pre elements inside input and output */
-.input1 pre, .output pre {
+.input_ pre, .output pre {
     border: 1px solid #ccc; /* Light gray border */
     border-radius: 6px;
     padding: 8px !important;
