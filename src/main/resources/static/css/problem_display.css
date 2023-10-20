@@ -24,22 +24,38 @@ td{
     display: block;
 }
 
+/* Add a light border to the pre elements inside input and output */
+.input1 pre, .output pre {
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 6px;
+    padding: 8px !important;
+}
+
 .output{
     width: 48%;
     display: block;
+    margin-left: 14px;
+}
+
+.myHeading {
+    font-family: BlinkMacSystemFont,-apple-system,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 8px 0px;
+}
+.header{
+    margin-bottom: 6px;
+}
+
+/* Center the text within the heading */
+
+
+/* Adjust the spacing between heading and sub-elements (copyInput and dlInput) */
+.myHeading > .copyInput,
+.myHeading > .dlInput {
     margin-left: 8px;
 }
 
-.heading{
-    font-family: Roboto, Arial, sans-serif;
-    font-size: 1rem;
-    line-height: 1.25;
-    letter-spacing: normal;
-    font-weight: 700;
-    overflow-wrap: normal;
-    text-align: left;
-    color: rgba(0, 0, 0, 0.85);
-}
 
 pre{
     border-radius: 10px;

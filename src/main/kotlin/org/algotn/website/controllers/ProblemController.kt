@@ -53,18 +53,41 @@ class ProblemController {
         if (problem.sampleFiles.samples.isNotEmpty()) {
             problemStatement += "\n## Exemples\n"
             problem.sampleFiles.samples.forEachIndexed { index, sample ->
-                problemStatement += "### Exemple ${index + 1}\n"
+                problemStatement += "### Exemple ${index + 1}\n\n"
 
                 if (sample.first.split("\n").maxOf { it.length } < 60) {
                     // 1 table
-                    problemStatement += "| Entrée | Sortie |\n"
-                    problemStatement += "| --- | --- |\n"
-                    problemStatement += "| ${sample.first.replace(Regex("\r\n|\n"), "<br>")} |  ${
-                        sample.second.replace(
-                            "\n",
-                            "<br>"
-                        )
-                    }  |\n"
+                    problemStatement += """<div class = "sample">
+                                        <div class = "input1">
+                                            <div class = "header">
+                                                <span class="myHeading">Entrée</span>
+                                                <span class="copyInput"></span>
+                                                <span class="dlInput"></span>
+                                            </div>
+                                            <div class = "displayInput">
+                                    <pre>${sample.first}</pre>
+                                            </div>
+                                        </div>
+                                        <div class = "output">
+                                            <div class = "header">
+                                                <span class="myHeading">Sortie</span>
+                                                <span class="copyInput"></span>
+                                                <span class="dlInput"></span>
+                                            </div>
+                                            <div class = "displayOutput">
+                                    <pre>${sample.second}</pre>
+                                            </div>
+                                        </div>
+                                    </div>\n\n
+                    """.trimIndent()
+//                    problemStatement += "| Entrée | Sortie |\n"
+//                    problemStatement += "| --- | --- |\n"
+//                    problemStatement += "| ${sample.first.replace(Regex("\r\n|\n"), "<br>")} |  ${
+//                        sample.second.replace(
+//                            "\n",
+//                            "<br>"
+//                        )
+//                    }  |\n"
                     // if there is no explanation for this sample
                     if (sample.third != "") {
                         problemStatement += "\n"
