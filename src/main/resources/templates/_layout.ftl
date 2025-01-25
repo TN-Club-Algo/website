@@ -36,7 +36,7 @@
                     <template #brand>
                         <b-navbar-item href="/">
                             <img src="/api/image/algotn.webp"
-                                 alt="AlgoTN">
+                                 alt="AlgoTN" style="width: 120px; height: auto;">
                         </b-navbar-item>
                     </template>
                     <template #start>
