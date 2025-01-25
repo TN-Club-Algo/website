@@ -15,13 +15,11 @@
         </b-carousel>
 
         <b-message type="is-info mt-2">
-            Alisé fête ses 30 ans et quoi de mieux comme célébration qu'une joute cérébrale sur notre discipline fétiche : l'algorithmie. 🎉<br><br>
+            À l'occasion du TN event et  à l'image d'une école d'informatique, le club algo vous propose de mesurer vos capacités dans une de nos disciplines fétiche : l'algorithmie.  🎉<br><br>
 
             L'ingénieux club Algo s'est mis à la tâche pour vous en faire voir de toutes les couleurs sur des défis de toutes difficultés.<br><br>
 
-            Affrontez-vous jusqu'au 8 septembre pour tenter de remporter des goodies. 🏆<br><br>
-
-            Rendez-vous le 9 septembre pour l'annonce des vainqueurs !
+            Affrontez-vous ce <b>8 février</b. 🏆<br><br>
         </b-message>
 
         <div class="columns">
