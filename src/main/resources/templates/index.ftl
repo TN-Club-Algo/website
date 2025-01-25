@@ -19,7 +19,7 @@
 
             L'ingénieux club Algo s'est mis à la tâche pour vous en faire voir de toutes les couleurs sur des défis de toutes difficultés.<br><br>
 
-            Affrontez-vous ce <b>8 février</b. 🏆<br><br>
+            Affrontez-vous ce <b>8 février</b>. 🏆<br><br>
         </b-message>
 
         <div class="columns">
