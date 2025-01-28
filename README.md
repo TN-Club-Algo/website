@@ -7,7 +7,7 @@ Site fait par le club Algo en 2023 principalement par Alexandre Duchesne et repr
 Actuellement hébergé à l'adresse https://algo.telecomnancy.net/, vous pouvez utiliser ce site en local dans un conteneur Docker utilisant les images publiées à chaque push de la branche main des projets. 
 Pour faire ceci :
 Assurer-vous d'avoir [Docker](https://docs.docker.com/engine/install/) d'installé sur votre machine.
-Dans un terminal à la racine du projet cloné une fois connecter avec les bons accès tuto [ici](https://www.andrewhoog.com/post/authorizing-github-container-registry/), effectuez 
+Dans un terminal à la racine du projet cloné une fois connecté avec les bons accès tuto [ici](https://www.andrewhoog.com/post/authorizing-github-container-registry/), effectuez 
 ``` docker compose up ```
  
 Puis le site sera disponible sur le port 8080 à l'adresse localhost:8080.
