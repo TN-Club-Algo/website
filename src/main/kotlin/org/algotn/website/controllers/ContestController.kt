@@ -293,12 +293,14 @@ class ContestController {
 
         // FIXME: don't do that!
         val sortedLeaderboard = leaderboard.toList().sortedByDescending { (_, value) -> value }.toMap()
+        val tnSortedLeaderboard = leaderboard.toList().filter { emailMap[it]endsWith("telecomnancy.net") }.sortedByDescending { (_, value) -> value }.toMap()
 
         model.addAttribute("slug", id)
         model.addAttribute("name", contest.name)
         model.addAttribute("users", sortedLeaderboard.keys)
         model.addAttribute("leaderboard", sortedLeaderboard)
         model.addAttribute("nicknames", nicknameMap)
+        model.addAttribute("usersTN", tnSortedLeaderboard.keys)
 
         return ModelAndView("contestLead")
     }
