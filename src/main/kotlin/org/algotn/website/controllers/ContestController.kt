@@ -300,6 +300,7 @@ class ContestController {
         model.addAttribute("users", sortedLeaderboard.keys)
         model.addAttribute("leaderboard", sortedLeaderboard)
         model.addAttribute("nicknames", nicknameMap)
+        model.addAttribute("usersTN", tnSortedLeaderboard.keys)
 
         return ModelAndView("contestLead")
     }
