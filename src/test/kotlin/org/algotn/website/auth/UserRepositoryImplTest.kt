@@ -2,7 +2,7 @@ package org.algotn.website.auth
 
 import com.redis.testcontainers.RedisContainer
 import org.algotn.api.Chili
-import org.algotn.api.config.ConfigValues
+//import org.algotn.api.config.ConfigValues
 import org.algotn.api.database.RedisDatabase
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -39,7 +39,7 @@ class UserRepositoryImplTest {
                 )
             )
 
-            ConfigValues.editConfig(configFile)
+            //ConfigValues.editConfig(configFile)
 
             redisDatabase = RedisDatabase()
             redisDatabase.connect()
