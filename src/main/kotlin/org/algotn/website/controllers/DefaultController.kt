@@ -10,7 +10,7 @@ class DefaultController {
 
     @GetMapping("/")
     fun index(model: Model): ModelAndView {
-        model.addAttribute("keys", listOf(Pair("/api/image/Algo_TNEvent.png", "/contest/")))
+        model.addAttribute("keys", listOf(Pair("/api/image/alise-30-ans.png", "/contest")))
         return ModelAndView("index")
     }
 
